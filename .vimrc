@@ -87,10 +87,10 @@ NeoBundle 'yuku-t/vim-ref-ri'
 NeoBundle 'szw/vim-tags'
 NeoBundle 'tpope/vim-endwise'
 NeoBundle 'kana/vim-submode'
-NeoBundleLazy 'supermomonga/neocomplete-rsense.vim', { 'autoload' : {
-  \ 'insert' : 1,
-  \ 'filetypes': 'ruby',
-  \ }}
+"NeoBundleLazy 'supermomonga/neocomplete-rsense.vim', { 'autoload' : {
+"  \ 'insert' : 1,
+"  \ 'filetypes': 'ruby',
+"  \ }}
 NeoBundleCheck
 call neobundle#end()
 
@@ -104,17 +104,17 @@ filetype plugin indent on
 let g:neocomplete#enable_at_startup = 1
 
 "---------------------------
-" RSense設定
+" RSense設定（フリーズ頻発）
 "---------------------------
 
 " .や::を入力したときにオムニ補完が有効になるようにする
-if !exists('g:neocomplete#force_omni_input_patterns')
-  let g:neocomplete#force_omni_input_patterns = {}
-endif
-let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
-
-let g:neocomplete#sources#rsense#home_directory = '/usr/local/bin/rsense'
-let g:rsenseHome = '/usr/local/Cellar/rsense/0.3/libexec'
+"if !exists('g:neocomplete#force_omni_input_patterns')
+"  let g:neocomplete#force_omni_input_patterns = {}
+"endif
+"let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+"
+"let g:neocomplete#sources#rsense#home_directory = '/usr/local/bin/rsense'
+"let g:rsenseHome = '/usr/local/Cellar/rsense/0.3/libexec'
 
 "---------------------------
 " QuickRun設定
