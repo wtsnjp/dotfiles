@@ -21,13 +21,13 @@ set number
 :set wrapscan
 
 " タブを表示するときの幅
-set tabstop=4
+set tabstop=2
 
 " タブを挿入するときの幅
-set shiftwidth=4
+set shiftwidth=2
 
-" タブをタブとして扱う（スペースに展開しない）
-set noexpandtab
+" タブをスペースに展開する
+set expandtab
 
 " 前の行と同じインデント
 set autoindent
