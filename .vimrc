@@ -2,23 +2,26 @@
 " 一般設定
 "---------------------------
 
+" Vimのデフォルト設定
+set nocompatible
+
 " vim内部エンコーディング
 set encoding=utf-8
 
 " 想定される改行コード
 set fileformats=unix,dos,mac
 
-" 構文をハイライト
-syntax on
-
 " 行番号を表示
 set number
 
 " 行端で折り返し
-:set wrap
+set wrap
 
-" ループ検索
-:set wrapscan
+" 上下8行の視界を確保
+set scrolloff=8
+
+" 行頭行末の左右移動で行をまたぐ
+set whichwrap=b,s,h,l,<,>,[,]
 
 " タブを表示するときの幅
 set tabstop=2
@@ -26,7 +29,7 @@ set tabstop=2
 " タブを挿入するときの幅
 set shiftwidth=2
 
-" タブをスペースに展開する
+" タブをスペースに展開
 set expandtab
 
 " 前の行と同じインデント
@@ -35,6 +38,13 @@ set autoindent
 " クリップボードにコピー
 set clipboard+=unnamed
 
+" マウスの入力を受け付ける
+set mouse=a
+
+" ヒープ音の無効化
+set visualbell t_vb=
+set noerrorbells
+
 " ファイル形式の検出の有効化
 filetype plugin indent on
 
@@ -42,6 +52,34 @@ filetype plugin indent on
 let g:hybrid_use_iTerm_colors = 1
 colorscheme hybrid
 syntax on
+
+"---------------------------
+" 検索設定
+"---------------------------
+
+" 検索ワードをハイライト（<ESC> 2回押しで解除）
+set hlsearch
+nnoremap <ESC><ESC> :nohlsearch<CR>
+
+" インクリメンタルサーチ
+set incsearch
+
+" 大文字と小文字が混在するときのみ区別
+set ignorecase
+set smartcase
+
+" ループ検索
+set wrapscan
+
+"---------------------------
+" コマンドライン設定
+"---------------------------
+
+" TABキーによるファイル名補完を有効化
+set wildmenu wildmode=list:longest,full
+
+" 履歴を10000件保存する
+set history=10000
 
 "---------------------------
 " 括弧類補完
@@ -62,7 +100,6 @@ vnoremap ' "zdi'<C-R>z'<ESC>
 " Neobundle設定
 "---------------------------
 
-set nocompatible
 filetype plugin indent off
 
 if has('vim_starting')
