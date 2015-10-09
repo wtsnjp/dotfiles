@@ -116,6 +116,7 @@ NeoBundle 'Shougo/neosnippet.vim'
 NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'Shougo/vimproc'
+NeoBundle 'Shougo/vinarise'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'scrooloose/syntastic'
@@ -124,6 +125,7 @@ NeoBundle 'yuku-t/vim-ref-ri'
 NeoBundle 'szw/vim-tags'
 NeoBundle 'tpope/vim-endwise'
 NeoBundle 'kana/vim-submode'
+NeoBundle 'wlangstroth/vim-racket'
 "NeoBundleLazy 'supermomonga/neocomplete-rsense.vim', { 'autoload' : {
 "  \ 'insert' : 1,
 "  \ 'filetypes': 'ruby',
@@ -168,6 +170,18 @@ let g:quickrun_config = {
 
 " 終了設定
 nnoremap <Space>o :only<CR>
+
+"---------------------------
+" -bオプションでvinarise
+"---------------------------
+
+augroup BinaryXXD
+	autocmd!
+	autocmd BufReadPre  *.bin let &binary =1
+	autocmd BufReadPost * if &binary | Vinarise
+	autocmd BufWritePre * if &binary | Vinarise | endif
+	autocmd BufWritePost * if &binary | Vinarise 
+augroup END
 
 "---------------------------
 " その他 追加プラグイン設定
