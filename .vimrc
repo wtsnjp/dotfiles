@@ -1,6 +1,10 @@
+" Watson's vimrc
+
 "---------------------------
 " 一般設定
 "---------------------------
+
+let lisp_rainbow = 1
 
 " Vimのデフォルト設定
 set nocompatible
@@ -53,6 +57,10 @@ let g:hybrid_use_iTerm_colors = 1
 colorscheme hybrid
 syntax on
 
+" ステータスラインの表示
+set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=\%02.2B]\ [POS=%04l,%04v][%p%%]\ [LEN=%L]
+set laststatus=2 
+
 "---------------------------
 " 検索設定
 "---------------------------
@@ -60,9 +68,6 @@ syntax on
 " 検索ワードをハイライト（<ESC> 2回押しで解除）
 set hlsearch
 nnoremap <ESC><ESC> :nohlsearch<CR>
-
-" インクリメンタルサーチ
-set incsearch
 
 " 大文字と小文字が混在するときのみ区別
 set ignorecase
@@ -90,14 +95,30 @@ inoremap [ []<LEFT>
 inoremap ( ()<LEFT>
 inoremap " ""<LEFT>
 inoremap ' ''<LEFT>
-vnoremap { "zdi^V{<C-R>z}<ESC>
-vnoremap [ "zdi^V[<C-R>z]<ESC>
-vnoremap ( "zdi^V(<C-R>z)<ESC>
-vnoremap " "zdi^V"<C-R>z^V"<ESC>
-vnoremap ' "zdi'<C-R>z'<ESC>
+inoremap {<Enter> {}<Left><CR><ESC><S-o><Tab>
+inoremap [<Enter> []<Left><CR><ESC><S-o><Tab>
+inoremap (<Enter> ()<Left><CR><ESC><S-o><Tab>
 
 "---------------------------
-" Neobundle設定
+" キーマッピング設定
+"---------------------------
+
+nnoremap j gj
+nnoremap k gk
+nnoremap gj j
+nnoremap gk k
+nnoremap ZZ <Nop>
+nnoremap ZQ <Nop>
+nnoremap Q <Nop>
+
+"---------------------------
+" テンプレート
+"---------------------------
+
+autocmd BufNewFile *.cpp 0r ~/.vim/template/cpp.txt
+
+"---------------------------
+" Neobundle関連
 "---------------------------
 
 filetype plugin indent off
@@ -126,6 +147,7 @@ NeoBundle 'szw/vim-tags'
 NeoBundle 'tpope/vim-endwise'
 NeoBundle 'kana/vim-submode'
 NeoBundle 'wlangstroth/vim-racket'
+NeoBundle 'haya14busa/incsearch.vim'
 "NeoBundleLazy 'supermomonga/neocomplete-rsense.vim', { 'autoload' : {
 "  \ 'insert' : 1,
 "  \ 'filetypes': 'ruby',
@@ -141,6 +163,14 @@ filetype plugin indent on
 
 " デフォルトで有効化
 let g:neocomplete#enable_at_startup = 1
+
+"---------------------------
+" incsearch設定
+"---------------------------
+
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
 
 "---------------------------
 " RSense設定（フリーズ頻発）
