@@ -1,16 +1,10 @@
 " Watson's vimrc
+set encoding=utf-8
+scriptencoding utf-8
 
 "---------------------------
 " 一般設定
 "---------------------------
-
-let lisp_rainbow = 1
-
-" Vimのデフォルト設定
-set nocompatible
-
-" vim内部エンコーディング
-set encoding=utf-8
 
 " 想定される改行コード
 set fileformats=unix,dos,mac
@@ -95,6 +89,7 @@ inoremap [ []<LEFT>
 inoremap ( ()<LEFT>
 inoremap " ""<LEFT>
 inoremap ' ''<LEFT>
+inoremap <> <><LEFT>
 inoremap {<Enter> {}<Left><CR><ESC><S-o><Tab>
 inoremap [<Enter> []<Left><CR><ESC><S-o><Tab>
 inoremap (<Enter> ()<Left><CR><ESC><S-o><Tab>
@@ -103,10 +98,27 @@ inoremap (<Enter> ()<Left><CR><ESC><S-o><Tab>
 " キーマッピング設定
 "---------------------------
 
-nnoremap j gj
-nnoremap k gk
-nnoremap gj j
-nnoremap gk k
+" 折り返しテキスト対策
+noremap j gj
+noremap k gk
+noremap gj j
+noremap gk k
+
+" 検索後にジャンプした際に検索単語を画面中央に持ってくる
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap * *zz
+nnoremap # #zz
+nnoremap g* g*zz
+nnoremap g# g#zz
+
+" 行末に ;
+nnoremap <Space>; A;<Esc>
+
+" .vimrc 関連（いずれ現在編集ファイルが .vimrc なら :source するように拡張）
+nnoremap <Space>. :edit $MYVIMRC<CR>
+
+" 使わない危険コマンドを潰す
 nnoremap ZZ <Nop>
 nnoremap ZQ <Nop>
 nnoremap Q <Nop>
@@ -143,6 +155,7 @@ NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'thinca/vim-ref'
 NeoBundle 'yuku-t/vim-ref-ri'
+
 NeoBundle 'szw/vim-tags'
 NeoBundle 'tpope/vim-endwise'
 NeoBundle 'kana/vim-submode'
@@ -259,3 +272,9 @@ call submode#map('bufmove', 'n', '', '>', '<C-w>>')
 call submode#map('bufmove', 'n', '', '<', '<C-w><')
 call submode#map('bufmove', 'n', '', '+', '<C-w>+')
 call submode#map('bufmove', 'n', '', '-', '<C-w>-')
+
+"---------------------------
+" vim script 用設定
+"---------------------------
+
+let g:vim_indent_cont = 2
