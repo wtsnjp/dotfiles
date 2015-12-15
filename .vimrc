@@ -205,12 +205,12 @@ map g/ <Plug>(incsearch-stay)
 
 " Options
 let g:quickrun_config = {
-	\   "_" : {
-	\       "outputter/buffer/split" : ":botright 8sp",
-	\       "outputter/buffer/close_on_empty" : 1,
-	\		"hook/time/enable": 1,
-	\   },
-	\}
+  \   "_" : {
+  \       "outputter/buffer/split" : ":botright 8sp",
+  \       "outputter/buffer/close_on_empty" : 1,
+  \		"hook/time/enable": 1,
+  \   },
+  \}
 
 " Quit setting
 nnoremap <Space>o :only<CR>
@@ -221,11 +221,11 @@ nnoremap <Space>o :only<CR>
 
 " Enable with -b option
 augroup BinaryXXD
-	autocmd!
-	autocmd BufReadPre  *.bin let &binary =1
-	autocmd BufReadPost * if &binary | Vinarise
-	autocmd BufWritePre * if &binary | Vinarise | endif
-	autocmd BufWritePost * if &binary | Vinarise 
+  autocmd!
+  autocmd BufReadPre  *.bin let &binary =1
+  autocmd BufReadPost * if &binary | Vinarise
+  autocmd BufWritePre * if &binary | Vinarise | endif
+  autocmd BufWritePost * if &binary | Vinarise 
 augroup END
 
 "---------------------------
