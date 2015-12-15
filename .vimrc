@@ -63,6 +63,7 @@ set statusline=ASCII=\%03.3b\ HEX=\%02.2B\ POS=%04l,%04v[%p%%]%=FORMAT=%{&ff}\ T
 set laststatus=2 
 
 " Show title (on top)
+let &titleold=""
 set title
 
 "---------------------------
@@ -97,10 +98,10 @@ inoremap " ""<LEFT>
 inoremap ' ''<LEFT>
 inoremap <> <><LEFT>
 inoremap <C-z>{ {
-inoremap <C-z>[ []<LEFT>
-inoremap <C-z>( ()<LEFT>
-inoremap <C-z>" ""<LEFT>
-inoremap <C-z>' ''<LEFT>
+inoremap <C-z>[ [
+inoremap <C-z>( (
+inoremap <C-z>" "
+inoremap <C-z>' '
 inoremap {<Enter> {}<Left><CR><ESC><S-o><Tab>
 inoremap [<Enter> []<Left><CR><ESC><S-o><Tab>
 inoremap (<Enter> ()<Left><CR><ESC><S-o><Tab>
