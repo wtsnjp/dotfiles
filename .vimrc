@@ -1,87 +1,93 @@
 " Watson's vimrc
+" Author: Watson
+" Website: http://watson-lab.com
+" Source: https://github.com/WatsonDNA/config-files
+
+
+"---------------------------
+" Startup
+"---------------------------
+
 set encoding=utf-8
 scriptencoding utf-8
 
 "---------------------------
-" 一般設定
+" General Settings
 "---------------------------
 
-" 想定される改行コード
+" Line feed codes
 set fileformats=unix,dos,mac
 
-" 行番号を表示
+" Show line number
 set number
 
-" 行端で折り返し
+" Wrap long line
 set wrap
 
-" 上下8行の視界を確保
+" Ensure 8 lines visible
 set scrolloff=8
 
-" 行頭行末の左右移動で行をまたぐ
+" beyond lines with holizonal movement
 set whichwrap=b,s,h,l,<,>,[,]
 
-" タブを表示するときの幅
+" Tab width (default = 2)
 set tabstop=2
-
-" タブを挿入するときの幅
 set shiftwidth=2
 
-" タブをスペースに展開
+" Use spaces instead of Tab char
 set expandtab
 
-" 前の行と同じインデント
+" Auto indent
 set autoindent
 
-" クリップボードにコピー
+" Copy to clipboard
 set clipboard+=unnamed
 
-" マウスの入力を受け付ける
+" Enable mouse
 set mouse=a
 
-" ヒープ音の無効化
+" Sound deadening
 set visualbell t_vb=
 set noerrorbells
 
-" ファイル形式の検出の有効化
+" Enable file type detection
 filetype plugin indent on
 
-" カラー設定
+" Color settings
 let g:hybrid_use_iTerm_colors = 1
 colorscheme hybrid
 syntax on
 
-" ステータスラインの表示
-set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=\%02.2B]\ [POS=%04l,%04v][%p%%]\ [LEN=%L]
+" Status line
+set statusline=ASCII=\%03.3b\ HEX=\%02.2B\ POS=%04l,%04v[%p%%]%=FORMAT=%{&ff}\ TYPE=%Y\ LEN=%L
 set laststatus=2 
 
+" Show title (on top)
+set title
+
 "---------------------------
-" 検索設定
+" Serach settings
 "---------------------------
 
-" 検索ワードをハイライト（<ESC> 2回押しで解除）
-set hlsearch
-nnoremap <ESC><ESC> :nohlsearch<CR>
-
-" 大文字と小文字が混在するときのみ区別
+" Distinct Upper and lower if both exist
 set ignorecase
 set smartcase
 
-" ループ検索
+" Loop search
 set wrapscan
 
 "---------------------------
-" コマンドライン設定
+" Command line settings
 "---------------------------
 
-" TABキーによるファイル名補完を有効化
+" Complete filename with <Tab>
 set wildmenu wildmode=list:longest,full
 
-" 履歴を10000件保存する
+" Save number
 set history=10000
 
 "---------------------------
-" 括弧類補完
+" Bracketing
 "---------------------------
 
 inoremap { {}<LEFT>
@@ -90,21 +96,29 @@ inoremap ( ()<LEFT>
 inoremap " ""<LEFT>
 inoremap ' ''<LEFT>
 inoremap <> <><LEFT>
+inoremap <C-z>{ {
+inoremap <C-z>[ []<LEFT>
+inoremap <C-z>( ()<LEFT>
+inoremap <C-z>" ""<LEFT>
+inoremap <C-z>' ''<LEFT>
 inoremap {<Enter> {}<Left><CR><ESC><S-o><Tab>
 inoremap [<Enter> []<Left><CR><ESC><S-o><Tab>
 inoremap (<Enter> ()<Left><CR><ESC><S-o><Tab>
 
 "---------------------------
-" キーマッピング設定
+" Key mapping
 "---------------------------
 
-" 折り返しテキスト対策
+" Move natural in wrap line
 noremap j gj
 noremap k gk
 noremap gj j
 noremap gk k
 
-" 検索後にジャンプした際に検索単語を画面中央に持ってくる
+" Move to end of line
+noremap - $
+
+" Bring middle position after word search
 nnoremap n nzz
 nnoremap N Nzz
 nnoremap * *zz
@@ -112,25 +126,29 @@ nnoremap # #zz
 nnoremap g* g*zz
 nnoremap g# g#zz
 
-" 行末に ;
+" Put ; to end of line
 nnoremap <Space>; A;<Esc>
 
-" .vimrc 関連（いずれ現在編集ファイルが .vimrc なら :source するように拡張）
+" Quickly edit .vimrc
+" TODO: if the editing file .vimrc, :source $MYVIMRC
 nnoremap <Space>. :edit $MYVIMRC<CR>
 
-" 使わない危険コマンドを潰す
+" Finish highlight with double <ESC>
+nnoremap <ESC><ESC> :nohlsearch<CR>
+
+" Disable unuse dengerous commands
 nnoremap ZZ <Nop>
 nnoremap ZQ <Nop>
 nnoremap Q <Nop>
 
 "---------------------------
-" テンプレート
+" Templates
 "---------------------------
 
 autocmd BufNewFile *.cpp 0r ~/.vim/template/cpp.txt
 
 "---------------------------
-" Neobundle関連
+" Neobundle
 "---------------------------
 
 filetype plugin indent off
@@ -155,30 +173,25 @@ NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'thinca/vim-ref'
 NeoBundle 'yuku-t/vim-ref-ri'
-
 NeoBundle 'szw/vim-tags'
 NeoBundle 'tpope/vim-endwise'
 NeoBundle 'kana/vim-submode'
 NeoBundle 'wlangstroth/vim-racket'
 NeoBundle 'haya14busa/incsearch.vim'
-"NeoBundleLazy 'supermomonga/neocomplete-rsense.vim', { 'autoload' : {
-"  \ 'insert' : 1,
-"  \ 'filetypes': 'ruby',
-"  \ }}
 NeoBundleCheck
 call neobundle#end()
 
 filetype plugin indent on
 
 "---------------------------
-" neocomplete設定
+" neocomplete
 "---------------------------
 
-" デフォルトで有効化
+" Enbale default
 let g:neocomplete#enable_at_startup = 1
 
 "---------------------------
-" incsearch設定
+" incsearch
 "---------------------------
 
 map /  <Plug>(incsearch-forward)
@@ -186,23 +199,10 @@ map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
 
 "---------------------------
-" RSense設定（フリーズ頻発）
+" quickrun
 "---------------------------
 
-" .や::を入力したときにオムニ補完が有効になるようにする
-"if !exists('g:neocomplete#force_omni_input_patterns')
-"  let g:neocomplete#force_omni_input_patterns = {}
-"endif
-"let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
-"
-"let g:neocomplete#sources#rsense#home_directory = '/usr/local/bin/rsense'
-"let g:rsenseHome = '/usr/local/Cellar/rsense/0.3/libexec'
-
-"---------------------------
-" QuickRun設定
-"---------------------------
-
-" オプション
+" Options
 let g:quickrun_config = {
 	\   "_" : {
 	\       "outputter/buffer/split" : ":botright 8sp",
@@ -211,13 +211,14 @@ let g:quickrun_config = {
 	\   },
 	\}
 
-" 終了設定
+" Quit setting
 nnoremap <Space>o :only<CR>
 
 "---------------------------
-" -bオプションでvinarise
+" vinarise
 "---------------------------
 
+" Enable with -b option
 augroup BinaryXXD
 	autocmd!
 	autocmd BufReadPre  *.bin let &binary =1
@@ -227,14 +228,14 @@ augroup BinaryXXD
 augroup END
 
 "---------------------------
-" その他 追加プラグイン設定
+" Other plugins settings
 "---------------------------
 
-" 静的解析（保存時に実行）
+" Static code analysis
 let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': ['ruby'] }
 
 "---------------------------
-" タブ分割設定
+" Divide settings
 "---------------------------
 
 nnoremap s <Nop>
@@ -274,7 +275,7 @@ call submode#map('bufmove', 'n', '', '+', '<C-w>+')
 call submode#map('bufmove', 'n', '', '-', '<C-w>-')
 
 "---------------------------
-" vim script 用設定
+" For vim script
 "---------------------------
 
 let g:vim_indent_cont = 2
