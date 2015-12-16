@@ -41,7 +41,7 @@ set expandtab
 set autoindent
 
 " Copy to clipboard
-set clipboard+=unnamed
+set clipboard& clipboard+=unnamed
 
 " Enable mouse
 set mouse=a
@@ -73,6 +73,9 @@ set title
 " Distinct Upper and lower if both exist
 set ignorecase
 set smartcase
+
+" Highlight search word
+set hlsearch
 
 " Loop search
 set wrapscan
@@ -131,8 +134,16 @@ nnoremap g# g#zz
 nnoremap <Space>; A;<Esc>
 
 " Quickly edit .vimrc
-" TODO: if the editing file .vimrc, :source $MYVIMRC
-nnoremap <Space>. :edit $MYVIMRC<CR>
+nnoremap <Space>. :call EorSvimrc()<CR>
+if has('vim_starting')
+  function! EorSvimrc()
+    if expand("%:p") == $MYVIMRC
+      source $MYVIMRC
+    else
+      edit $MYVIMRC
+    endif
+  endfunction
+endif
 
 " Finish highlight with double <ESC>
 nnoremap <ESC><ESC> :nohlsearch<CR>
