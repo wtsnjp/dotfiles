@@ -27,8 +27,14 @@ set wrap
 " Ensure 8 lines visible
 set scrolloff=8
 
-" beyond lines with holizonal movement
+" Beyond lines with holizonal movement
 set whichwrap=b,s,h,l,<,>,[,]
+
+" Enable to delete EOL and indet with <delete>
+set backspace=indent,eol,start
+ 
+" Provision for em letters
+set ambiwidth=double
 
 " Tab width (default = 2)
 set tabstop=2
@@ -89,6 +95,9 @@ set wildmenu wildmode=list:longest,full
 
 " Save number
 set history=10000
+
+" Use strong suggestion in command line
+set wildmenu
 
 "---------------------------
 " Bracketing
