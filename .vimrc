@@ -53,6 +53,12 @@ set clipboard& clipboard+=unnamed
 " Enable mouse
 set mouse=a
 
+" Don't autoload
+set noautoread
+
+" Don't load current .vimrc and .exrc
+set noexrc
+
 " Sound deadening
 set visualbell t_vb=
 set noerrorbells
@@ -131,11 +137,8 @@ nnoremap g# g#zz
 " Put empty line with <CR>
 nnoremap <CR> o
 
-" Put ; to end of line
-nnoremap <Space>; A;<Esc>
-
 " Quickly edit .vimrc
-nnoremap <Space>. :call EorSvimrc()<CR>
+nnoremap <Space>. :<C-u>call EorSvimrc()<CR>
 if has('vim_starting')
   function! EorSvimrc()
     if expand("%:p") == $MYVIMRC
@@ -147,7 +150,19 @@ if has('vim_starting')
 endif
 
 " Finish highlight with double <ESC>
-nnoremap <ESC><ESC> :nohlsearch<CR>
+nnoremap <ESC><ESC> :<C-u>nohlsearch<CR>
+
+" Move smooth in commandline
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+cnoremap <C-f> <Right>
+cnoremap <C-b> <Left>
+
+" Move smooth in insertmode
+inoremap <C-a> <Home>
+inoremap <C-e> <End>
+inoremap <C-f> <Right>
+inoremap <C-b> <Left>
 
 " Disable unuse dengerous commands
 nnoremap ZZ <Nop>
@@ -158,7 +173,9 @@ nnoremap Q <Nop>
 " Templates
 "---------------------------
 
-autocmd BufNewFile *.cpp 0r ~/.vim/template/cpp.txt
+augroup Templates
+  autocmd BufNewFile *.cpp 0r ~/.vim/template/cpp.txt
+augroup END
 
 "---------------------------
 " Plugins
