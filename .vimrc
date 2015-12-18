@@ -106,25 +106,6 @@ set history=10000
 set wildmenu
 
 "---------------------------
-" Bracketing
-"---------------------------
-
-inoremap { {}<LEFT>
-inoremap [ []<LEFT>
-inoremap ( ()<LEFT>
-inoremap " ""<LEFT>
-inoremap ' ''<LEFT>
-inoremap <> <><LEFT>
-inoremap <C-z>{ {
-inoremap <C-z>[ [
-inoremap <C-z>( (
-inoremap <C-z>" "
-inoremap <C-z>' '
-inoremap {<Enter> {}<Left><CR><ESC><S-o><Tab>
-inoremap [<Enter> []<Left><CR><ESC><S-o><Tab>
-inoremap (<Enter> ()<Left><CR><ESC><S-o><Tab>
-
-"---------------------------
 " Key mapping
 "---------------------------
 
@@ -201,6 +182,7 @@ NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'Shougo/neosnippet.vim'
 NeoBundle 'Shougo/neosnippet-snippets'
+NeoBundle 'kana/vim-smartinput'
 
 " Debug
 NeoBundle 'Shougo/vimproc'
@@ -218,6 +200,7 @@ NeoBundle 'kana/vim-submode'
 
 " Search
 NeoBundle 'haya14busa/incsearch.vim'
+NeoBundle 'vim-scripts/ag.vim'
 
 " Status line
 NeoBundle 'itchyny/lightline.vim'
@@ -229,12 +212,14 @@ NeoBundle 'scrooloose/syntastic'
 " NeoBundle 'scrooloose/nerdtree'
 
 " Ruby
-NeoBundle 'tpope/vim-endwise'
+NeoBundle "cohama/vim-smartinput-endwise"
 
 " Scheme
 NeoBundle 'wlangstroth/vim-racket'
 
+" Check update
 NeoBundleCheck
+
 call neobundle#end()
 
 filetype plugin indent on
@@ -294,6 +279,41 @@ let g:quickrun_config = {
 
 " Quit setting
 nnoremap <Space>o :only<CR>
+
+" }}}
+
+" smartinput {{{
+
+" spacing in brackets
+call smartinput#map_to_trigger('i', '<Space>', '<Space>', '<Space>')
+call smartinput#define_rule({
+  \ 'at'    : '(\%#)',
+  \ 'char'  : '<Space>',
+  \ 'input' : '<Space><Space><Left>',
+  \ })
+call smartinput#define_rule({
+  \ 'at'    : '( \%# )',
+  \ 'char'  : '<BS>',
+  \ 'input' : '<Del><BS>',
+  \ })
+
+" settings for Ruby
+call smartinput#map_to_trigger('i', '#', '#', '#')
+call smartinput#define_rule({
+  \ 'at'       : '\%#',
+  \ 'char'     : '#',
+  \ 'input'    : '#{}<Left>',
+  \ 'filetype' : ['ruby'],
+  \ 'syntax'   : ['Constant', 'Special'],
+  \ })
+call smartinput#map_to_trigger('i', '<Bar>', '<Bar>', '<Bar>')
+call smartinput#define_rule({
+  \ 'at' : '\({\|\<do\>\)\s*\%#',
+  \ 'char' : '<Bar>',
+  \ 'input' : '<Bar><Bar><Left>',
+  \ 'filetype' : ['ruby'],
+  \  })
+call smartinput_endwise#define_default_rules()
 
 " }}}
 
