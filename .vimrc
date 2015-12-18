@@ -16,6 +16,7 @@ scriptencoding utf-8
 "---------------------------
 
 " Line feed codes
+set fileformat=unix
 set fileformats=unix,dos,mac
 
 " Show line number
@@ -59,18 +60,22 @@ set noerrorbells
 " Enable file type detection
 filetype plugin indent on
 
-" Color settings
-let g:hybrid_use_iTerm_colors = 1
-colorscheme hybrid
-syntax on
-
 " Status line
-set statusline=ASCII=\%03.3b\ HEX=\%02.2B\ POS=%04l,%04v[%p%%]%=FORMAT=%{&ff}\ TYPE=%Y\ LEN=%L
+"set statusline=ASCII=\%03.3b\ HEX=\%02.2B\ POS=%04l,%04v[%p%%]%=FORMAT=%{&ff}\ TYPE=%Y\ LEN=%L
 set laststatus=2 
 
 " Show title (on top)
 let &titleold=""
 set title
+
+" Folding
+set foldmethod=marker
+set foldlevel=0
+
+" Color settings
+let g:hybrid_use_iTerm_colors = 1
+colorscheme hybrid
+syntax on
 
 "---------------------------
 " Serach settings
@@ -91,7 +96,8 @@ set wrapscan
 "---------------------------
 
 " Complete filename with <Tab>
-set wildmenu wildmode=list:longest,full
+set wildmenu 
+set wildmode=longest:full,full
 
 " Save number
 set history=10000
@@ -123,6 +129,8 @@ inoremap (<Enter> ()<Left><CR><ESC><S-o><Tab>
 "---------------------------
 
 " Move natural in wrap line
+noremap <Down> gj
+noremap <Up>   gk
 noremap j gj
 noremap k gk
 noremap gj j
@@ -138,6 +146,9 @@ nnoremap * *zz
 nnoremap # #zz
 nnoremap g* g*zz
 nnoremap g# g#zz
+
+" Put empty line with <CR>
+nnoremap <CR> o
 
 " Put ; to end of line
 nnoremap <Space>; A;<Esc>
@@ -169,75 +180,131 @@ nnoremap Q <Nop>
 autocmd BufNewFile *.cpp 0r ~/.vim/template/cpp.txt
 
 "---------------------------
-" Neobundle
+" Plugins
 "---------------------------
 
 filetype plugin indent off
 
 if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim
-  call neobundle#begin(expand('~/.vim/bundle/'))
-  NeoBundleFetch 'Shougo/neobundle.vim'
-  call neobundle#end()
 endif 
 
 call neobundle#begin(expand('~/.vim/bundle/'))
+
+" NeoBundle
 NeoBundleFetch 'Shougo/neobundle.vim'
+
+" Unite
 NeoBundle 'Shougo/unite.vim'
+
+" Completion
+NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'Shougo/neosnippet.vim'
 NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'Shougo/neocomplete.vim'
+
+" Debug
 NeoBundle 'Shougo/vimproc'
-NeoBundle 'Shougo/vinarise'
 NeoBundle 'thinca/vim-quickrun'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'scrooloose/syntastic'
+
+" Binary
+NeoBundle 'Shougo/vinarise'
+
+" Ref
 NeoBundle 'thinca/vim-ref'
 NeoBundle 'yuku-t/vim-ref-ri'
-NeoBundle 'szw/vim-tags'
-NeoBundle 'tpope/vim-endwise'
+
+" Submode
 NeoBundle 'kana/vim-submode'
-NeoBundle 'wlangstroth/vim-racket'
+
+" Search
 NeoBundle 'haya14busa/incsearch.vim'
+
+" Status line
+NeoBundle 'itchyny/lightline.vim'
+
+" Programming (General)
+NeoBundle 'tyru/caw.vim'
+NeoBundle 'szw/vim-tags'
+NeoBundle 'scrooloose/syntastic'
+" NeoBundle 'scrooloose/nerdtree'
+
+" Ruby
+NeoBundle 'tpope/vim-endwise'
+
+" Scheme
+NeoBundle 'wlangstroth/vim-racket'
+
 NeoBundleCheck
 call neobundle#end()
 
 filetype plugin indent on
 
 "---------------------------
-" neocomplete
+" Plugin settings
 "---------------------------
+" NOTE: arrange in alphabetical order
 
-" Enbale default
-let g:neocomplete#enable_at_startup = 1
+" caw {{{
 
-"---------------------------
-" incsearch
-"---------------------------
+map <Space>c <Plug>(caw:i:toggle)
+
+" }}}
+
+" incsearch {{{
 
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
 
-"---------------------------
-" quickrun
-"---------------------------
+" }}}
+
+" lightline {{{
+
+let g:lightline = {
+  \   'active': {
+  \     'left': [ [ 'mode', 'paste' ], [ 'readonly', 'filename', 'modified' ] ],
+  \     'right': [ [ 'lineinfo' ],
+  \              [ 'percent' ], 
+  \              [ 'fileformat', 'fileencoding', 'filetype', 'filelines' ] ] 
+  \   }, 
+  \   'component': {
+  \     'filelines': '%L'
+  \   }
+  \ }
+
+" }}}
+
+" neocomplete {{{
+
+" Enbale default
+let g:neocomplete#enable_at_startup = 1
+
+" }}}
+
+" quickrun {{{
 
 " Options
 let g:quickrun_config = {
   \   "_" : {
-  \       "outputter/buffer/split" : ":botright 8sp",
-  \       "outputter/buffer/close_on_empty" : 1,
-  \		"hook/time/enable": 1,
+  \     "outputter/buffer/split" : ":botright 8sp",
+  \     "outputter/buffer/close_on_empty" : 1,
+  \		  "hook/time/enable": 1,
   \   },
   \}
 
 " Quit setting
 nnoremap <Space>o :only<CR>
 
-"---------------------------
-" vinarise
-"---------------------------
+" }}}
+
+" syntastic {{{
+
+" Static code analysis
+let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': ['ruby'] }
+
+" }}}
+
+" vinarise {{{
 
 " Enable with -b option
 augroup BinaryXXD
@@ -248,12 +315,7 @@ augroup BinaryXXD
   autocmd BufWritePost * if &binary | Vinarise 
 augroup END
 
-"---------------------------
-" Other plugins settings
-"---------------------------
-
-" Static code analysis
-let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': ['ruby'] }
+" }}}
 
 "---------------------------
 " Divide settings
