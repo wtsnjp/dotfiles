@@ -83,7 +83,9 @@ set foldlevel=0
 set grepprg=grep\ -nH\ $*
 
 " Color settings
-let g:hybrid_use_iTerm_colors = 1
+if has('mac')
+  let g:hybrid_use_iTerm_colors = 1
+endif
 colorscheme hybrid
 syntax on
 
@@ -145,7 +147,7 @@ nnoremap <CR> o
 nnoremap <silent> <Space>. :<C-u>call EorSvimrc()<CR>
 if has('vim_starting')
   function! EorSvimrc()
-    if expand("%:p") == $MYVIMRC
+    if expand("%:p") ==# $MYVIMRC
       source $MYVIMRC
     else
       edit $MYVIMRC
