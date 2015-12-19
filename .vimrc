@@ -8,6 +8,7 @@
 " Startup
 "---------------------------
 
+" Encoding
 set encoding=utf-8
 scriptencoding utf-8
 
@@ -78,6 +79,9 @@ set title
 set foldmethod=marker
 set foldlevel=0
 
+" Always generate a file-name with grep
+set grepprg=grep\ -nH\ $*
+
 " Color settings
 let g:hybrid_use_iTerm_colors = 1
 colorscheme hybrid
@@ -112,7 +116,7 @@ set history=10000
 set wildmenu
 
 "---------------------------
-" Key mapping
+" Key mappings
 "---------------------------
 
 " Move natural in wrap line
@@ -138,7 +142,7 @@ nnoremap g# g#zz
 nnoremap <CR> o
 
 " Quickly edit .vimrc
-nnoremap <Space>. :<C-u>call EorSvimrc()<CR>
+nnoremap <silent> <Space>. :<C-u>call EorSvimrc()<CR>
 if has('vim_starting')
   function! EorSvimrc()
     if expand("%:p") == $MYVIMRC
@@ -148,6 +152,9 @@ if has('vim_starting')
     endif
   endfunction
 endif
+
+" Quit deviding
+nnoremap <Space>o :only<CR>
 
 " Finish highlight with double <ESC>
 nnoremap <ESC><ESC> :<C-u>nohlsearch<CR>
@@ -160,9 +167,10 @@ cnoremap <C-b> <Left>
 
 " Move smooth in insertmode
 inoremap <C-a> <Home>
-inoremap <C-e> <End>
-inoremap <C-f> <Right>
-inoremap <C-b> <Left>
+inoremap <C-j> <Down>
+inoremap <C-k> <Up>
+inoremap <C-h> <Left>
+inoremap <C-l> <Right>
 
 " Disable unuse dengerous commands
 nnoremap ZZ <Nop>
@@ -170,10 +178,32 @@ nnoremap ZQ <Nop>
 nnoremap Q <Nop>
 
 "---------------------------
+" Commands and functions
+"---------------------------
+
+" Change encoding
+command! -bang -nargs=? Utf8 edit<bang> ++enc=utf-8 <args>
+command! -bang -nargs=? Sjis edit<bang> ++enc=sjis <args>
+command! -bang -nargs=? Euc edit<bang> ++enc=euc-jp <args>
+
+" Open URI in browser
+map <Leader>w :<C-u>call HandleURI()<CR>
+function! HandleURI()
+  let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;:]*')
+  echo s:uri
+  if s:uri != ""
+    exec "!open \"" . s:uri . "\""
+  else
+    echo "No URI found in line."
+  endif
+endfunction
+
+"---------------------------
 " Templates
 "---------------------------
 
 augroup Templates
+  autocmd!
   autocmd BufNewFile *.cpp 0r ~/.vim/template/cpp.txt
 augroup END
 
@@ -194,6 +224,7 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 
 " Unite
 NeoBundle 'Shougo/unite.vim'
+NeoBundle 'osyo-manga/unite-quickfix'
 
 " Completion
 NeoBundle 'Shougo/neocomplete.vim'
@@ -204,6 +235,7 @@ NeoBundle 'kana/vim-smartinput'
 " Debug
 NeoBundle 'Shougo/vimproc'
 NeoBundle 'thinca/vim-quickrun'
+NeoBundle 'osyo-manga/shabadou.vim'
 
 " Binary
 NeoBundle 'Shougo/vinarise'
@@ -229,10 +261,13 @@ NeoBundle 'scrooloose/syntastic'
 " NeoBundle 'scrooloose/nerdtree'
 
 " Ruby
-NeoBundle "cohama/vim-smartinput-endwise"
+NeoBundle 'cohama/vim-smartinput-endwise'
 
 " Scheme
 NeoBundle 'wlangstroth/vim-racket'
+
+" Joke
+NeoBundle 'thinca/vim-scouter'
 
 " Check update
 NeoBundleCheck
@@ -270,7 +305,7 @@ let g:lightline = {
   \              [ 'fileformat', 'fileencoding', 'filetype', 'filelines' ] ] 
   \   }, 
   \   'component': {
-  \     'filelines': '%L'
+  \     'filelines': '%LL'
   \   }
   \ }
 
@@ -281,6 +316,23 @@ let g:lightline = {
 " Enbale default
 let g:neocomplete#enable_at_startup = 1
 
+" Use smartcase
+let g:neocomplete_enable_smart_case = 1
+
+" Use underbar completion
+let g:neocomplete_enable_underbar_completion = 1
+
+" Set minimum syntax keyword length
+let g:neocomplete_min_syntax_length = 3
+
+" Key mappings
+inoremap <expr><C-g>  neocomplete#undo_completion()
+inoremap <expr><TAB>  pumvisible() ? neocomplete#complete_common_string() : "\<TAB>"
+inoremap <expr><BS>   neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y>  neocomplete#close_popup()
+inoremap <expr><C-e>  neocomplete#cancel_popup()
+inoremap <expr><CR>  pumvisible() ? neocomplete#close_popup() : "<CR>"
+
 " }}}
 
 " quickrun {{{
@@ -290,12 +342,15 @@ let g:quickrun_config = {
   \   "_" : {
   \     "outputter/buffer/split" : ":botright 8sp",
   \     "outputter/buffer/close_on_empty" : 1,
-  \		  "hook/time/enable": 1,
+  \     "hook/time/enable": 1,
+  \     "runner" : "vimproc",
+  \     "runner/vimproc/updatetime" : 40,
   \   },
-  \}
-
-" Quit setting
-nnoremap <Space>o :only<CR>
+  \   "tex" : {
+  \     "command" : "latexmk",
+  \     "exec": ["%c %o %s"]
+  \   },
+  \ }
 
 " }}}
 
@@ -399,3 +454,4 @@ call submode#map('bufmove', 'n', '', '-', '<C-w>-')
 "---------------------------
 
 let g:vim_indent_cont = 2
+
