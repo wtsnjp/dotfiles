@@ -82,6 +82,9 @@ set foldlevel=0
 " Always generate a file-name with grep
 set grepprg=grep\ -nH\ $*
 
+" Don't recognize octal number
+set nrformats-=octal
+
 " Color settings
 if has('mac')
   let g:hybrid_use_iTerm_colors = 1
@@ -156,7 +159,7 @@ nnoremap g* g*zz
 nnoremap g# g#zz
 
 " Put empty line with <CR>
-nnoremap <CR> o
+nnoremap <CR> o<Esc>
 
 " Quickly edit .vimrc
 nnoremap <silent> <Space>. :<C-u>call EorSvimrc()<CR>
@@ -189,10 +192,21 @@ inoremap <C-k> <Up>
 inoremap <C-h> <Left>
 inoremap <C-l> <Right>
 
+" Function keys
+nnoremap <F1> K
+nnoremap <F8> :<C-u>source %<CR>
+
 " Disable unuse dengerous commands
 nnoremap ZZ <Nop>
 nnoremap ZQ <Nop>
 nnoremap Q <Nop>
+
+" Make serial number (vertical)
+nnoremap <silent> co :ContinuousNumber <C-a><CR>
+vnoremap <silent> co :ContinuousNumber <C-a><CR>
+command! -count -nargs=1 ContinuousNumber 
+  \ let c = col('.')|for n in range(1, <count>?<count>-line('.'):1)|
+  \ exec 'normal! j' . n . <q-args>|call cursor('.', c)|endfor
 
 "---------------------------
 " Commands and functions
