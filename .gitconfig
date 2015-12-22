@@ -1,0 +1,8 @@
+[user]
+	name = Watson
+	email = watsondna.public@gmail.com
+[core]
+	excludesfile = /Users/Asakura/.gitignore
+	editor = vim
+[color]
+	ui = auto
