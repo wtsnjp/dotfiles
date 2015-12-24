@@ -5,7 +5,7 @@
 
 
 "---------------------------
-" Startup
+" Pre
 "---------------------------
 
 " Encoding
@@ -45,8 +45,8 @@ set shiftwidth=2
 " Use spaces instead of Tab char
 set expandtab
 
-" Auto indent
-set autoindent
+" Smart indent
+set cindent
 
 " Copy to clipboard
 set clipboard& clipboard+=unnamed
@@ -90,7 +90,7 @@ if has('mac')
   let g:hybrid_use_iTerm_colors = 1
 endif
 colorscheme hybrid
-syntax on
+syntax enable
 
 " Set backup directory
 set backupdir=$HOME/.vimbackup
@@ -106,6 +106,29 @@ set directory=$HOME/.vimbackup
 if !isdirectory(&directory)
 	call mkdir(&directory, "p")
 endif
+
+" Enable semipermanent-undo
+if has('persistent_undo')
+  set undodir=~/.vim/undo
+  set undofile
+endif
+
+"---------------------------
+" Startup
+"---------------------------
+
+augroup Startup
+  autocmd!
+  " Startup message
+  autocmd VimEnter * echo "Hello, enjoy vimming!"
+  " Open *.md file with filetype=markdown
+  autocmd BufRead *.md setlocal ft=markdown
+  " Restoration the position of cursor
+  autocmd BufReadPost *
+    \ if line("'\"") > 1 && line("'\"") <= line("$") |
+    \   exe "normal! g`\"" |
+    \ endif
+augroup END
 
 "---------------------------
 " Serach settings
