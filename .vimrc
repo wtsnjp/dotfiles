@@ -191,6 +191,7 @@ inoremap <C-j> <Down>
 inoremap <C-k> <Up>
 inoremap <C-h> <Left>
 inoremap <C-l> <Right>
+inoremap <C-d> <delete>
 
 " Function keys
 nnoremap <F1> K
@@ -256,6 +257,16 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " Unite
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'osyo-manga/unite-quickfix'
+NeoBundle 'h1mesuke/unite-outline'
+
+" Web
+NeoBundle 'mattn/webapi-vim'
+NeoBundle 'tyru/open-browser.vim'
+
+" Twitter
+NeoBundle 'basyura/bitly.vim'
+NeoBundle 'basyura/twibill.vim'
+NeoBundle 'basyura/TweetVim'
 
 " Completion
 NeoBundle 'Shougo/neocomplete.vim'
