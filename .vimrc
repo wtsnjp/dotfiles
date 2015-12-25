@@ -128,6 +128,14 @@ augroup Startup
     \ if line("'\"") > 1 && line("'\"") <= line("$") |
     \   exe "normal! g`\"" |
     \ endif
+  autocmd BufWritePre * call s:auto_mkdir(expand('<afile>:p:h'), v:cmdbang)
+  " Auto mkdir
+  function! s:auto_mkdir(dir, force)
+    if !isdirectory(a:dir) && (a:force ||
+        \ input(printf('"%s" does not exist. Create? [y/N]', a:dir)) =~? '^y\%[es]$')
+      call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
+    endif
+  endfunction
 augroup END
 
 "---------------------------
@@ -170,8 +178,9 @@ noremap k gk
 noremap gj j
 noremap gk k
 
-" Move to end of line
+" Move without Shift key
 noremap - $
+noremap 0 %
 
 " Bring middle position after word search
 nnoremap n nzz
@@ -180,6 +189,9 @@ nnoremap * *zz
 nnoremap # #zz
 nnoremap g* g*zz
 nnoremap g# g#zz
+
+" Back to normal mode with jj
+inoremap jj <Esc>
 
 " Put empty line with <CR>
 nnoremap <CR> o<Esc>
