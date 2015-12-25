@@ -94,7 +94,7 @@ syntax enable
 " Set backup directory
 set backupdir=$HOME/.vimbackup
 if !isdirectory(&backupdir)
-	call mkdir(&backupdir, "p")
+  call mkdir(&backupdir, "p")
 endif
 
 " Default save space
@@ -103,7 +103,7 @@ set browsedir=buffer
 " Set swap directory
 set directory=$HOME/.vimbackup
 if !isdirectory(&directory)
-	call mkdir(&directory, "p")
+  call mkdir(&directory, "p")
 endif
 
 " Enable semipermanent-undo
