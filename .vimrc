@@ -68,7 +68,6 @@ set noerrorbells
 filetype plugin indent on
 
 " Status line
-"set statusline=ASCII=\%03.3b\ HEX=\%02.2B\ POS=%04l,%04v[%p%%]%=FORMAT=%{&ff}\ TYPE=%Y\ LEN=%L
 set laststatus=2 
 
 " Show title (on top)
@@ -183,12 +182,12 @@ noremap - $
 noremap 0 %
 
 " Bring middle position after word search
-nnoremap n nzz
-nnoremap N Nzz
-nnoremap * *zz
-nnoremap # #zz
-nnoremap g* g*zz
-nnoremap g# g#zz
+nnoremap n nzzzv
+nnoremap N Nzzzv
+nnoremap * *zzzv
+nnoremap # #zzzv
+nnoremap g* g*zzzv
+nnoremap g# g#zzzv
 
 " Back to normal mode with jj
 inoremap jj <Esc>
