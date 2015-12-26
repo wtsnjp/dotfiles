@@ -293,6 +293,9 @@ NeoBundle 'Shougo/unite.vim'
 NeoBundle 'osyo-manga/unite-quickfix'
 NeoBundle 'h1mesuke/unite-outline'
 
+" Utility
+NeoBundle 'Shougo/vimfiler'
+
 " Web
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'tyru/open-browser.vim'
@@ -307,6 +310,7 @@ NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'Shougo/neosnippet.vim'
 NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'kana/vim-smartinput'
+
 
 " Debug
 NeoBundle 'Shougo/vimproc'
