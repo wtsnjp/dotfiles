@@ -177,7 +177,7 @@ noremap k gk
 noremap gj j
 noremap gk k
 
-" Move without Shift key
+" Move without shift key
 noremap - $
 noremap 0 %
 
@@ -188,9 +188,6 @@ nnoremap * *zzzv
 nnoremap # #zzzv
 nnoremap g* g*zzzv
 nnoremap g# g#zzzv
-
-" Back to normal mode with jj
-inoremap jj <Esc>
 
 " Put empty line with <CR>
 nnoremap <CR> o<Esc>
@@ -338,7 +335,6 @@ NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'tyru/caw.vim'
 NeoBundle 'szw/vim-tags'
 NeoBundle 'scrooloose/syntastic'
-" NeoBundle 'scrooloose/nerdtree'
 
 " Ruby
 NeoBundle 'cohama/vim-smartinput-endwise'
