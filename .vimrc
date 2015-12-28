@@ -198,6 +198,10 @@ nnoremap # #zzzv
 nnoremap g* g*zzzv
 nnoremap g# g#zzzv
 
+" Replace shortcut
+nnoremap // :<C-u>%s/
+vnoremap // :s/
+
 " Put empty line with <CR>
 nnoremap <CR> o<Esc>
 
