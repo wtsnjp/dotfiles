@@ -145,6 +145,14 @@ augroup END
 set ignorecase
 set smartcase
 
+" Very magic by default
+cnoremap <expr> s/ getcmdline() =~# '^\A*$' ? 's/\v' : 's/'
+cnoremap <expr> g/ getcmdline() =~# '^\A*$' ? 'g/\v' : 'g/'
+cnoremap <expr> v/ getcmdline() =~# '^\A*$' ? 'v/\v' : 'v/'
+cnoremap s// s//
+cnoremap g// g//
+cnoremap v// v//
+
 " Highlight search word
 set hlsearch
 
@@ -365,9 +373,9 @@ map <Space>c <Plug>(caw:i:toggle)
 
 " incsearch {{{
 
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
+map /  <Plug>(incsearch-forward)\v
+map ?  <Plug>(incsearch-backward)\v
+map g/ <Plug>(incsearch-stay)\v
 
 " }}}
 
