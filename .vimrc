@@ -65,9 +65,6 @@ set noexrc
 set visualbell t_vb=
 set noerrorbells
 
-" Enable file type detection
-filetype plugin indent on
-
 " Status line
 set laststatus=2 
 
@@ -84,6 +81,9 @@ set grepprg=grep\ -nH\ $*
 
 " Don't recognize octal number
 set nrformats-=octal
+
+" Enable to open new buffer Always
+set hidden
 
 " Color settings
 if has('mac')
@@ -539,7 +539,7 @@ call submode#map('bufmove', 'n', '', '+', '<C-w>+')
 call submode#map('bufmove', 'n', '', '-', '<C-w>-')
 
 "---------------------------
-" For vim script
+" Vim script
 "---------------------------
 
 let g:vim_indent_cont = 2
