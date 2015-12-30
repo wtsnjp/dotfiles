@@ -485,6 +485,14 @@ let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': ['ruby'] }
 
 " }}}
 
+" unite {{{
+
+" key mappings
+map ,u [unite]
+nnoremap [unite]f :<C-u>Unite file<CR>
+
+" }}}
+
 " vinarise {{{
 
 " Enable with -b option
@@ -524,8 +532,8 @@ nnoremap st :<C-u>tabnew<CR>
 nnoremap sT :<C-u>Unite tab<CR>
 nnoremap ss :<C-u>sp<CR>
 nnoremap sv :<C-u>vs<CR>
-nnoremap sq :<C-u>q<CR>
-nnoremap sQ :<C-u>bd<CR>
+nnoremap sq :<C-u>bd<CR>
+nnoremap sQ :<C-u>q<CR>
 nnoremap sb :<C-u>Unite buffer_tab -buffer-name=file<CR>
 nnoremap sB :<C-u>Unite buffer -buffer-name=file<CR>
 
@@ -537,6 +545,15 @@ call submode#map('bufmove', 'n', '', '>', '<C-w>>')
 call submode#map('bufmove', 'n', '', '<', '<C-w><')
 call submode#map('bufmove', 'n', '', '+', '<C-w>+')
 call submode#map('bufmove', 'n', '', '-', '<C-w>-')
+
+"---------------------------
+" TeX on LaTeX
+"---------------------------
+
+augroup TeXcmd
+  autocmd!
+  "autocmd BufNewFile,BufRead *.sty setlocal indentkeys=""
+augroup END
 
 "---------------------------
 " Vim script
