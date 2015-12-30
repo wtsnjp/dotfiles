@@ -552,6 +552,7 @@ call submode#map('bufmove', 'n', '', '-', '<C-w>-')
 
 augroup TeXcmd
   autocmd!
+  " NOTE: indent setting shoud be written in ~/.vim/after/indent/tex.vim
   "autocmd BufNewFile,BufRead *.sty setlocal indentkeys=""
 augroup END
 
