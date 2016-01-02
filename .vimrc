@@ -82,6 +82,9 @@ set grepprg=grep\ -nH\ $*
 " Don't recognize octal number
 set nrformats-=octal
 
+" Display unprintable letter in hex signage
+set display=uhex
+
 " Enable to open new buffer Always
 set hidden
 
