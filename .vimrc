@@ -306,6 +306,9 @@ NeoBundle 'h1mesuke/unite-outline'
 " Utility
 NeoBundle 'Shougo/vimfiler'
 
+" Mode extention
+NeoBundle 'kana/vim-niceblock'
+
 " Web
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'tyru/open-browser.vim'
@@ -320,7 +323,6 @@ NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'Shougo/neosnippet.vim'
 NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'kana/vim-smartinput'
-
 
 " Debug
 NeoBundle 'Shougo/vimproc'
@@ -488,6 +490,7 @@ let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': ['ruby'] }
 " unite {{{
 
 " key mappings
+noremap [unite] <Nop>
 map ,u [unite]
 nnoremap [unite]f :<C-u>Unite file<CR>
 
