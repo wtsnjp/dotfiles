@@ -323,6 +323,7 @@ NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'Shougo/neosnippet.vim'
 NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'kana/vim-smartinput'
+NeoBundle 'ujihisa/neco-look'
 
 " Debug
 NeoBundle 'Shougo/vimproc'
