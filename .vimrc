@@ -308,6 +308,7 @@ NeoBundle 'h1mesuke/unite-outline'
 
 " Utility
 NeoBundle 'Shougo/vimfiler'
+NeoBundleLazy 'Shougo/vimshell'
 
 " Mode extention
 NeoBundle 'kana/vim-niceblock'
@@ -334,7 +335,7 @@ NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'osyo-manga/shabadou.vim'
 
 " Binary
-NeoBundle 'Shougo/vinarise'
+NeoBundleLazy 'Shougo/vinarise'
 
 " Ref
 NeoBundle 'thinca/vim-ref'
