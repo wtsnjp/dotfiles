@@ -327,7 +327,7 @@ NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'Shougo/neosnippet.vim'
 NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'kana/vim-smartinput'
-NeoBundle 'ujihisa/neco-look'
+NeoBundleLazy 'ujihisa/neco-look'
 
 " Debug
 NeoBundle 'Shougo/vimproc'
@@ -404,6 +404,14 @@ let g:lightline = {
   \     'filelines': '%LL'
   \   }
   \ }
+
+" }}}
+
+" neco-look {{{
+
+if has('mac') || has('linux')
+  NeoBundleSource neco-look
+endif
 
 " }}}
 
