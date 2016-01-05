@@ -52,9 +52,6 @@ set cindent
 " Copy to clipboard
 set clipboard& clipboard+=unnamed
 
-" Enable mouse
-set mouse=a
-
 " Don't autoload
 set noautoread
 
