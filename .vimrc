@@ -224,7 +224,7 @@ endif
 nnoremap <Space>o :only<CR>
 
 " Finish highlight with double <ESC>
-nnoremap <ESC><ESC> :<C-u>nohlsearch<CR>
+nnoremap <silent> <ESC><ESC> :<C-u>nohlsearch<CR>
 
 " Move smooth in commandline
 cnoremap <C-a> <Home>
@@ -337,7 +337,7 @@ NeoBundle 'osyo-manga/shabadou.vim'
 " Binary
 NeoBundleLazy 'Shougo/vinarise'
 
-" Ref
+" Reference
 NeoBundle 'thinca/vim-ref'
 NeoBundle 'yuku-t/vim-ref-ri'
 
