@@ -12,6 +12,15 @@
 set encoding=utf-8
 scriptencoding utf-8
 
+" OS
+let s:is_windows = has('win16') || has('win32') || has('win64')
+let s:is_cygwin = has('win32unix')
+let s:is_mac = !s:is_windows && !s:is_cygwin
+  \ && (has('mac') || has('macunix') || has('gui_macvim') ||
+  \   (!executable('xdg-open') &&
+  \     system('uname') =~? '^darwin'))
+let s:is_unix = !s:is_mac && has('unix')
+
 "---------------------------
 " General Settings
 "---------------------------
@@ -86,7 +95,7 @@ set display=uhex
 set hidden
 
 " Color settings
-if has('mac')
+if s:is_mac
   let g:hybrid_use_iTerm_colors = 1
 endif
 colorscheme hybrid
@@ -307,6 +316,9 @@ NeoBundle 'h1mesuke/unite-outline'
 NeoBundle 'Shougo/vimfiler'
 NeoBundleLazy 'Shougo/vimshell'
 
+" Movement
+NeoBundle 'rhysd/clever-f.vim'
+
 " Mode extention
 NeoBundle 'kana/vim-niceblock'
 
@@ -380,6 +392,20 @@ map <Space>c <Plug>(caw:i:toggle)
 
 " }}}
 
+" crever-f.vim {{{
+
+" Ignorecase and smartcase
+let g:clever_f_ignore_case = 1
+let g:clever_f_smart_case = 1
+
+" Enable migemo-like search
+let g:clever_f_use_migemo = 1
+
+" Fix the moving direction with f or F
+let g:clever_f_fix_key_direction = 1
+
+" }}}
+
 " incsearch {{{
 
 map /  <Plug>(incsearch-forward)\v
@@ -406,7 +432,7 @@ let g:lightline = {
 
 " neco-look {{{
 
-if has('mac') || has('linux')
+if s:is_mac || s:is_unix
   NeoBundleSource neco-look
 endif
 
