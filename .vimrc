@@ -151,7 +151,7 @@ augroup END
 " Serach settings
 "---------------------------
 
-" Distinct Upper and lower if both exist
+" Distinct upper and lower if both exist
 set ignorecase
 set smartcase
 
@@ -206,6 +206,12 @@ nnoremap * *zzzv
 nnoremap # #zzzv
 nnoremap g* g*zzzv
 nnoremap g# g#zzzv
+
+" Indent quickly
+nnoremap > >>
+nnoremap < <<
+xnoremap > >gv
+xnoremap < <gv
 
 " Replace shortcut
 nnoremap // :<C-u>%s/
