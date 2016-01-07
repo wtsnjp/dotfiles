@@ -32,6 +32,9 @@ set fileformats=unix,dos,mac
 " Show line number
 set number
 
+" Show keymap prefix
+set showcmd
+
 " Wrap long line
 set wrap
 
