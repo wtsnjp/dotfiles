@@ -201,6 +201,9 @@ noremap k gk
 noremap gj j
 noremap gk k
 
+" Yank naturaly
+nnoremap Y y$
+
 " Move without shift key
 noremap - $
 noremap 0 %
