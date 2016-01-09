@@ -97,6 +97,9 @@ set display=uhex
 " Enable to open new buffer Always
 set hidden
 
+" Reload when the file get changed
+set autoread
+
 " Color settings
 if s:is_mac
   let g:hybrid_use_iTerm_colors = 1
