@@ -245,13 +245,16 @@ endif
 nnoremap <Space>o :only<CR>
 
 " Finish highlight with double <ESC>
-nnoremap <silent> <ESC><ESC> :<C-u>nohlsearch<CR>
+nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
 
 " Move smooth in commandline
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 cnoremap <C-f> <Right>
 cnoremap <C-b> <Left>
+
+" Back to nomal mode with jj
+inoremap jj <Esc>
 
 " Move smooth in insertmode
 inoremap <C-a> <Home>
