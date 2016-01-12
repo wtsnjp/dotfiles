@@ -139,12 +139,12 @@ augroup Startup
   " Open *.md file with filetype=markdown
   autocmd BufRead *.md setlocal ft=markdown
   " Restoration the position of cursor
-  autocmd BufReadPost *
-    \ if line("'\"") > 1 && line("'\"") <= line("$") |
-    \   exe "normal! g`\"" |
-    \ endif
-  autocmd BufWritePre * call s:auto_mkdir(expand('<afile>:p:h'), v:cmdbang)
+  " autocmd BufReadPost *
+  "   \ if line("'\"") > 1 && line("'\"") <= line("$") |
+  "   \   exe "normal! g`\"" |
+  "   \ endif
   " Auto mkdir
+  autocmd BufWritePre * call s:auto_mkdir(expand('<afile>:p:h'), v:cmdbang)
   function! s:auto_mkdir(dir, force)
     if !isdirectory(a:dir) && (a:force ||
         \ input(printf('"%s" does not exist. Create? [y/N]', a:dir)) =~? '^y\%[es]$')
@@ -316,9 +316,7 @@ augroup END
 
 filetype plugin indent off
 
-if has('vim_starting')
-  set runtimepath+=~/.vim/bundle/neobundle.vim
-endif 
+set runtimepath& runtimepath+=~/.vim/bundle/neobundle.vim
 
 call neobundle#begin(expand('~/.vim/bundle/'))
 
