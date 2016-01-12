@@ -184,7 +184,7 @@ set wildmenu
 set wildmode=longest:full,full
 
 " Save number
-set history=10000
+set history=100
 
 " Use strong suggestion in command line
 set wildmenu
