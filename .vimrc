@@ -424,9 +424,11 @@ let g:clever_f_fix_key_direction = 1
 
 " incsearch {{{
 
-map /  <Plug>(incsearch-forward)\v
-map ?  <Plug>(incsearch-backward)\v
-map g/ <Plug>(incsearch-stay)\v
+let g:incsearch#magic = '\v'
+
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
 
 " }}}
 
@@ -608,7 +610,7 @@ call submode#map('bufmove', 'n', '', '-', '<C-w>-')
 augroup TeXcmd
   autocmd!
   " NOTE: indent setting shoud be written in ~/.vim/after/indent/tex.vim
-  "autocmd BufNewFile,BufRead *.sty setlocal indentkeys=""
+  " autocmd BufNewFile,BufRead *.sty setlocal indentkeys=""
 augroup END
 
 "---------------------------
