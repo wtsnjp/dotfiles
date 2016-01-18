@@ -12,6 +12,11 @@
 set encoding=utf-8
 scriptencoding utf-8
 
+" Augroup for this vimrc
+augroup vimrc
+  autocmd!
+augroup END
+
 " OS
 let s:is_windows = has('win16') || has('win32') || has('win64')
 let s:is_cygwin = has('win32unix')
@@ -132,26 +137,23 @@ endif
 " Startup
 "---------------------------
 
-augroup Startup
-  autocmd!
-  " Startup message
-  autocmd VimEnter * echo "Hello, enjoy vimming!"
-  " Open *.md file with filetype=markdown
-  autocmd BufRead *.md setlocal ft=markdown
-  " Restoration the position of cursor
-  " autocmd BufReadPost *
-  "   \ if line("'\"") > 1 && line("'\"") <= line("$") |
-  "   \   exe "normal! g`\"" |
-  "   \ endif
-  " Auto mkdir
-  autocmd BufWritePre * call s:auto_mkdir(expand('<afile>:p:h'), v:cmdbang)
-  function! s:auto_mkdir(dir, force)
-    if !isdirectory(a:dir) && (a:force ||
-        \ input(printf('"%s" does not exist. Create? [y/N]', a:dir)) =~? '^y\%[es]$')
-      call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
-    endif
-  endfunction
-augroup END
+" Startup message
+autocmd vimrc VimEnter * echo "Hello, enjoy vimming!"
+" Open *.md file with filetype=markdown
+autocmd vimrc BufRead *.md setlocal ft=markdown
+" Restoration the position of cursor
+" autocmd BufReadPost *
+"   \ if line("'\"") > 1 && line("'\"") <= line("$") |
+"   \   exe "normal! g`\"" |
+"   \ endif
+" Auto mkdir
+autocmd vimrc BufWritePre * call s:auto_mkdir(expand('<afile>:p:h'), v:cmdbang)
+function! s:auto_mkdir(dir, force)
+  if !isdirectory(a:dir) && (a:force ||
+      \ input(printf('"%s" does not exist. Create? [y/N]', a:dir)) =~? '^y\%[es]$')
+    call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
+  endif
+endfunction
 
 "---------------------------
 " Serach settings
@@ -305,10 +307,7 @@ endfunction
 " Templates
 "---------------------------
 
-augroup Templates
-  autocmd!
-  autocmd BufNewFile *.cpp 0r ~/.vim/template/cpp.txt
-augroup END
+autocmd vimrc BufNewFile *.cpp 0r ~/.vim/template/cpp.txt
 
 "---------------------------
 " Plugins
@@ -553,13 +552,10 @@ nnoremap [unite]f :<C-u>Unite file<CR>
 " vinarise {{{
 
 " Enable with -b option
-augroup BinaryXXD
-  autocmd!
-  autocmd BufReadPre  *.bin let &binary =1
-  autocmd BufReadPost * if &binary | Vinarise
-  autocmd BufWritePre * if &binary | Vinarise | endif
-  autocmd BufWritePost * if &binary | Vinarise 
-augroup END
+autocmd vimrc BufReadPre  *.bin let &binary =1
+autocmd vimrc BufReadPost * if &binary | Vinarise
+autocmd vimrc BufWritePre * if &binary | Vinarise | endif
+autocmd vimrc BufWritePost * if &binary | Vinarise 
 
 " }}}
 
@@ -607,11 +603,8 @@ call submode#map('bufmove', 'n', '', '-', '<C-w>-')
 " TeX on LaTeX
 "---------------------------
 
-augroup TeXcmd
-  autocmd!
-  " NOTE: indent setting shoud be written in ~/.vim/after/indent/tex.vim
-  " autocmd BufNewFile,BufRead *.sty setlocal indentkeys=""
-augroup END
+" NOTE: indent setting shoud be written in ~/.vim/after/indent/tex.vim
+" autocmd BufNewFile,BufRead *.sty setlocal indentkeys=""
 
 "---------------------------
 " Vim script
