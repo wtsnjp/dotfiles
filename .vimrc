@@ -34,6 +34,9 @@ let s:is_unix = !s:is_mac && has('unix')
 set fileformat=unix
 set fileformats=unix,dos,mac
 
+" Do not insert space when join Japanese lines
+set formatoptions& formatoptions+=mM
+
 " Show line number
 set number
 
@@ -476,6 +479,13 @@ inoremap <expr><BS>   neocomplete#smart_close_popup()."\<C-h>"
 inoremap <expr><C-y>  neocomplete#close_popup()
 inoremap <expr><C-e>  neocomplete#cancel_popup()
 inoremap <expr><CR>  pumvisible() ? neocomplete#close_popup() : "<CR>"
+
+" }}}
+
+" open-browser.vim {{{
+
+let g:netrw_nogx = 1
+map ,o <Plug>(openbrowser-smart-search)
 
 " }}}
 
