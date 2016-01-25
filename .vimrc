@@ -478,7 +478,10 @@ inoremap <expr><TAB>  pumvisible() ? neocomplete#complete_common_string() : "\<T
 inoremap <expr><BS>   neocomplete#smart_close_popup()."\<C-h>"
 inoremap <expr><C-y>  neocomplete#close_popup()
 inoremap <expr><C-e>  neocomplete#cancel_popup()
-inoremap <expr><CR>  pumvisible() ? neocomplete#close_popup() : "<CR>"
+inoremap <expr><CR>   pumvisible() ? neocomplete#close_popup() : "<CR>"
+
+" Do not show docstring
+autocmd vimrc FileType python setlocal completeopt-=preview
 
 " }}}
 
