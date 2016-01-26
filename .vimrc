@@ -112,6 +112,8 @@ set autoread
 if s:is_mac
   let g:hybrid_use_iTerm_colors = 1
 endif
+set t_Co=256
+set background=dark
 colorscheme hybrid
 syntax enable
 
