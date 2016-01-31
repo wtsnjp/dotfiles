@@ -335,6 +335,7 @@ NeoBundle 'h1mesuke/unite-outline'
 " Utility
 NeoBundle 'Shougo/vimfiler'
 NeoBundleLazy 'Shougo/vimshell'
+NeoBundle 'vim-scripts/sudo.vim'
 
 " Movement
 NeoBundle 'rhysd/clever-f.vim'
