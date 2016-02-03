@@ -1,9 +1,9 @@
-# 補完機能（gitも補完）
+# complete settings (complete git command)
 fpath=($(brew --prefix)/share/zsh/site-functions $fpath)
 autoload -U compinit
 compinit -u
 
-# プロンプトの設定
+# prompt settings
 autoload colors
 colors
 PROMPT="
@@ -11,49 +11,41 @@ PROMPT="
 Watson-Mac$ "
 PROMPT2='[%n]> ' 
 
-# プロンプトの設定（旧バージョン）
-### autoload colors
-### colors
-### PROMPT="
-### %{${fg[yellow]}%}%~%{${reset_color}%} 
-### %m$ "
-### PROMPT2='[%n]> ' 
-
-# コマンド履歴
+# command history
 HISTFILE=~/.zsh_history
 HISTSIZE=6000000
 SAVEHIST=6000000
 setopt hist_ignore_dups     # ignore duplication command history list
 setopt share_history        # share command history data
 
-# コマンド履歴検索
+# history search
 autoload history-search-end
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
 bindkey "^P" history-beginning-search-backward-end
 bindkey "^N" history-beginning-search-forward-end
 
-# ディレクトリ名を入力するだけで移動
+# cd with path
 setopt auto_cd
 
-# 移動したディレクトリを記録しておく。"cd -[Tab]"で移動履歴を一覧
+# remember move history (show list with "cd -[Tab]")
 setopt auto_pushd
 
-# コマンド訂正
+# correct command
 setopt correct
 
-# 補完候補を詰めて表示する
+# show alternate list compact
 setopt list_packed 
 
-# ハイライトを有効にする
+# enable highlight
 if [ -f ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
   source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
-# hubコマンドを有効に
+# enable hub
 eval "$(hub alias -s)"
 
-# エイリアス
+# aliases
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
