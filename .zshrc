@@ -1,9 +1,29 @@
-# complete settings (complete git command)
-fpath=($(brew --prefix)/share/zsh/site-functions $fpath)
+# Watson's zshrc
+# Author: Watson
+# Website: http://watson-lab.com
+# Source: https://github.com/WatsonDNA/config-files
+
+#---------------------------
+# Complete settings
+#---------------------------
+
+# Enable complete
 autoload -U compinit
 compinit -u
 
-# prompt settings
+# Complete git command (Mac only)
+case ${OSTYPE} in
+  darwin*)
+    fpath=($(brew --prefix)/share/zsh/site-functions $fpath);;
+esac
+
+# Do not suggest current dir
+zstyle ':completion:*' ignore-parents parent pwd ..
+
+#---------------------------
+# Prompt settings
+#---------------------------
+
 autoload colors
 colors
 PROMPT="
@@ -11,47 +31,60 @@ PROMPT="
 Watson-Mac$ "
 PROMPT2='[%n]> ' 
 
-# command history
-HISTFILE=~/.zsh_history
-HISTSIZE=6000000
-SAVEHIST=6000000
-setopt hist_ignore_dups     # ignore duplication command history list
-setopt share_history        # share command history data
+#---------------------------
+# History settings
+#---------------------------
 
-# history search
+# Dir and its size
+HISTFILE=~/.zsh_history
+HISTSIZE=1000
+SAVEHIST=1000
+
+# Ignore duplication command history list
+setopt hist_ignore_dups
+
+# Share command history data
+setopt share_history
+
+# Extend history search
 autoload history-search-end
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
 bindkey "^P" history-beginning-search-backward-end
 bindkey "^N" history-beginning-search-forward-end
 
-# cd with path
+# Run cd with path
 setopt auto_cd
 
-# remember move history (show list with "cd -[Tab]")
+# Remember move history (show list with "cd -[Tab]")
 setopt auto_pushd
 
-# correct command
+# Correct command
 setopt correct
 
-# show alternate list compact
+# Show alternate list compact
 setopt list_packed 
 
-# enable highlight
+# Enable highlight
 if [ -f ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
   source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
-# enable hub
+# Enable hub
 eval "$(hub alias -s)"
 
-# aliases
+# Define aliases
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
-alias cot='open -a CotEditor.app'
-alias wifi='/usr/sbin/networksetup -setairportpower en0'
-alias move='diskutil unmount "/Volumes/Backup HD";diskutil unmount "/Volumes/Data HD"'
-alias maxima='exec /Applications/Maxima.app/Contents/Resources/rmaxima.sh'
-alias gosh='rlwrap gosh'
-alias z_tree='tree -d -L 2 ~/Documents/0-chromosome/'
+
+case ${OSTYPE} in
+  darwin*)
+    alias cot='open -a CotEditor.app'
+    alias wifi='/usr/sbin/networksetup -setairportpower en0'
+    alias move='diskutil unmount "/Volumes/Backup HD";diskutil unmount "/Volumes/Data HD"'
+    alias maxima='exec /Applications/Maxima.app/Contents/Resources/rmaxima.sh'
+    alias gosh='rlwrap gosh'
+    alias z_tree='tree -d -L 2 ~/Documents/0-chromosome/'
+esac
+
