@@ -9,8 +9,8 @@
 "---------------------------
 
 " Encoding
-set encoding=utf-8
 scriptencoding utf-8
+set encoding=utf-8
 
 " Augroup for this vimrc
 augroup vimrc
