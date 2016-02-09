@@ -376,6 +376,7 @@ NeoBundle 'kana/vim-submode'
 
 " Search
 NeoBundle 'haya14busa/incsearch.vim'
+NeoBundle 'osyo-manga/vim-anzu'
 NeoBundle 'vim-scripts/ag.vim'
 
 " Status line
@@ -406,6 +407,13 @@ filetype plugin indent on
 " Plugin settings
 "---------------------------
 " NOTE: arrange in alphabetical order
+
+" anzu {{{
+
+nmap  n nzzzv<Plug>(anzu-n-with-echo)
+nmap  N Nzzzv<Plug>(anzu-N-with-echo)
+
+" }}}
 
 " caw {{{
 
@@ -476,12 +484,12 @@ let g:neocomplete_enable_underbar_completion = 1
 let g:neocomplete_min_syntax_length = 3
 
 " Key mappings
-inoremap <expr><C-g>  neocomplete#undo_completion()
-inoremap <expr><TAB>  pumvisible() ? neocomplete#complete_common_string() : "\<TAB>"
-inoremap <expr><BS>   neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y>  neocomplete#close_popup()
-inoremap <expr><C-e>  neocomplete#cancel_popup()
-inoremap <expr><CR>   pumvisible() ? neocomplete#close_popup() : "<CR>"
+inoremap <expr><C-g> neocomplete#undo_completion()
+inoremap <expr><TAB> pumvisible() ? neocomplete#complete_common_string() : "\<TAB>"
+inoremap <expr><BS>  neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y> neocomplete#close_popup()
+inoremap <expr><C-e> neocomplete#cancel_popup()
+inoremap <expr><CR>  pumvisible() ? neocomplete#close_popup() : "<CR>"
 
 " Do not show docstring
 autocmd vimrc FileType python setlocal completeopt-=preview
