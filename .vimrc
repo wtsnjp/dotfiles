@@ -197,97 +197,6 @@ set history=100
 set wildmenu
 
 "---------------------------
-" Key mappings
-"---------------------------
-
-" Move natural in wrap line
-noremap <Down> gj
-noremap <Up>   gk
-noremap j gj
-noremap k gk
-noremap gj j
-noremap gk k
-
-" Yank naturaly
-nnoremap Y y$
-
-" Move without shift key
-noremap - $
-noremap 0 %
-
-" Bring middle position after word search
-nnoremap n nzzzv
-nnoremap N Nzzzv
-nnoremap * *zzzv
-nnoremap # #zzzv
-nnoremap g* g*zzzv
-nnoremap g# g#zzzv
-
-" Indent quickly
-nnoremap > >>
-nnoremap < <<
-xnoremap > >gv
-xnoremap < <gv
-
-" Replace shortcut
-nnoremap // :<C-u>%s/
-vnoremap // :s/
-
-" Put empty line with <CR>
-nnoremap <CR> o<Esc>
-
-" Quickly edit .vimrc
-nnoremap <silent> <Space>. :<C-u>call EorSvimrc()<CR>
-if has('vim_starting')
-  function! EorSvimrc()
-    if expand("%:p") ==# $MYVIMRC
-      source $MYVIMRC
-    else
-      edit $MYVIMRC
-    endif
-  endfunction
-endif
-
-" Quit deviding
-nnoremap <Space>o :only<CR>
-
-" Finish highlight with double <ESC>
-nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
-
-" Move smooth in commandline
-cnoremap <C-a> <Home>
-cnoremap <C-e> <End>
-cnoremap <C-f> <Right>
-cnoremap <C-b> <Left>
-
-" Back to nomal mode with jj
-inoremap jj <Esc>
-
-" Move smooth in insertmode
-inoremap <C-a> <Home>
-inoremap <C-j> <Down>
-inoremap <C-k> <Up>
-inoremap <C-h> <Left>
-inoremap <C-l> <Right>
-inoremap <C-d> <delete>
-
-" Function keys
-nnoremap <F1> K
-nnoremap <F8> :<C-u>source %<CR>
-
-" Disable unuse dengerous commands
-nnoremap ZZ <Nop>
-nnoremap ZQ <Nop>
-nnoremap Q <Nop>
-
-" Make serial number (vertical)
-nnoremap <silent> co :ContinuousNumber <C-a><CR>
-vnoremap <silent> co :ContinuousNumber <C-a><CR>
-command! -count -nargs=1 ContinuousNumber 
-  \ let c = col('.')|for n in range(1, <count>?<count>-line('.'):1)|
-  \ exec 'normal! j' . n . <q-args>|call cursor('.', c)|endfor
-
-"---------------------------
 " Commands and functions
 "---------------------------
 
@@ -408,19 +317,6 @@ filetype plugin indent on
 "---------------------------
 " NOTE: arrange in alphabetical order
 
-" anzu {{{
-
-nmap  n nzzzv<Plug>(anzu-n-with-echo)
-nmap  N Nzzzv<Plug>(anzu-N-with-echo)
-
-" }}}
-
-" caw {{{
-
-map <Space>c <Plug>(caw:i:toggle)
-
-" }}}
-
 " crever-f.vim {{{
 
 " Ignorecase and smartcase
@@ -438,10 +334,6 @@ let g:clever_f_fix_key_direction = 1
 " incsearch {{{
 
 let g:incsearch#magic = '\v'
-
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
 
 " }}}
 
@@ -484,12 +376,6 @@ let g:neocomplete_enable_underbar_completion = 1
 let g:neocomplete_min_syntax_length = 3
 
 " Key mappings
-inoremap <expr><C-g> neocomplete#undo_completion()
-inoremap <expr><TAB> pumvisible() ? neocomplete#complete_common_string() : "\<TAB>"
-inoremap <expr><BS>  neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y> neocomplete#close_popup()
-inoremap <expr><C-e> neocomplete#cancel_popup()
-inoremap <expr><CR>  pumvisible() ? neocomplete#close_popup() : "<CR>"
 
 " Do not show docstring
 autocmd vimrc FileType python setlocal completeopt-=preview
@@ -499,7 +385,6 @@ autocmd vimrc FileType python setlocal completeopt-=preview
 " open-browser.vim {{{
 
 let g:netrw_nogx = 1
-map ,o <Plug>(openbrowser-smart-search)
 
 " }}}
 
@@ -564,15 +449,6 @@ let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': ['ruby'] }
 
 " }}}
 
-" unite {{{
-
-" key mappings
-noremap [unite] <Nop>
-map ,u [unite]
-nnoremap [unite]f :<C-u>Unite file<CR>
-
-" }}}
-
 " vinarise {{{
 
 " Enable with -b option
@@ -582,6 +458,121 @@ autocmd vimrc BufWritePre * if &binary | Vinarise | endif
 autocmd vimrc BufWritePost * if &binary | Vinarise 
 
 " }}}
+
+"---------------------------
+" Key mappings
+"---------------------------
+
+" Move natural in wrap line
+noremap <Down> gj
+noremap <Up>   gk
+noremap j gj
+noremap k gk
+noremap gj j
+noremap gk k
+
+" Yank naturaly
+nnoremap Y y$
+
+" Move without shift key
+noremap - $
+noremap 0 %
+
+" Search with incsearch.vim
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
+
+" Bring middle position after word search
+nmap n <Plug>(anzu-n)zzzv<Plug>(anzu-N)<Plug>(anzu-n-with-echo)
+nmap N <Plug>(anzu-N)zzzv<Plug>(anzu-n)<Plug>(anzu-N-with-echo)
+nmap * <Plug>(anzu-star)zzzv<Plug>(anzu-N)<Plug>(anzu-n-with-echo)
+nmap # <Plug>(anzu-sharp)zzzv<Plug>(anzu-n)<Plug>(anzu-N-with-echo)
+nmap g* g<Plug>(anzu-star)zzzv<Plug>(anzu-N)<Plug>(anzu-n-with-echo)
+nmap g# g<Plug>(anzu-sharp)zzzv<Plug>(anzu-n)<Plug>(anzu-N-with-echo)
+
+" Finish highlight with double <ESC>
+nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
+
+" Toggle comment with caw
+map <Space>c <Plug>(caw:i:toggle)
+
+" Indent quickly
+nnoremap > >>
+nnoremap < <<
+xnoremap > >gv
+xnoremap < <gv
+
+" Replace shortcut
+nnoremap // :<C-u>%s/
+vnoremap // :s/
+
+" Put empty line with <CR>
+nnoremap <CR> o<Esc>
+
+" Quickly edit .vimrc
+nnoremap <silent> <Space>. :<C-u>call EorSvimrc()<CR>
+if has('vim_starting')
+  function! EorSvimrc()
+    if expand("%:p") ==# $MYVIMRC
+      source $MYVIMRC
+    else
+      edit $MYVIMRC
+    endif
+  endfunction
+endif
+
+" Quit deviding
+nnoremap <Space>o :only<CR>
+
+" Open URL
+map ,o <Plug>(openbrowser-smart-search)
+
+" Mappings for unite
+noremap [unite] <Nop>
+map ,u [unite]
+nnoremap [unite]f :<C-u>Unite file<CR>
+
+" Move smooth in commandline
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+cnoremap <C-f> <Right>
+cnoremap <C-b> <Left>
+
+" Back to nomal mode with jj
+inoremap jj <Esc>
+
+" Move smooth in insertmode
+inoremap <C-a> <Home>
+inoremap <C-j> <Down>
+inoremap <C-k> <Up>
+inoremap <C-h> <Left>
+inoremap <C-l> <Right>
+inoremap <C-d> <delete>
+
+" Mappings for neocomplete
+inoremap <expr><C-g> neocomplete#undo_completion()
+inoremap <expr><TAB> pumvisible() ? neocomplete#complete_common_string() : "\<TAB>"
+inoremap <expr><BS>  neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><C-y> neocomplete#close_popup()
+inoremap <expr><C-e> neocomplete#cancel_popup()
+inoremap <expr><CR>  pumvisible() ? neocomplete#close_popup() : "<CR>"
+
+" Function keys
+nnoremap <F1> K
+nnoremap <F8> :<C-u>source %<CR>
+
+" Disable unuse dengerous commands
+nnoremap ZZ <Nop>
+nnoremap ZQ <Nop>
+nnoremap Q <Nop>
+
+" Make serial number (vertical)
+nnoremap <silent> co :ContinuousNumber <C-a><CR>
+vnoremap <silent> co :ContinuousNumber <C-a><CR>
+command! -count -nargs=1 ContinuousNumber 
+  \ let c = col('.')|for n in range(1, <count>?<count>-line('.'):1)|
+  \ exec 'normal! j' . n . <q-args>|call cursor('.', c)|endfor
 
 "---------------------------
 " Divide settings
