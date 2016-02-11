@@ -144,13 +144,16 @@ endif
 
 " Startup message
 autocmd vimrc VimEnter * echo "Hello, enjoy vimming!"
+
 " Open *.md file with filetype=markdown
 autocmd vimrc BufRead *.md setlocal ft=markdown
+
 " Restoration the position of cursor
 " autocmd BufReadPost *
 "   \ if line("'\"") > 1 && line("'\"") <= line("$") |
 "   \   exe "normal! g`\"" |
 "   \ endif
+
 " Auto mkdir
 autocmd vimrc BufWritePre * call s:auto_mkdir(expand('<afile>:p:h'), v:cmdbang)
 function! s:auto_mkdir(dir, force)
