@@ -525,8 +525,11 @@ if has('vim_starting')
   endfunction
 endif
 
+" Update
+nnoremap <Space>w :<C-u>update<CR>
+
 " Quit deviding
-nnoremap <Space>o :only<CR>
+nnoremap <Space>o :<C-u>only<CR>
 
 " Open URL
 map ,o <Plug>(openbrowser-smart-search)
