@@ -403,7 +403,7 @@ let g:quickrun_config = {
   \     "runner/vimproc/updatetime" : 40,
   \   },
   \   "tex" : {
-  \     "command" : "latexmk",
+  \     "command" : "pdflatex",
   \     "exec": ["%c %o %s"]
   \   },
   \ }
