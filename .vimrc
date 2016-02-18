@@ -497,9 +497,6 @@ nmap g# g<Plug>(anzu-sharp)zzzv<Plug>(anzu-n)<Plug>(anzu-N-with-echo)
 " Finish highlight with double <ESC>
 nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
 
-" Toggle comment with caw
-map <Space>c <Plug>(caw:i:toggle)
-
 " Indent quickly
 nnoremap > >>
 nnoremap < <<
@@ -512,6 +509,9 @@ vnoremap // :s/
 
 " Put empty line with <CR>
 nnoremap <CR> o<Esc>
+
+" Use <Space> as prefix
+map <Space> <Nop>
 
 " Quickly edit .vimrc
 nnoremap <silent> <Space>. :<C-u>call EorSvimrc()<CR>
@@ -531,6 +531,9 @@ nnoremap <Space>w :<C-u>update<CR>
 " Quit deviding
 nnoremap <Space>o :<C-u>only<CR>
 
+" Toggle comment with caw
+map <Space>c <Plug>(caw:i:toggle)
+
 " Open URL
 map ,o <Plug>(openbrowser-smart-search)
 
@@ -546,7 +549,7 @@ cnoremap <C-f> <Right>
 cnoremap <C-b> <Left>
 
 " Back to nomal mode with jj
-inoremap jj <Esc>
+" inoremap jj <Esc>
 
 " Move smooth in insertmode
 inoremap <C-a> <Home>
