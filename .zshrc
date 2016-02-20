@@ -80,6 +80,7 @@ alias mv='mv -i'
 
 case ${OSTYPE} in
   darwin*)
+    alias ls='ls -G'
     alias cot='open -a CotEditor.app'
     alias wifi='/usr/sbin/networksetup -setairportpower en0'
     alias move='diskutil unmount "/Volumes/Backup HD";diskutil unmount "/Volumes/Data HD"'
