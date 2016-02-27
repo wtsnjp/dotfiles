@@ -320,6 +320,12 @@ filetype plugin indent on
 "---------------------------
 " NOTE: arrange in alphabetical order
 
+" caw.vim {{{
+
+let g:caw_i_sp = ""
+
+" }}}
+
 " crever-f.vim {{{
 
 " Ignorecase and smartcase
