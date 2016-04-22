@@ -148,6 +148,9 @@ autocmd vimrc VimEnter * echo "Hello, enjoy vimming!"
 " Open *.md file with filetype=markdown
 autocmd vimrc BufRead *.md setlocal ft=markdown
 
+" Open *.def file with filetype=tex
+autocmd vimrc BufRead *.def setlocal ft=tl
+
 " Restoration the position of cursor
 " autocmd BufReadPost *
 "   \ if line("'\"") > 1 && line("'\"") <= line("$") |
