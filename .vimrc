@@ -320,7 +320,7 @@ filetype plugin indent on
 
 " caw.vim {{{
 
-let g:caw_i_sp = ""
+let g:caw_hatpos_sp = ""
 
 " }}}
 
