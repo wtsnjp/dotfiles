@@ -211,18 +211,6 @@ command! -bang -nargs=? Utf8 edit<bang> ++enc=utf-8 <args>
 command! -bang -nargs=? Sjis edit<bang> ++enc=sjis <args>
 command! -bang -nargs=? Euc edit<bang> ++enc=euc-jp <args>
 
-" Open URI in browser
-map <Leader>w :<C-u>call HandleURI()<CR>
-function! HandleURI()
-  let s:uri = matchstr(getline("."), '[a-z]*:\/\/[^ >,;:]*')
-  echo s:uri
-  if s:uri != ""
-    exec "!open \"" . s:uri . "\""
-  else
-    echo "No URI found in line."
-  endif
-endfunction
-
 "---------------------------
 " Templates
 "---------------------------
@@ -252,8 +240,15 @@ NeoBundle 'Shougo/vimfiler'
 NeoBundleLazy 'Shougo/vimshell'
 NeoBundle 'vim-scripts/sudo.vim'
 
-" Movement
+" Motion
 NeoBundle 'rhysd/clever-f.vim'
+
+" Operator
+NeoBundle 'kana/vim-operator-user'
+
+" Text object
+NeoBundle 'kana/vim-textobj-user'
+NeoBundle 'thinca/textobj-between'
 
 " Mode extention
 NeoBundle 'kana/vim-niceblock'
@@ -535,10 +530,10 @@ if has('vim_starting')
 endif
 
 " Update
-nnoremap <Space>w :<C-u>update<CR>
+nnoremap <silent> <Space>w :<C-u>update<CR>
 
 " Quit deviding
-nnoremap <Space>o :<C-u>only<CR>
+nnoremap <silent> <Space>o :<C-u>only<CR>
 
 " Toggle comment with caw
 map <Space>c <Plug>(caw:i:toggle)
