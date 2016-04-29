@@ -225,6 +225,8 @@ autocmd vimrc BufNewFile *.cpp 0r ~/.vim/template/cpp.txt
 
 filetype plugin indent off
 
+" Runtime
+runtime ftplugin/man.vim
 set runtimepath+=~/.vim/bundle/neobundle.vim
 
 call neobundle#begin(expand('~/.vim/bundle/'))
