@@ -72,9 +72,6 @@ set cindent
 " Copy to clipboard
 set clipboard& clipboard+=unnamed
 
-" Don't autoload
-set noautoread
-
 " Don't load current .vimrc and .exrc
 set noexrc
 
