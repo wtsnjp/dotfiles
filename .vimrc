@@ -228,7 +228,7 @@ autocmd vimrc BufNewFile *.cpp 0r ~/.vim/template/cpp.txt
 
 filetype plugin indent off
 
-set runtimepath& runtimepath+=~/.vim/bundle/neobundle.vim
+set runtimepath+=~/.vim/bundle/neobundle.vim
 
 call neobundle#begin(expand('~/.vim/bundle/'))
 
@@ -253,7 +253,7 @@ NeoBundle 'kana/vim-operator-user'
 
 " Text object
 NeoBundle 'kana/vim-textobj-user'
-NeoBundle 'thinca/textobj-between'
+"NeoBundle 'thinca/vim-textobj-between'
 
 " Mode extention
 NeoBundle 'kana/vim-niceblock'
