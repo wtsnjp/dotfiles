@@ -105,6 +105,9 @@ set hidden
 " Reload when the file get changed
 set autoread
 
+" Spell check
+set spelllang=en,cjk
+
 " Color settings
 if s:is_mac
   let g:hybrid_use_iTerm_colors = 1
@@ -152,6 +155,10 @@ autocmd vimrc BufRead *.md setlocal ft=markdown
 
 " Open *.def file with filetype=tex
 autocmd vimrc BufRead *.def setlocal ft=tl
+
+" Spell check if commit message
+autocmd vimrc FileType gitcommit setlocal spell
+autocmd vimrc FileType gitcommit startinsert
 
 " Restoration the position of cursor
 " autocmd BufReadPost *
