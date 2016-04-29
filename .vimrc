@@ -138,6 +138,11 @@ if has('persistent_undo')
   set undofile
 endif
 
+" Use jvgrep for outer grep
+if executable('jvgrep')
+  set grepprg=jvgrep
+endif
+
 "---------------------------
 " Startup
 "---------------------------
