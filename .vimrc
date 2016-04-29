@@ -546,8 +546,12 @@ nnoremap <silent> <Space>w :<C-u>update<CR>
 " Quit deviding
 nnoremap <silent> <Space>o :<C-u>only<CR>
 
+" Git
+nnoremap <silent> <Space>g :<C-u>!git<Space>
+
 " Toggle comment with caw
 map <Space>c <Plug>(caw:i:toggle)
+
 
 " Open URL
 map ,o <Plug>(openbrowser-smart-search)
