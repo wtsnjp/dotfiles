@@ -201,15 +201,12 @@ set wrapscan
 " Command line settings
 "---------------------------
 
-" Complete filename with <Tab>
+" Use strong suggestion in command line
 set wildmenu 
 set wildmode=longest:full,full
 
 " Save number
-set history=100
-
-" Use strong suggestion in command line
-set wildmenu
+set history=10000
 
 "---------------------------
 " Commands and functions
