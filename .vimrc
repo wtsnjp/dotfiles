@@ -256,7 +256,7 @@ NeoBundle 'kana/vim-operator-user'
 
 " Text object
 NeoBundle 'kana/vim-textobj-user'
-"NeoBundle 'thinca/vim-textobj-between'
+NeoBundle 'thinca/vim-textobj-between'
 
 " Mode extention
 NeoBundle 'kana/vim-niceblock'
@@ -264,6 +264,7 @@ NeoBundle 'kana/vim-niceblock'
 " Web
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'tyru/open-browser.vim'
+NeoBundle 'tyru/open-browser-github.vim'
 
 " Twitter
 NeoBundle 'basyura/bitly.vim'
@@ -281,6 +282,9 @@ NeoBundleLazy 'ujihisa/neco-look'
 NeoBundle 'Shougo/vimproc'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'osyo-manga/shabadou.vim'
+
+" Git
+NeoBundle 'cohama/agit.vim'
 
 " Binary
 NeoBundleLazy 'Shougo/vinarise'
@@ -545,6 +549,7 @@ nnoremap <silent> <Space>o :<C-u>only<CR>
 
 " Git
 nnoremap <silent> <Space>g :<C-u>!git<Space>
+noremap <silent> <Space>go :<C-u>OpenGithubFile<CR>
 
 " Toggle comment with caw
 map <Space>c <Plug>(caw:i:toggle)
