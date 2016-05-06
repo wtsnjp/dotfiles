@@ -264,7 +264,6 @@ NeoBundle 'kana/vim-niceblock'
 " Web
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'tyru/open-browser.vim'
-NeoBundle 'tyru/open-browser-github.vim'
 
 " Twitter
 NeoBundle 'basyura/bitly.vim'
@@ -285,6 +284,11 @@ NeoBundle 'osyo-manga/shabadou.vim'
 
 " Git
 NeoBundle 'cohama/agit.vim'
+NeoBundle 'jaxbot/github-issues.vim'
+NeoBundle 'tyru/open-browser-github.vim'
+
+" Markdown
+NeoBundle 'kannokanno/previm'
 
 " Binary
 NeoBundleLazy 'Shougo/vinarise'
@@ -404,6 +408,12 @@ autocmd vimrc FileType python setlocal completeopt-=preview
 " open-browser.vim {{{
 
 let g:netrw_nogx = 1
+
+" }}}
+
+" open-browser.vim {{{
+
+let g:previm_open_cmd = 'open -a Safari'
 
 " }}}
 
