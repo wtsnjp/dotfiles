@@ -275,6 +275,7 @@ NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'Shougo/neosnippet.vim'
 NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'kana/vim-smartinput'
+"NeoBundle 'rhysd/github-complete.vim'
 NeoBundleLazy 'ujihisa/neco-look'
 
 " Debug

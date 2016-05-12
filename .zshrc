@@ -37,8 +37,8 @@ PROMPT2='[%n]> '
 
 # Dir and its size
 HISTFILE=~/.zsh_history
-HISTSIZE=1000
-SAVEHIST=1000
+HISTSIZE=10000
+SAVEHIST=10000
 
 # Ignore duplication command history list
 setopt hist_ignore_dups
@@ -82,7 +82,7 @@ case ${OSTYPE} in
   darwin*)
     alias ls='ls -G'
     alias grep='ggrep'
-    alias cot='open -a CotEditor.app'
+    alias brew="env PATH=${PATH/$HOME\/\.pyenv\/shims:/} brew"
     alias wifi='/usr/sbin/networksetup -setairportpower en0'
     alias move='diskutil unmount "/Volumes/Backup HD";diskutil unmount "/Volumes/Data HD"'
     alias maxima='exec /Applications/Maxima.app/Contents/Resources/rmaxima.sh'
