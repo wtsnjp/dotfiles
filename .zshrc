@@ -83,11 +83,8 @@ alias mv='mv -i'
 case ${OSTYPE} in
   darwin*)
     alias ls='ls -G'
-    alias grep='ggrep'
     alias brew="env PATH=${PATH/$HOME\/\.pyenv\/shims:/} brew"
     alias wifi='/usr/sbin/networksetup -setairportpower en0'
     alias move='diskutil unmount "/Volumes/Backup HD";diskutil unmount "/Volumes/Data HD"'
-    alias maxima='exec /Applications/Maxima.app/Contents/Resources/rmaxima.sh'
-    alias gosh='rlwrap gosh'
 esac
 
