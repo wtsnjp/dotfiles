@@ -53,6 +53,10 @@ zle -N history-beginning-search-forward-end history-search-end
 bindkey "^P" history-beginning-search-backward-end
 bindkey "^N" history-beginning-search-forward-end
 
+#---------------------------
+# Confortable settings
+#---------------------------
+
 # Run cd with path
 setopt auto_cd
 
@@ -65,6 +69,10 @@ setopt correct
 # Show alternate list compact
 setopt list_packed 
 
+#---------------------------
+# Optional settings
+#---------------------------
+
 # Enable highlight
 if [ -f ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
   source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -74,6 +82,10 @@ fi
 if type hub > /dev/null 2>&1; then
   eval "$(hub alias -s)"
 fi
+
+#---------------------------
+# Aliases
+#---------------------------
 
 # Define aliases
 alias rm='rm -i'
