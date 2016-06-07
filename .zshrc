@@ -69,6 +69,9 @@ setopt correct
 # Show alternate list compact
 setopt list_packed 
 
+# exec R-lang with r
+disable r
+
 #---------------------------
 # Optional settings
 #---------------------------
