@@ -71,7 +71,9 @@ if [ -f ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
 fi
 
 # Enable hub
-eval "$(hub alias -s)"
+if type hub > /dev/null 2>&1; then
+  eval "$(hub alias -s)"
+fi
 
 # Define aliases
 alias rm='rm -i'
