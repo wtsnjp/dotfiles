@@ -563,7 +563,7 @@ nnoremap <silent> <Space>g :<C-u>!git<Space>
 noremap <silent> <Space>go :<C-u>OpenGithubFile<CR>
 
 " Toggle comment with caw
-map <Space>c <Plug>(caw:i:toggle)
+map <Space>c <Plug>(caw:hatpos:toggle)
 
 
 " Open URL
@@ -579,6 +579,10 @@ cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 cnoremap <C-f> <Right>
 cnoremap <C-b> <Left>
+
+" Convenient history scrollers
+cnoremap <C-p> <Up>
+cnoremap <C-n> <Down>
 
 " Back to nomal mode with jj
 " inoremap jj <Esc>
