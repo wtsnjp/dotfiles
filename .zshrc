@@ -14,6 +14,7 @@ compinit -u
 # Complete git command (Mac only)
 case ${OSTYPE} in
   darwin*)
+    fpath=(/usr/local/share/zsh-completions $fpath)
     fpath=($(brew --prefix)/share/zsh/site-functions $fpath);;
 esac
 
@@ -29,7 +30,7 @@ colors
 PROMPT="
 %{${fg[yellow]}%}%~%{${reset_color}%} 
 Watson-Mac$ "
-PROMPT2='[%n]> ' 
+PROMPT2='[Watson-Mac]> ' 
 
 #---------------------------
 # History settings
@@ -98,6 +99,7 @@ alias mv='mv -i'
 case ${OSTYPE} in
   darwin*)
     alias ls='ls -G'
+    alias rm='rmtrash'
     alias brew="env PATH=${PATH/$HOME\/\.pyenv\/shims:/} brew"
     alias wifi='/usr/sbin/networksetup -setairportpower en0'
     alias move='diskutil unmount "/Volumes/Backup HD";diskutil unmount "/Volumes/Data HD"'
