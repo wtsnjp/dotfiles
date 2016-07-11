@@ -73,6 +73,11 @@ setopt list_packed
 # exec R-lang with r
 disable r
 
+# Read man with vim
+function man() {
+  /usr/bin/man $* -P "col -b | vim -Rc 'setl ft=man ts=8 nomod' -c 'nn q :q<CR>' -"
+}
+
 #---------------------------
 # Optional settings
 #---------------------------
