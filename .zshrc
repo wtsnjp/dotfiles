@@ -70,7 +70,7 @@ setopt correct
 # Show alternate list compact
 setopt list_packed 
 
-# exec R-lang with r
+# Exec R-lang with r
 disable r
 
 # Read man with vim
@@ -96,17 +96,25 @@ fi
 # Aliases
 #---------------------------
 
-# Define aliases
-alias rm='rm -i'
+# Ask before delete files
 alias cp='cp -i'
 alias mv='mv -i'
+alias rm='rm -i'
 
 case ${OSTYPE} in
+  # Aliases for Mac
   darwin*)
+    # Use colorful output by default
     alias ls='ls -G'
+    # Move files to trash with rm command
     alias rm='rmtrash'
+    # Measure for brew doctor
     alias brew="env PATH=${PATH/$HOME\/\.pyenv\/shims:/} brew"
-    alias wifi='/usr/sbin/networksetup -setairportpower en0'
-    alias move='diskutil unmount "/Volumes/Backup HD";diskutil unmount "/Volumes/Data HD"'
+    # Turn on/off network connection with wifi command
+    alias wifi='networksetup -setairportpower en0';;
+  # Aliases for Linux
+  linux*)
+    # Use colorful output by default
+    alias ls='ls --color=auto';;
 esac
 
