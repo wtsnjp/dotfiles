@@ -105,7 +105,8 @@ case ${OSTYPE} in
   # Aliases for Mac
   darwin*)
     # Use colorful output by default
-    alias ls='ls -G'
+    alias ls='ls -Gh'
+    alias gls='gls --color=auto --human-readable'
     # Move files to trash with rm command
     alias rm='rmtrash'
     # Measure for brew doctor
@@ -115,6 +116,6 @@ case ${OSTYPE} in
   # Aliases for Linux
   linux*)
     # Use colorful output by default
-    alias ls='ls --color=auto';;
+    alias ls='ls --color=auto --human-readable';;
 esac
 
