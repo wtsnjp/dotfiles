@@ -96,9 +96,6 @@ alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -i'
 
-# Read man with vim
-alias man="/usr/bin/man $* -P \"col -b | vim -Rc 'setl ft=man ts=8 nomod' -c 'nn q :q<CR>' -\""
-
 case ${OSTYPE} in
   # Aliases for Mac
   darwin*)
@@ -107,6 +104,8 @@ case ${OSTYPE} in
     alias gls='gls --color=auto --human-readable'
     # Move files to trash with rm command
     alias rm='rmtrash'
+    # Read man with vim
+    alias man="man $* -P \"col -b | vim -Rc 'setl ft=man ts=8 nomod' -c 'nn q :q<CR>' -\""
     # Measure for brew doctor
     alias brew="env PATH=${PATH/$HOME\/\.pyenv\/shims:/} brew"
     # Turn on/off network connection with wifi command
