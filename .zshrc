@@ -73,11 +73,6 @@ setopt list_packed
 # Exec R-lang with r
 disable r
 
-# Read man with vim
-function man() {
-  env LANG=C /usr/bin/man $* -P "col -b | vim -Rc 'setl ft=man ts=8 nomod' -c 'nn q :q<CR>' -"
-}
-
 #---------------------------
 # Optional settings
 #---------------------------
@@ -100,6 +95,9 @@ fi
 alias cp='cp -i'
 alias mv='mv -i'
 alias rm='rm -i'
+
+# Read man with vim
+alias man="/usr/bin/man $* -P \"col -b | vim -Rc 'setl ft=man ts=8 nomod' -c 'nn q :q<CR>' -\""
 
 case ${OSTYPE} in
   # Aliases for Mac
