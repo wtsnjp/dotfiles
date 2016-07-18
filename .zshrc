@@ -25,12 +25,10 @@ zstyle ':completion:*' ignore-parents parent pwd ..
 # Prompt settings
 #---------------------------
 
-autoload colors
-colors
-PROMPT="
-%{${fg[yellow]}%}%~%{${reset_color}%} 
-Watson-Mac$ "
-PROMPT2='[Watson-Mac]> ' 
+local PCDIR=$'\n'%F{yello}%~%f$'\n'
+local PNAME="Watson-$MACHINE$ "
+PROMPT="$PCDIR$PNAME"
+PROMPT2="[$PNAME]> "
 
 #---------------------------
 # History settings
