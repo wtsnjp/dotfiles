@@ -26,8 +26,8 @@ zstyle ':completion:*' ignore-parents parent pwd ..
 #---------------------------
 
 local PCDIR=$'\n'%F{yello}%~%f$'\n'
-local PNAME="Watson-$MACHINE$ "
-PROMPT="$PCDIR$PNAME"
+local PNAME="Watson-$MACHINE"
+PROMPT="$PCDIR$PNAME$ "
 PROMPT2="[$PNAME]> "
 
 #---------------------------
