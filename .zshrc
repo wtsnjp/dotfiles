@@ -15,7 +15,6 @@ compinit -u
 case ${OSTYPE} in
   darwin*)
     fpath=(/usr/local/share/zsh-completions $fpath)
-    fpath=($(brew --prefix)/share/zsh/site-functions $fpath);;
 esac
 
 # Do not suggest current dir
