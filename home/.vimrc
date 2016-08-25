@@ -22,8 +22,7 @@ let s:is_windows = has('win16') || has('win32') || has('win64')
 let s:is_cygwin = has('win32unix')
 let s:is_mac = !s:is_windows && !s:is_cygwin
   \ && (has('mac') || has('macunix') || has('gui_macvim') ||
-  \   (!executable('xdg-open') &&
-  \     system('uname') =~? '^darwin'))
+  \   (!executable('xdg-open') && system('uname') =~? '^darwin'))
 let s:is_unix = !s:is_mac && has('unix')
 
 "---------------------------
