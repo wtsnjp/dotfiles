@@ -1,7 +1,7 @@
 # Watson's zshrc
 # Author: Watson
 # Website: http://watson-lab.com
-# Source: https://github.com/WatsonDNA/config-files
+# Source: https://github.com/WatsonDNA/dotfiles
 
 #---------------------------
 # Complete settings
