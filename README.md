@@ -6,8 +6,8 @@ You can install dotfiles with [Homesick](https://github.com/technicalpickles/hom
 
 ```
 $ gem install homesick
-$ homesick clone yamayo/dotfiles
-$ homesick symlink yamayo/dotfiles
+$ homesick clone WatsonDNA/dotfiles
+$ homesick symlink WatsonDNA/dotfiles
 ```
 
 ### Git configuration
