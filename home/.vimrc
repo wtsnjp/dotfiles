@@ -17,13 +17,16 @@ augroup vimrc
   autocmd!
 augroup END
 
-" OS
+" Judge OS
 let s:is_windows = has('win16') || has('win32') || has('win64')
 let s:is_cygwin = has('win32unix')
 let s:is_mac = !s:is_windows && !s:is_cygwin
   \ && (has('mac') || has('macunix') || has('gui_macvim') ||
   \   (!executable('xdg-open') && system('uname') =~? '^darwin'))
 let s:is_unix = !s:is_mac && has('unix')
+
+" Define flags
+let s:use_dein = 1
 
 "---------------------------
 " General Settings
@@ -67,6 +70,7 @@ set expandtab
 
 " Smart indent
 set cindent
+set breakindent
 
 " Copy to clipboard
 set clipboard& clipboard+=unnamed
@@ -165,6 +169,14 @@ autocmd vimrc FileType gitcommit startinsert
 "   \   exe "normal! g`\"" |
 "   \ endif
 
+" Prepare ~/.vim dir
+let s:vimdir = $HOME . "/.vim"
+if has("vim_starting")
+  if !isdirectory(s:vimdir)
+    call system("mkdir " . s:vimdir)
+  endif
+endif
+
 " Auto mkdir
 autocmd vimrc BufWritePre * call s:auto_mkdir(expand('<afile>:p:h'), v:cmdbang)
 function! s:auto_mkdir(dir, force)
@@ -223,109 +235,144 @@ command! -bang -nargs=? Euc edit<bang> ++enc=euc-jp <args>
 autocmd vimrc BufNewFile *.cpp 0r ~/.vim/template/cpp.txt
 
 "---------------------------
-" Plugins
+" Plugins (Use dein.vim)
 "---------------------------
 
 filetype plugin indent off
+let s:dein_enable = 0
 
-" Runtime
-runtime ftplugin/man.vim
-set runtimepath+=~/.vim/bundle/neobundle.vim
+if s:use_dein && v:version >= 704
+  let s:dein_enabled = 1
 
-call neobundle#begin(expand('~/.vim/bundle/'))
+  " Set dein paths
+  let s:dein_dir = s:vimdir . '/dein'
+  let s:dein_github = s:dein_dir . '/repos/github.com'
+  let s:dein_repo_name = "Shougo/dein.vim"
+  let s:dein_repo_dir = s:dein_github . '/' . s:dein_repo_name
 
-" NeoBundle
-NeoBundleFetch 'Shougo/neobundle.vim'
+  " Check dein has been installed (if not, install it)
+  if !isdirectory(s:dein_repo_dir)
+    echo "dein is not installed, install now "
+    let s:dein_repo = "https://github.com/" . s:dein_repo_name
+    echo "git clone " . s:dein_repo . " " . s:dein_repo_dir
+    call system("git clone " . s:dein_repo . " " . s:dein_repo_dir)
+  endif
+  let runtimepath += s:dein_repo_dir
 
-" Unite
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'osyo-manga/unite-quickfix'
-NeoBundle 'h1mesuke/unite-outline'
+  " Begin plugin part
+  call dein#begin(s:dein_dir)
 
-" Utility
-NeoBundle 'Shougo/vimfiler'
-NeoBundleLazy 'Shougo/vimshell'
-NeoBundle 'vim-scripts/sudo.vim'
+  " Check cache
+  if dein#load_cache()
+    " Package manager
+    call dein#add('Shougo/dein.vim')
 
-" Motion
-NeoBundle 'rhysd/clever-f.vim'
+    " Utility
+    call dein#add('Shougo/vimproc', {
+      \ 'build': {
+      \   'windows': 'tools\\update-dll-mingw',
+      \   'cygwin': 'make -f make_cygwin.mak',
+      \   'mac': 'make -f make_mac.mak',
+      \   'linux': 'make',
+      \   'unix': 'gmake'}})
+    call dein#add('Shougo/vimfiler')
+    call dein#add('Shougo/vimshell', {'lazy': 1})
+    call dein#add('vim-scripts/sudo.vim')
 
-" Operator
-NeoBundle 'kana/vim-operator-user'
+    " Unite
+    call dein#add('Shougo/unite.vim', {'on_cmd': ['Unite']})
+    call dein#add('osyo-manga/unite-quickfix')
+    call dein#add('h1mesuke/unite-outline')
 
-" Text object
-NeoBundle 'kana/vim-textobj-user'
-NeoBundle 'thinca/vim-textobj-between'
+    " Motion
+    call dein#add('rhysd/clever-f.vim')
 
-" Mode extention
-NeoBundle 'kana/vim-niceblock'
+    " Operator
+    call dein#add('kana/vim-operator-user')
 
-" Web
-NeoBundle 'mattn/webapi-vim'
-NeoBundle 'tyru/open-browser.vim'
+    " Text object
+    call dein#add('kana/vim-textobj-user')
+    call dein#add('thinca/vim-textobj-between')
 
-" Twitter
-NeoBundle 'basyura/bitly.vim'
-NeoBundle 'basyura/twibill.vim'
-NeoBundle 'basyura/TweetVim'
+    " Mode extention
+    call dein#add('kana/vim-niceblock')
 
-" Completion
-NeoBundle 'Shougo/neocomplete.vim'
-NeoBundle 'Shougo/neosnippet.vim'
-NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'kana/vim-smartinput'
-"NeoBundle 'rhysd/github-complete.vim'
-NeoBundleLazy 'ujihisa/neco-look'
+    " Web
+    call dein#add('mattn/webapi-vim')
+    call dein#add('tyru/open-browser.vim', {
+      \ 'on_map': ['<Plug>(openbrowser-smart-search)'],
+      \ 'lazy': 1})
 
-" Debug
-NeoBundle 'Shougo/vimproc'
-NeoBundle 'thinca/vim-quickrun'
-NeoBundle 'osyo-manga/shabadou.vim'
+    " Twitter
+    call dein#add('basyura/bitly.vim')
+    call dein#add('basyura/twibill.vim')
+    call dein#add('basyura/TweetVim')
 
-" Git
-NeoBundle 'cohama/agit.vim'
-NeoBundle 'jaxbot/github-issues.vim'
-NeoBundle 'tyru/open-browser-github.vim'
+    " Completion
+    call dein#add('Shougo/neocomplete.vim')
+    call dein#add('Shougo/neosnippet.vim')
+    call dein#add('Shougo/neosnippet-snippets')
+    call dein#add('kana/vim-smartinput')
+    "call dein#add('rhysd/github-complete.vim')
+    if has('lua')
+      call dein#add('Shougo/neocomplete.vim', {'on_i': 1})
+      call dein#add('ujihisa/neco-look', {'lazy': 1})
+    endif
 
-" Markdown
-NeoBundle 'kannokanno/previm'
+    " Debug
+    call dein#add('thinca/vim-quickrun')
+    call dein#add('osyo-manga/shabadou.vim')
 
-" Binary
-NeoBundleLazy 'Shougo/vinarise'
+    " Git
+    call dein#add('cohama/agit.vim')
+    call dein#add('jaxbot/github-issues.vim')
+    call dein#add('tyru/open-browser-github.vim')
+    
+    " Markdown
+    call dein#add('kannokanno/previm')
+    
+    " Binary
+    call dein#add('Shougo/vinarise', {'lazy': 1})
+    
+    " Reference
+    call dein#add('thinca/vim-ref')
+    call dein#add('yuku-t/vim-ref-ri')
+    
+    " Submode
+    call dein#add('kana/vim-submode')
+    
+    " Search
+    call dein#add('haya14busa/incsearch.vim')
+    call dein#add('osyo-manga/vim-anzu')
+    call dein#add('vim-scripts/ag.vim')
+    
+    " Status line
+    call dein#add('itchyny/lightline.vim')
+    
+    " Programming (General)
+    call dein#add('tyru/caw.vim')
+    call dein#add('szw/vim-tags')
+    call dein#add('scrooloose/syntastic')
+    
+    " Ruby
+    call dein#add('cohama/vim-smartinput-endwise')
+    
+    " Scheme
+    call dein#add('wlangstroth/vim-racket')
+    
+    " Joke
+    call dein#add('thinca/vim-scouter')
 
-" Reference
-NeoBundle 'thinca/vim-ref'
-NeoBundle 'yuku-t/vim-ref-ri'
+    call dein#save_cache()
+  endif
 
-" Submode
-NeoBundle 'kana/vim-submode'
+  call dein#end()
 
-" Search
-NeoBundle 'haya14busa/incsearch.vim'
-NeoBundle 'osyo-manga/vim-anzu'
-NeoBundle 'vim-scripts/ag.vim'
-
-" Status line
-NeoBundle 'itchyny/lightline.vim'
-
-" Programming (General)
-NeoBundle 'tyru/caw.vim'
-NeoBundle 'szw/vim-tags'
-NeoBundle 'scrooloose/syntastic'
-
-" Ruby
-NeoBundle 'cohama/vim-smartinput-endwise'
-
-" Scheme
-NeoBundle 'wlangstroth/vim-racket'
-
-" Joke
-NeoBundle 'thinca/vim-scouter'
-
-" Check update
-NeoBundleCheck
-
-call neobundle#end()
+  " Installation check.
+  if dein#check_install()
+    call dein#install()
+  endif
+endif
 
 filetype plugin indent on
 
@@ -378,8 +425,8 @@ let g:lightline = {
 
 " neco-look {{{
 
-if s:is_mac || s:is_unix
-  NeoBundleSource neco-look
+if s:dein_enable && (s:is_mac || s:is_unix)
+  dein#source(neco-look)
 endif
 
 " }}}
@@ -439,35 +486,37 @@ let g:quickrun_config = {
 " smartinput {{{
 
 " spacing in brackets
-call smartinput#map_to_trigger('i', '<Space>', '<Space>', '<Space>')
-call smartinput#define_rule({
-  \ 'at'    : '(\%#)',
-  \ 'char'  : '<Space>',
-  \ 'input' : '<Space><Space><Left>',
-  \ })
-call smartinput#define_rule({
-  \ 'at'    : '( \%# )',
-  \ 'char'  : '<BS>',
-  \ 'input' : '<Del><BS>',
-  \ })
+if s:dein_enable
+  call smartinput#map_to_trigger('i', '<Space>', '<Space>', '<Space>')
+  call smartinput#define_rule({
+    \ 'at'    : '(\%#)',
+    \ 'char'  : '<Space>',
+    \ 'input' : '<Space><Space><Left>',
+    \ })
+  call smartinput#define_rule({
+    \ 'at'    : '( \%# )',
+    \ 'char'  : '<BS>',
+    \ 'input' : '<Del><BS>',
+    \ })
 
-" settings for Ruby
-call smartinput#map_to_trigger('i', '#', '#', '#')
-call smartinput#define_rule({
-  \ 'at'       : '\%#',
-  \ 'char'     : '#',
-  \ 'input'    : '#{}<Left>',
-  \ 'filetype' : ['ruby'],
-  \ 'syntax'   : ['Constant', 'Special'],
-  \ })
-call smartinput#map_to_trigger('i', '<Bar>', '<Bar>', '<Bar>')
-call smartinput#define_rule({
-  \ 'at' : '\({\|\<do\>\)\s*\%#',
-  \ 'char' : '<Bar>',
-  \ 'input' : '<Bar><Bar><Left>',
-  \ 'filetype' : ['ruby'],
-  \  })
-call smartinput_endwise#define_default_rules()
+  " settings for Ruby
+  call smartinput#map_to_trigger('i', '#', '#', '#')
+  call smartinput#define_rule({
+    \ 'at'       : '\%#',
+    \ 'char'     : '#',
+    \ 'input'    : '#{}<Left>',
+    \ 'filetype' : ['ruby'],
+    \ 'syntax'   : ['Constant', 'Special'],
+    \ })
+  call smartinput#map_to_trigger('i', '<Bar>', '<Bar>', '<Bar>')
+  call smartinput#define_rule({
+    \ 'at' : '\({\|\<do\>\)\s*\%#',
+    \ 'char' : '<Bar>',
+    \ 'input' : '<Bar><Bar><Left>',
+    \ 'filetype' : ['ruby'],
+    \  })
+  call smartinput_endwise#define_default_rules()
+endif
 
 " }}}
 
