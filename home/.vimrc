@@ -257,24 +257,17 @@ if s:use_dein && v:version >= 704
     echo "git clone " . s:dein_repo . " " . s:dein_repo_dir
     call system("git clone " . s:dein_repo . " " . s:dein_repo_dir)
   endif
-  let runtimepath += s:dein_repo_dir
+  let &runtimepath = &runtimepath . "," . s:dein_repo_dir
 
   " Begin plugin part
-  call dein#begin(s:dein_dir)
+  if dein#load_state(s:dein_dir)
+    call dein#begin(s:dein_dir)
 
-  " Check cache
-  if dein#load_cache()
     " Package manager
     call dein#add('Shougo/dein.vim')
 
     " Utility
-    call dein#add('Shougo/vimproc', {
-      \ 'build': {
-      \   'windows': 'tools\\update-dll-mingw',
-      \   'cygwin': 'make -f make_cygwin.mak',
-      \   'mac': 'make -f make_mac.mak',
-      \   'linux': 'make',
-      \   'unix': 'gmake'}})
+    call dein#add('Shougo/vimproc', {'build': 'make'})
     call dein#add('Shougo/vimfiler')
     call dein#add('Shougo/vimshell', {'lazy': 1})
     call dein#add('vim-scripts/sudo.vim')
@@ -300,8 +293,7 @@ if s:use_dein && v:version >= 704
     " Web
     call dein#add('mattn/webapi-vim')
     call dein#add('tyru/open-browser.vim', {
-      \ 'on_map': ['<Plug>(openbrowser-smart-search)'],
-      \ 'lazy': 1})
+      \ 'on_map': ['<Plug>(openbrowser-smart-search)']})
 
     " Twitter
     call dein#add('basyura/bitly.vim')
@@ -326,7 +318,7 @@ if s:use_dein && v:version >= 704
     " Git
     call dein#add('cohama/agit.vim')
     call dein#add('jaxbot/github-issues.vim')
-    call dein#add('tyru/open-browser-github.vim')
+    "call dein#add('tyru/open-browser-github.vim')
     
     " Markdown
     call dein#add('kannokanno/previm')
@@ -363,10 +355,9 @@ if s:use_dein && v:version >= 704
     " Joke
     call dein#add('thinca/vim-scouter')
 
-    call dein#save_cache()
+    call dein#end()
+    call dein#save_state()
   endif
-
-  call dein#end()
 
   " Installation check.
   if dein#check_install()
@@ -655,7 +646,7 @@ inoremap <expr><CR>  pumvisible() ? neocomplete#close_popup() : "<CR>"
 nnoremap <F1> K
 nnoremap <F8> :<C-u>source %<CR>
 
-" Disable unuse dengerous commands
+" Disable unuse dangerous commands
 nnoremap ZZ <Nop>
 nnoremap ZQ <Nop>
 nnoremap Q <Nop>
@@ -698,14 +689,16 @@ nnoremap sQ :<C-u>q<CR>
 nnoremap sb :<C-u>Unite buffer_tab -buffer-name=file<CR>
 nnoremap sB :<C-u>Unite buffer -buffer-name=file<CR>
 
-call submode#enter_with('bufmove', 'n', '', 's>', '<C-w>>')
-call submode#enter_with('bufmove', 'n', '', 's<', '<C-w><')
-call submode#enter_with('bufmove', 'n', '', 's+', '<C-w>+')
-call submode#enter_with('bufmove', 'n', '', 's-', '<C-w>-')
-call submode#map('bufmove', 'n', '', '>', '<C-w>>')
-call submode#map('bufmove', 'n', '', '<', '<C-w><')
-call submode#map('bufmove', 'n', '', '+', '<C-w>+')
-call submode#map('bufmove', 'n', '', '-', '<C-w>-')
+if s:dein_enable
+  call submode#enter_with('bufmove', 'n', '', 's>', '<C-w>>')
+  call submode#enter_with('bufmove', 'n', '', 's<', '<C-w><')
+  call submode#enter_with('bufmove', 'n', '', 's+', '<C-w>+')
+  call submode#enter_with('bufmove', 'n', '', 's-', '<C-w>-')
+  call submode#map('bufmove', 'n', '', '>', '<C-w>>')
+  call submode#map('bufmove', 'n', '', '<', '<C-w><')
+  call submode#map('bufmove', 'n', '', '+', '<C-w>+')
+  call submode#map('bufmove', 'n', '', '-', '<C-w>-')
+endif
 
 "---------------------------
 " TeX on LaTeX
