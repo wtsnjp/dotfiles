@@ -102,7 +102,7 @@ case ${OSTYPE} in
     # Move files to trash with rm command
     alias rm='rmtrash'
     # Read man with vim
-    alias man="man $* -P \"col -b | vim -Rc 'setl ft=man ts=8 nomod' -c 'nn q :q<CR>' -\""
+    #alias man="man $* -P \"col -b | vim -Rc 'setl ft=man ts=8 nomod' -c 'nn q :q<CR>' -\""
     # Measure for brew doctor
     alias brew="env PATH=${PATH/$HOME\/\.pyenv\/shims:/} brew"
     # Turn on/off network connection with wifi command
