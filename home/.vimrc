@@ -301,10 +301,9 @@ if s:use_dein && v:version >= 704
     call dein#add('basyura/TweetVim')
 
     " Completion
-    call dein#add('Shougo/neocomplete.vim')
     call dein#add('Shougo/neosnippet.vim')
     call dein#add('Shougo/neosnippet-snippets')
-    call dein#add('kana/vim-smartinput')
+    call dein#add('cohama/lexima.vim')
     "call dein#add('rhysd/github-complete.vim')
     if has('lua')
       call dein#add('Shougo/neocomplete.vim', {'on_i': 1})
@@ -347,7 +346,7 @@ if s:use_dein && v:version >= 704
     call dein#add('scrooloose/syntastic')
     
     " Ruby
-    call dein#add('cohama/vim-smartinput-endwise')
+    "call dein#add('osyo-manga/vim-monster', { 'on_ft': 'ruby' })
     
     " Scheme
     call dein#add('wlangstroth/vim-racket')
@@ -471,45 +470,6 @@ let g:quickrun_config = {
   \     "exec": ["%c %o %s"]
   \   },
   \ }
-
-" }}}
-
-" smartinput {{{
-
-" spacing in brackets
-if s:dein_enable
-  call smartinput#map_to_trigger('i', '<Space>', '<Space>', '<Space>')
-  call smartinput#define_rule({
-    \ 'at'    : '(\%#)',
-    \ 'char'  : '<Space>',
-    \ 'input' : '<Space><Space><Left>',
-    \ })
-  call smartinput#define_rule({
-    \ 'at'    : '( \%# )',
-    \ 'char'  : '<BS>',
-    \ 'input' : '<Del><BS>',
-    \ })
-
-  " my settings for Ruby
-  call smartinput#map_to_trigger('i', '#', '#', '#')
-  call smartinput#define_rule({
-    \ 'at'       : '\%#',
-    \ 'char'     : '#',
-    \ 'input'    : '#{}<Left>',
-    \ 'filetype' : ['ruby'],
-    \ 'syntax'   : ['Constant', 'Special'],
-    \ })
-  call smartinput#map_to_trigger('i', '<Bar>', '<Bar>', '<Bar>')
-  call smartinput#define_rule({
-    \ 'at' : '\({\|\<do\>\)\s*\%#',
-    \ 'char' : '<Bar>',
-    \ 'input' : '<Bar><Bar><Left>',
-    \ 'filetype' : ['ruby'],
-    \  })
-
-  " use vim-smartinput-endwise (does not work)
-  call smartinput_endwise#define_default_rules()
-endif
 
 " }}}
 
