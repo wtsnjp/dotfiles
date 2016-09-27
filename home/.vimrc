@@ -242,7 +242,7 @@ filetype plugin indent off
 let s:dein_enable = 0
 
 if s:use_dein && v:version >= 704
-  let s:dein_enabled = 1
+  let s:dein_enable = 1
 
   " Set dein paths
   let s:dein_dir = s:vimdir . '/dein'
@@ -417,7 +417,7 @@ let g:lightline = {
 " neco-look {{{
 
 if s:dein_enable && (s:is_mac || s:is_unix)
-  dein#source(neco-look)
+  call dein#source("neco-look")
 endif
 
 " }}}
@@ -490,7 +490,7 @@ if s:dein_enable
     \ 'input' : '<Del><BS>',
     \ })
 
-  " settings for Ruby
+  " my settings for Ruby
   call smartinput#map_to_trigger('i', '#', '#', '#')
   call smartinput#define_rule({
     \ 'at'       : '\%#',
@@ -506,6 +506,8 @@ if s:dein_enable
     \ 'input' : '<Bar><Bar><Left>',
     \ 'filetype' : ['ruby'],
     \  })
+
+  " use vim-smartinput-endwise (does not work)
   call smartinput_endwise#define_default_rules()
 endif
 
