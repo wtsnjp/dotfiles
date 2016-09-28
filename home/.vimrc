@@ -274,6 +274,7 @@ if s:use_dein && v:version >= 704
 
     " Unite
     call dein#add('Shougo/unite.vim', {'on_cmd': ['Unite']})
+    call dein#add('Shougo/neomru.vim')
     call dein#add('osyo-manga/unite-quickfix')
     call dein#add('h1mesuke/unite-outline')
 
@@ -480,8 +481,28 @@ let g:quickrun_config = {
 
 " syntastic {{{
 
-" Static code analysis
+" Static code analysis (Ruby)
 let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': ['ruby'] }
+
+" }}}
+
+" unite.vim {{{
+
+" Start with insert mode
+"let g:unite_enable_start_insert = 1
+
+" Number of saving resent files
+let g:unite_source_file_mru_limit = 100
+
+" }}}
+
+" vimfiler {{{
+
+" Use vimfiler as default explorer
+let g:vimfiler_as_default_explorer = 1
+
+" Expand dir with <CR>
+autocmd vimrc FileType vimfiler nmap <buffer> <CR> <Plug>(vimfiler_expand_or_edit)
 
 " }}}
 
@@ -578,7 +599,15 @@ map ,o <Plug>(openbrowser-smart-search)
 " Mappings for unite
 noremap [unite] <Nop>
 map ,u [unite]
-nnoremap [unite]f :<C-u>Unite file<CR>
+nnoremap <silent> [unite]f :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
+nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
+nnoremap <silent> [unite]m :<C-u>Unite file_mru<CR>
+nnoremap <silent> [unite]d :<C-u>Unite bookmark<CR>
+nnoremap <silent> [unite]a :<C-u>UniteBookmarkAdd<CR>
+
+" Open vimfiler
+nnoremap <silent> ,f :<C-u>VimFiler -split -simple -winwidth=30 -no-quit<CR>
 
 " Move smooth in commandline
 cnoremap <C-a> <Home>
