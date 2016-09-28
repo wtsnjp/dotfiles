@@ -396,6 +396,12 @@ let g:incsearch#magic = '\v'
 
 " }}}
 
+" lexima {{{
+
+call lexima#init()
+
+" }}}
+
 " lightline {{{
 
 let g:lightline = {
@@ -601,7 +607,7 @@ inoremap <expr> <TAB> pumvisible() ? neocomplete#complete_common_string() : "\<T
 inoremap <expr> <BS>  neocomplete#smart_close_popup()."\<C-h>"
 inoremap <expr> <C-y> neocomplete#close_popup()
 inoremap <expr> <C-e> neocomplete#cancel_popup()
-inoremap <expr> <CR>  pumvisible() ? neocomplete#close_popup() : "<CR>"
+inoremap <expr> <CR>  pumvisible() ? neocomplete#close_popup() : lexima#expand('<CR>', 'i')
 
 " Function keys
 nnoremap <F1> K
