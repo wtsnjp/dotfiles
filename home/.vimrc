@@ -292,8 +292,7 @@ if s:use_dein && v:version >= 704
 
     " Web
     call dein#add('mattn/webapi-vim')
-    call dein#add('tyru/open-browser.vim', {
-      \ 'on_map': ['<Plug>(openbrowser-smart-search)']})
+    call dein#add('tyru/open-browser.vim', {'on_map': ['<Plug>(openbrowser-smart-search)']})
 
     " Twitter
     call dein#add('basyura/bitly.vim')
@@ -597,12 +596,12 @@ inoremap <C-l> <Right>
 inoremap <C-d> <delete>
 
 " Mappings for neocomplete
-inoremap <expr><C-g> neocomplete#undo_completion()
-inoremap <expr><TAB> pumvisible() ? neocomplete#complete_common_string() : "\<TAB>"
-inoremap <expr><BS>  neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y> neocomplete#close_popup()
-inoremap <expr><C-e> neocomplete#cancel_popup()
-inoremap <expr><CR>  pumvisible() ? neocomplete#close_popup() : "<CR>"
+inoremap <expr> <C-g> neocomplete#undo_completion()
+inoremap <expr> <TAB> pumvisible() ? neocomplete#complete_common_string() : "\<TAB>"
+inoremap <expr> <BS>  neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr> <C-y> neocomplete#close_popup()
+inoremap <expr> <C-e> neocomplete#cancel_popup()
+inoremap <expr> <CR>  pumvisible() ? neocomplete#complete_common_string() : "\<CR>"
 
 " Function keys
 nnoremap <F1> K
