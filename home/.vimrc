@@ -398,7 +398,7 @@ let g:incsearch#magic = '\v'
 
 " lexima {{{
 
-call lexima#init()
+"call lexima#init()
 
 " }}}
 
@@ -607,7 +607,11 @@ inoremap <expr> <TAB> pumvisible() ? neocomplete#complete_common_string() : "\<T
 inoremap <expr> <BS>  neocomplete#smart_close_popup()."\<C-h>"
 inoremap <expr> <C-y> neocomplete#close_popup()
 inoremap <expr> <C-e> neocomplete#cancel_popup()
-inoremap <expr> <CR>  pumvisible() ? neocomplete#close_popup() : lexima#expand('<CR>', 'i')
+"inoremap <expr> <CR>  pumvisible() ? neocomplete#close_popup() : lexima#expand('<CR>', 'i')
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return pumvisible() ? neocomplete#close_popup() : "\<CR>"
+endfunction
 
 " Function keys
 nnoremap <F1> K
