@@ -39,9 +39,6 @@ set fileformats=unix,dos,mac
 " Do not insert space when join Japanese lines
 set formatoptions& formatoptions+=mM
 
-" Show line number
-set number
-
 " Show keymap prefix
 set showcmd
 
@@ -151,13 +148,16 @@ endif
 "---------------------------
 
 " Startup message
-autocmd vimrc VimEnter * echo "Hello, enjoy vimming!"
+"autocmd vimrc VimEnter * echo "Hello, enjoy vimming!"
 
 " Open *.md file with filetype=markdown
 autocmd vimrc BufRead *.md setlocal ft=markdown
 
-" Open *.def file with filetype=tex
+" Open *.def file with filetype=tl (TeX on LaTeX)
 autocmd vimrc BufRead *.def setlocal ft=tl
+
+" Open *.coffee file with filetype=coffee
+autocmd vimrc BufRead *.coffee setlocal ft=coffee
 
 " Spell check if commit message
 autocmd vimrc FileType gitcommit setlocal spell
@@ -293,7 +293,7 @@ if s:use_dein && v:version >= 704
 
     " Web
     call dein#add('mattn/webapi-vim')
-    call dein#add('tyru/open-browser.vim', {'on_map': ['<Plug>(openbrowser-smart-search)']})
+    call dein#add('tyru/open-browser.vim')
 
     " Twitter
     call dein#add('basyura/bitly.vim')
@@ -304,7 +304,7 @@ if s:use_dein && v:version >= 704
     call dein#add('Shougo/neosnippet.vim')
     call dein#add('Shougo/neosnippet-snippets')
     call dein#add('cohama/lexima.vim')
-    "call dein#add('rhysd/github-complete.vim')
+    call dein#add('rhysd/github-complete.vim')
     if has('lua')
       call dein#add('Shougo/neocomplete.vim', {'on_i': 1})
       call dein#add('ujihisa/neco-look', {'lazy': 1})
@@ -317,7 +317,7 @@ if s:use_dein && v:version >= 704
     " Git
     call dein#add('cohama/agit.vim')
     call dein#add('jaxbot/github-issues.vim')
-    "call dein#add('tyru/open-browser-github.vim')
+    call dein#add('tyru/open-browser-github.vim')
     
     " Markdown
     call dein#add('kannokanno/previm')
@@ -347,6 +347,9 @@ if s:use_dein && v:version >= 704
     
     " Ruby
     "call dein#add('osyo-manga/vim-monster', { 'on_ft': 'ruby' })
+
+    " CoffeeScript
+    call dein#add('kchmck/vim-coffee-script')
     
     " Scheme
     call dein#add('wlangstroth/vim-racket')
@@ -441,7 +444,8 @@ let g:neocomplete_enable_underbar_completion = 1
 " Set minimum syntax keyword length
 let g:neocomplete_min_syntax_length = 3
 
-" Key mappings
+" Setting for vim-monster
+let g:neocomplete#sources#omni#input_patterns = {"ruby" : '[^. *\t]\.\w*\|\h\w*::'}
 
 " Do not show docstring
 autocmd vimrc FileType python setlocal completeopt-=preview
@@ -454,7 +458,7 @@ let g:netrw_nogx = 1
 
 " }}}
 
-" open-browser.vim {{{
+" previm {{{
 
 let g:previm_open_cmd = 'open -a Safari'
 
@@ -502,7 +506,7 @@ let g:unite_source_file_mru_limit = 100
 let g:vimfiler_as_default_explorer = 1
 
 " Expand dir with <CR>
-autocmd vimrc FileType vimfiler nmap <buffer> <CR> <Plug>(vimfiler_expand_or_edit)
+autocmd vimrc FileType vimfiler nmap <buffer> l <Plug>(vimfiler_expand_or_edit)
 
 " }}}
 
@@ -582,16 +586,18 @@ endif
 " Update
 nnoremap <silent> <Space>w :<C-u>update<CR>
 
-" Quit deviding
-nnoremap <silent> <Space>o :<C-u>only<CR>
-
 " Git
-nnoremap <silent> <Space>g :<C-u>!git<Space>
-noremap <silent> <Space>go :<C-u>OpenGithubFile<CR>
+nnoremap <silent> <Space>g  :<C-u>!git<Space>
+noremap  <silent> <Space>go :<C-u>OpenGithubFile<CR>
 
 " Toggle comment with caw
-map <Space>c <Plug>(caw:hatpos:toggle)
-
+map ,c <Plug>(caw:hatpos:toggle)
+noremap <silent> ,C :<C-u>call CommentToggle()<CR>
+function! CommentToggle()
+  let b:caw_hatpos_sp = " "
+  execute "normal \<Plug>(caw:hatpos:toggle)"
+  let b:caw_hatpos_sp = ""
+endfunction
 
 " Open URL
 map ,o <Plug>(openbrowser-smart-search)
@@ -607,7 +613,7 @@ nnoremap <silent> [unite]d :<C-u>Unite bookmark<CR>
 nnoremap <silent> [unite]a :<C-u>UniteBookmarkAdd<CR>
 
 " Open vimfiler
-nnoremap <silent> ,f :<C-u>VimFiler -split -simple -winwidth=30 -no-quit<CR>
+nnoremap <silent> ,f :<C-u>VimFiler -split -simple -winwidth=25 -no-quit<CR>
 
 " Move smooth in commandline
 cnoremap <C-a> <Home>
@@ -618,9 +624,6 @@ cnoremap <C-b> <Left>
 " Convenient history scrollers
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
-
-" Back to nomal mode with jj
-" inoremap jj <Esc>
 
 " Move smooth in insertmode
 inoremap <C-a> <Home>
@@ -636,11 +639,7 @@ inoremap <expr> <TAB> pumvisible() ? neocomplete#complete_common_string() : "\<T
 inoremap <expr> <BS>  neocomplete#smart_close_popup()."\<C-h>"
 inoremap <expr> <C-y> neocomplete#close_popup()
 inoremap <expr> <C-e> neocomplete#cancel_popup()
-"inoremap <expr> <CR>  pumvisible() ? neocomplete#close_popup() : lexima#expand('<CR>', 'i')
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return pumvisible() ? neocomplete#close_popup() : "\<CR>"
-endfunction
+inoremap <expr> <CR>  pumvisible() ? neocomplete#close_popup() : lexima#expand('<CR>', 'i')
 
 " Function keys
 nnoremap <F1> K
@@ -657,6 +656,12 @@ vnoremap <silent> co :ContinuousNumber <C-a><CR>
 command! -count -nargs=1 ContinuousNumber 
   \ let c = col('.')|for n in range(1, <count>?<count>-line('.'):1)|
   \ exec 'normal! j' . n . <q-args>|call cursor('.', c)|endfor
+
+" Move between buffers
+nnoremap <silent> [b :<C-u>bprevious<CR>
+nnoremap <silent> ]b :<C-u>bnext<CR>
+nnoremap <silent> [B :<C-u>bfirst<CR>
+nnoremap <silent> ]B :<C-u>blast<CR>
 
 "---------------------------
 " Divide settings
@@ -676,16 +681,11 @@ nnoremap sp gT
 nnoremap sr <C-w>r
 nnoremap s= <C-w>=
 nnoremap sw <C-w>w
-nnoremap so <C-w>_<C-w>|
-nnoremap sO <C-w>=
-nnoremap sN :<C-u>bn<CR>
-nnoremap sP :<C-u>bp<CR>
-nnoremap st :<C-u>tabnew<CR>
-nnoremap sT :<C-u>Unite tab<CR>
+nnoremap so <C-w>o
 nnoremap ss :<C-u>sp<CR>
 nnoremap sv :<C-u>vs<CR>
 nnoremap sq :<C-u>bd<CR>
-nnoremap sQ :<C-u>q<CR>
+nnoremap sQ :<C-u>qa<CR>
 nnoremap sb :<C-u>Unite buffer_tab -buffer-name=file<CR>
 nnoremap sB :<C-u>Unite buffer -buffer-name=file<CR>
 
@@ -699,13 +699,6 @@ if s:dein_enable
   call submode#map('bufmove', 'n', '', '+', '<C-w>+')
   call submode#map('bufmove', 'n', '', '-', '<C-w>-')
 endif
-
-"---------------------------
-" TeX on LaTeX
-"---------------------------
-
-" NOTE: indent setting shoud be written in ~/.vim/after/indent/tex.vim
-" autocmd BufNewFile,BufRead *.sty setlocal indentkeys=""
 
 "---------------------------
 " Vim script
