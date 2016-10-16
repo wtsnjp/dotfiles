@@ -39,6 +39,9 @@ set fileformats=unix,dos,mac
 " Do not insert space when join Japanese lines
 set formatoptions& formatoptions+=mM
 
+" Show line number
+set number
+
 " Show keymap prefix
 set showcmd
 
@@ -76,7 +79,7 @@ set clipboard& clipboard+=unnamed
 set noexrc
 
 " Sound deadening
-set visualbell t_vb=
+set belloff=all
 set noerrorbells
 
 " Status line
@@ -344,16 +347,16 @@ if s:use_dein && v:version >= 704
     call dein#add('tyru/caw.vim')
     call dein#add('szw/vim-tags')
     call dein#add('scrooloose/syntastic')
-    
+
     " Ruby
     "call dein#add('osyo-manga/vim-monster', { 'on_ft': 'ruby' })
 
     " CoffeeScript
     call dein#add('kchmck/vim-coffee-script')
-    
+
     " Scheme
     call dein#add('wlangstroth/vim-racket')
-    
+
     " Joke
     call dein#add('thinca/vim-scouter')
 
