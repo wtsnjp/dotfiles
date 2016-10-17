@@ -39,9 +39,6 @@ set fileformats=unix,dos,mac
 " Do not insert space when join Japanese lines
 set formatoptions& formatoptions+=mM
 
-" Show line number
-set number
-
 " Show keymap prefix
 set showcmd
 
@@ -110,6 +107,9 @@ set autoread
 
 " Spell check
 set spelllang=en,cjk
+
+" Help language (show japanese help with 'keyword@ja')
+set helplang& helplang=en,ja
 
 " Color settings
 if s:is_mac
@@ -275,6 +275,9 @@ if s:use_dein && v:version >= 704
     call dein#add('Shougo/vimshell', {'lazy': 1})
     call dein#add('vim-scripts/sudo.vim')
 
+    " Help
+    call dein#add('vim-jp/vimdoc-ja')
+
     " Unite
     call dein#add('Shougo/unite.vim', {'on_cmd': ['Unite']})
     call dein#add('Shougo/neomru.vim')
@@ -302,6 +305,9 @@ if s:use_dein && v:version >= 704
     call dein#add('basyura/bitly.vim')
     call dein#add('basyura/twibill.vim')
     call dein#add('basyura/TweetVim')
+
+    " Lingr
+    call dein#add('tsukkee/lingr-vim')
 
     " Completion
     call dein#add('Shougo/neosnippet.vim')
@@ -592,6 +598,9 @@ nnoremap <silent> <Space>w :<C-u>update<CR>
 " Git
 nnoremap <silent> <Space>g  :<C-u>!git<Space>
 noremap  <silent> <Space>go :<C-u>OpenGithubFile<CR>
+
+" Show line number
+noremap <silent> <Space>n  :<C-u>setlocal number!<CR>
 
 " Toggle comment with caw
 map ,c <Plug>(caw:hatpos:toggle)
