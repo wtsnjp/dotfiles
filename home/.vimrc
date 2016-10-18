@@ -53,7 +53,7 @@ set whichwrap=b,s,h,l,<,>,[,]
 
 " Enable to delete EOL and indet with <delete>
 set backspace=indent,eol,start
- 
+
 " Provision for em letters
 set ambiwidth=double
 
@@ -80,7 +80,7 @@ set belloff=all
 set noerrorbells
 
 " Status line
-set laststatus=2 
+set laststatus=2
 
 " Show title (on top)
 let &titleold=""
@@ -216,7 +216,7 @@ set wrapscan
 "---------------------------
 
 " Use strong suggestion in command line
-set wildmenu 
+set wildmenu
 set wildmode=longest:full,full
 
 " Save number
@@ -327,29 +327,29 @@ if s:use_dein && v:version >= 704
     call dein#add('cohama/agit.vim')
     call dein#add('jaxbot/github-issues.vim')
     call dein#add('tyru/open-browser-github.vim')
-    
+
     " Markdown
     call dein#add('kannokanno/previm')
-    
+
     " Binary
     call dein#add('Shougo/vinarise', {'lazy': 1})
-    
+
     " Reference
     call dein#add('thinca/vim-ref')
     call dein#add('yuku-t/vim-ref-ri')
-    
+
     " Submode
     call dein#add('kana/vim-submode')
-    
+
     " Search
     call dein#add('haya14busa/incsearch.vim')
     call dein#add('haya14busa/vim-asterisk')
     call dein#add('osyo-manga/vim-anzu')
     call dein#add('vim-scripts/ag.vim')
-    
+
     " Status line
     call dein#add('itchyny/lightline.vim')
-    
+
     " Programming (General)
     call dein#add('tyru/caw.vim')
     call dein#add('szw/vim-tags')
@@ -422,9 +422,9 @@ let g:lightline = {
   \   'active': {
   \     'left': [ [ 'mode', 'paste' ], [ 'readonly', 'filename', 'modified' ] ],
   \     'right': [ [ 'lineinfo' ],
-  \              [ 'percent' ], 
-  \              [ 'fileformat', 'fileencoding', 'filetype', 'filelines' ] ] 
-  \   }, 
+  \              [ 'percent' ],
+  \              [ 'fileformat', 'fileencoding', 'filetype', 'filelines' ] ]
+  \   },
   \   'component': {
   \     'filelines': '%LL'
   \   }
@@ -526,7 +526,7 @@ autocmd vimrc FileType vimfiler nmap <buffer> l <Plug>(vimfiler_expand_or_edit)
 autocmd vimrc BufReadPre  *.bin let &binary =1
 autocmd vimrc BufReadPost * if &binary | Vinarise
 autocmd vimrc BufWritePre * if &binary | Vinarise | endif
-autocmd vimrc BufWritePost * if &binary | Vinarise 
+autocmd vimrc BufWritePost * if &binary | Vinarise
 
 " }}}
 
@@ -668,7 +668,7 @@ nnoremap Q <Nop>
 
 " Make serial number (vertical)
 noremap <silent> co :ContinuousNumber <C-a><CR>
-command! -count -nargs=1 ContinuousNumber 
+command! -count -nargs=1 ContinuousNumber
   \ let c = col('.')|for n in range(1, <count>?<count>-line('.'):1)|
   \ exec 'normal! j' . n . <q-args>|call cursor('.', c)|endfor
 
