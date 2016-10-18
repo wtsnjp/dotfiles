@@ -1,6 +1,6 @@
 " Watson's vimrc
 " Author: Watson
-" Website: http://watson-lab.com
+" Website: https://watson-lab.com
 " Source: https://github.com/WatsonDNA/dotfiles
 
 
@@ -603,13 +603,16 @@ noremap  <silent> <Space>go :<C-u>OpenGithubFile<CR>
 noremap <silent> <Space>n  :<C-u>setlocal number!<CR>
 
 " Toggle comment with caw
-map ,c <Plug>(caw:hatpos:toggle)
+map     <silent> ,c <Plug>(caw:hatpos:toggle)
 noremap <silent> ,C :<C-u>call CommentToggle()<CR>
 function! CommentToggle()
   let b:caw_hatpos_sp = " "
   execute "normal \<Plug>(caw:hatpos:toggle)"
   let b:caw_hatpos_sp = ""
 endfunction
+
+" QuickRun with some args
+nnoremap ,r :<C-u>QuickRun<Space>
 
 " Open URL
 map ,o <Plug>(openbrowser-smart-search)
