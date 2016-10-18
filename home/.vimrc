@@ -96,8 +96,8 @@ set grepprg=grep\ -nH\ $*
 " Don't recognize octal number
 set nrformats-=octal
 
-" Display unprintable letter in hex signage
-set display=uhex
+" Display all line and unprintable letter in hex signage
+set display& display+=lastline,uhex
 
 " Enable to open new buffer Always
 set hidden
@@ -106,10 +106,10 @@ set hidden
 set autoread
 
 " Spell check
-set spelllang=en,cjk
+set spelllang& spelllang+=cjk
 
 " Help language (show japanese help with 'keyword@ja')
-set helplang& helplang=en,ja
+set helplang& helplang+=en,ja
 
 " Color settings
 if s:is_mac
@@ -343,6 +343,7 @@ if s:use_dein && v:version >= 704
     
     " Search
     call dein#add('haya14busa/incsearch.vim')
+    call dein#add('haya14busa/vim-asterisk')
     call dein#add('osyo-manga/vim-anzu')
     call dein#add('vim-scripts/ag.vim')
     
@@ -554,12 +555,12 @@ map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
 
 " Bring middle position after word search
-nmap n <Plug>(anzu-n)zzzv<Plug>(anzu-N)<Plug>(anzu-n-with-echo)
-nmap N <Plug>(anzu-N)zzzv<Plug>(anzu-n)<Plug>(anzu-N-with-echo)
-nmap * <Plug>(anzu-star)zzzv<Plug>(anzu-N)<Plug>(anzu-n-with-echo)
-nmap # <Plug>(anzu-sharp)zzzv<Plug>(anzu-n)<Plug>(anzu-N-with-echo)
-nmap g* g<Plug>(anzu-star)zzzv<Plug>(anzu-N)<Plug>(anzu-n-with-echo)
-nmap g# g<Plug>(anzu-sharp)zzzv<Plug>(anzu-n)<Plug>(anzu-N-with-echo)
+nmap n <Plug>(anzu-n)zzzv<Plug>(anzu-update-search-status-with-echo)
+nmap N <Plug>(anzu-N)zzzv<Plug>(anzu-update-search-status-with-echo)
+nmap * <Plug>(asterisk-z*)<Plug>(anzu-update-search-status-with-echo)
+nmap # <Plug>(asterisk-z#)<Plug>(anzu-update-search-status-with-echo)
+nmap g* <Plug>(asterisk-gz*)<Plug>(anzu-update-search-status-with-echo)
+nmap g# <Plug>(asterisk-gz#)<Plug>(anzu-update-search-status-with-echo)
 
 " Finish highlight with double <ESC>
 nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
@@ -666,8 +667,7 @@ nnoremap ZQ <Nop>
 nnoremap Q <Nop>
 
 " Make serial number (vertical)
-nnoremap <silent> co :ContinuousNumber <C-a><CR>
-vnoremap <silent> co :ContinuousNumber <C-a><CR>
+noremap <silent> co :ContinuousNumber <C-a><CR>
 command! -count -nargs=1 ContinuousNumber 
   \ let c = col('.')|for n in range(1, <count>?<count>-line('.'):1)|
   \ exec 'normal! j' . n . <q-args>|call cursor('.', c)|endfor
