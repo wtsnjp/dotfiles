@@ -83,7 +83,7 @@ set noerrorbells
 set laststatus=2
 
 " Show title (on top)
-let &titleold=""
+let &titleold=''
 set title
 
 " Folding
@@ -149,9 +149,6 @@ endif
 "---------------------------
 " Startup
 "---------------------------
-
-" Startup message
-"autocmd vimrc VimEnter * echo "Hello, enjoy vimming!"
 
 " Open *.md file with filetype=markdown
 autocmd vimrc BufRead *.md setlocal ft=markdown
@@ -250,17 +247,17 @@ if s:use_dein && v:version >= 704
   " Set dein paths
   let s:dein_dir = s:vimdir . '/dein'
   let s:dein_github = s:dein_dir . '/repos/github.com'
-  let s:dein_repo_name = "Shougo/dein.vim"
+  let s:dein_repo_name = 'Shougo/dein.vim'
   let s:dein_repo_dir = s:dein_github . '/' . s:dein_repo_name
 
   " Check dein has been installed (if not, install it)
   if !isdirectory(s:dein_repo_dir)
-    echo "dein is not installed, install now "
-    let s:dein_repo = "https://github.com/" . s:dein_repo_name
-    echo "git clone " . s:dein_repo . " " . s:dein_repo_dir
-    call system("git clone " . s:dein_repo . " " . s:dein_repo_dir)
+    echo 'dein is not installed, install now '
+    let s:dein_repo = 'https://github.com/' . s:dein_repo_name
+    echo 'git clone ' . s:dein_repo . ' ' . s:dein_repo_dir
+    call system('git clone ' . s:dein_repo . ' ' . s:dein_repo_dir)
   endif
-  let &runtimepath = &runtimepath . "," . s:dein_repo_dir
+  let &runtimepath = &runtimepath . ',' . s:dein_repo_dir
 
   " Begin plugin part
   if dein#load_state(s:dein_dir)
@@ -386,7 +383,7 @@ filetype plugin indent on
 
 " caw.vim {{{
 
-let g:caw_hatpos_sp = ""
+let g:caw_hatpos_sp = ''
 
 " }}}
 
@@ -435,7 +432,7 @@ let g:lightline = {
 " neco-look {{{
 
 if s:dein_enable && (s:is_mac || s:is_unix)
-  call dein#source("neco-look")
+  call dein#source('neco-look')
 endif
 
 " }}}
@@ -455,7 +452,7 @@ let g:neocomplete_enable_underbar_completion = 1
 let g:neocomplete_min_syntax_length = 3
 
 " Setting for vim-monster
-let g:neocomplete#sources#omni#input_patterns = {"ruby" : '[^. *\t]\.\w*\|\h\w*::'}
+let g:neocomplete#sources#omni#input_patterns = {'ruby' : '[^. *\t]\.\w*\|\h\w*::'}
 
 " Do not show docstring
 autocmd vimrc FileType python setlocal completeopt-=preview
@@ -478,16 +475,16 @@ let g:previm_open_cmd = 'open -a Safari'
 
 " Options
 let g:quickrun_config = {
-  \   "_" : {
-  \     "outputter/buffer/split" : ":botright 8sp",
-  \     "outputter/buffer/close_on_empty" : 1,
-  \     "hook/time/enable": 1,
-  \     "runner" : "vimproc",
-  \     "runner/vimproc/updatetime" : 40,
+  \   '_' : {
+  \     'outputter/buffer/split' : ':botright 8sp',
+  \     'outputter/buffer/close_on_empty' : 1,
+  \     'hook/time/enable': 1,
+  \     'runner' : 'vimproc',
+  \     'runner/vimproc/updatetime' : 40,
   \   },
-  \   "tex" : {
-  \     "command" : "pdflatex",
-  \     "exec": ["%c %o %s"]
+  \   'tex' : {
+  \     'command' : 'pdflatex',
+  \     'exec': ['%c %o %s']
   \   },
   \ }
 
@@ -601,15 +598,15 @@ nnoremap <silent> <Space>g  :<C-u>!git<Space>
 noremap  <silent> <Space>go :<C-u>OpenGithubFile<CR>
 
 " Show line number
-noremap <silent> <Space>n  :<C-u>setlocal number!<CR>
+noremap <silent> <Space>n :<C-u>setlocal number!<CR>
 
 " Toggle comment with caw
 map     <silent> ,c <Plug>(caw:hatpos:toggle)
 noremap <silent> ,C :<C-u>call CommentToggle()<CR>
 function! CommentToggle()
-  let b:caw_hatpos_sp = " "
+  let b:caw_hatpos_sp = ' '
   execute "normal \<Plug>(caw:hatpos:toggle)"
-  let b:caw_hatpos_sp = ""
+  let b:caw_hatpos_sp = ''
 endfunction
 
 " QuickRun with some args
@@ -620,7 +617,7 @@ map ,o <Plug>(openbrowser-smart-search)
 
 " Mappings for unite
 noremap [unite] <Nop>
-map ,u [unite]
+nmap ,u [unite]
 nnoremap <silent> [unite]f :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
 nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
 nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
