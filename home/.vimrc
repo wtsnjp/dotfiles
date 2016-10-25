@@ -1,7 +1,7 @@
 " Watson's vimrc
 " Author: Watson
 " Website: https://watson-lab.com
-" Source: https://github.com/WatsonDNA/dotfiles
+" Source: https://github.com/wtsnjp/dotfiles
 
 
 "---------------------------
