@@ -6,13 +6,13 @@ You can install dotfiles with [Homesick](https://github.com/technicalpickles/hom
 
 ```
 $ gem install homesick
-$ homesick clone WatsonDNA/dotfiles
+$ homesick clone wtsnjp/dotfiles
 $ homesick symlink dotfiles
 ```
 
 ### Git configuration
 
 ```
-$ cd ~/.homesick/repos/dotfiles
-$ git config remote.origin.url git@github.com:WatsonDNA/dotfiles.git
+$ homesick cd dotfiles
+$ git config remote.origin.url git@github.com:wtsnjp/dotfiles.git
 ```
