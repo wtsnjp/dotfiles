@@ -351,12 +351,7 @@ if s:use_dein && v:version >= 704
     call dein#add('tyru/caw.vim')
     call dein#add('szw/vim-tags')
     call dein#add('scrooloose/syntastic')
-
-    " Ruby
-    "call dein#add('osyo-manga/vim-monster', { 'on_ft': 'ruby' })
-
-    " CoffeeScript
-    call dein#add('kchmck/vim-coffee-script')
+    call dein#add('Yggdroot/indentLine')
 
     " Scheme
     call dein#add('wlangstroth/vim-racket')
@@ -404,6 +399,13 @@ let g:clever_f_fix_key_direction = 1
 " incsearch {{{
 
 let g:incsearch#magic = '\v'
+
+" }}}
+
+" indentLine {{{
+
+let g:indentLine_color_term = 111
+let g:indentLine_enabled = 0
 
 " }}}
 
@@ -475,15 +477,18 @@ let g:previm_open_cmd = 'open -a Safari'
 
 " Options
 let g:quickrun_config = {
-  \   '_' : {
-  \     'outputter/buffer/split' : ':botright 8sp',
-  \     'outputter/buffer/close_on_empty' : 1,
+  \   '_': {
+  \     'outputter/buffer/split': ':botright 8sp',
+  \     'outputter/buffer/close_on_empty': 1,
   \     'hook/time/enable': 1,
-  \     'runner' : 'vimproc',
-  \     'runner/vimproc/updatetime' : 40,
+  \     'runner': 'vimproc',
+  \     'runner/vimproc/updatetime': 40,
   \   },
-  \   'tex' : {
-  \     'command' : 'pdflatex',
+  \   'python': {
+  \     'cmdopt': '-B'
+  \   },
+  \   'tex': {
+  \     'command': 'pdflatex',
   \     'exec': ['%c %o %s']
   \   },
   \ }
@@ -599,6 +604,9 @@ noremap  <silent> <Space>go :<C-u>OpenGithubFile<CR>
 
 " Show line number
 noremap <silent> <Space>n :<C-u>setlocal number!<CR>
+
+" Show indent line
+noremap <silent> <Space>i :<C-u>IndentLinesToggle<CR>
 
 " Toggle comment with caw
 map     <silent> ,c <Plug>(caw:hatpos:toggle)
