@@ -104,6 +104,9 @@ case ${OSTYPE} in
     alias gls='gls --color=auto --human-readable'
     # Move files to trash with rm command
     alias rm='rmtrash'
+    # Launch IPython quickly
+    alias ipy='ipython'
+    alias ipy3='ipython3'
     # Measure for brew doctor
     alias brew='env PATH=${PATH/$HOME\/\.pyenv\/shims:/} brew'
     # Update and Upgrade brew
