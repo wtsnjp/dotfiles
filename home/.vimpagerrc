@@ -1,0 +1,7 @@
+" Watson's vimpagerrc
+" Author: Watson
+" Website: https://watson-lab.com
+" Source: https://github.com/wtsnjp/dotfiles
+
+set noloadplugins
+let vimpager_passthrough = 0
