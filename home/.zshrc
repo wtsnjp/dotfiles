@@ -1,7 +1,17 @@
 # Watson's zshrc
 # Author: Watson
 # Website: http://watson-lab.com
-# Source: https://github.com/WatsonDNA/dotfiles
+# Source: https://github.com/wtsnjp/dotfiles
+
+#---------------------------
+# Environments
+#---------------------------
+
+### LANG
+export LANG=en_US.UTF-8
+
+### PAGER
+export PAGER="vimpager"
 
 #---------------------------
 # Complete settings
@@ -11,7 +21,7 @@
 autoload -U compinit
 compinit -u
 
-# Complete git command (Mac only)
+# Complete git command (macOS only)
 case ${OSTYPE} in
   darwin*)
     fpath=(/usr/local/share/zsh-completions $fpath)
@@ -119,3 +129,5 @@ case ${OSTYPE} in
     alias ls='ls --color=auto --human-readable';;
 esac
 
+# Delete overlaped path
+typeset -U path cdpath fpath manpath
