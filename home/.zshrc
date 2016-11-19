@@ -28,6 +28,7 @@ case ${OSTYPE} in
 esac
 
 # Do not suggest current dir
+zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' '+m:{A-Z}={a-z}'
 zstyle ':completion:*' ignore-parents parent pwd ..
 
 #---------------------------
