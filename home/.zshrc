@@ -96,6 +96,16 @@ if type hub > /dev/null 2>&1; then
 fi
 
 #---------------------------
+# Functions
+#---------------------------
+
+case ${OSTYPE} in
+  # Functions for Mac
+  darwin*)
+    source ~/.zsh/functions/hugo.zsh
+esac
+
+#---------------------------
 # Aliases
 #---------------------------
 
@@ -106,6 +116,9 @@ alias rm='rm -i'
 
 # Execute with sudo
 alias please='sudo $(fc -ln -1)'
+
+# Hugo
+alias preview='hugo server -D -w'
 
 case ${OSTYPE} in
   # Aliases for Mac

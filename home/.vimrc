@@ -1,6 +1,6 @@
-" Watson's vimrc
-" Author: Watson
-" Website: https://watson-lab.com
+" wtsnjp's vimrc
+" Author: wtsnjp
+" Website: https://wtsnjp.com
 " Source: https://github.com/wtsnjp/dotfiles
 
 
@@ -327,6 +327,9 @@ if s:use_dein && v:version >= 704
 
     " Markdown
     call dein#add('kannokanno/previm')
+
+    " TOML
+    call dein#add('cespare/vim-toml')
 
     " Binary
     call dein#add('Shougo/vinarise', {'lazy': 1})
