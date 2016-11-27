@@ -494,6 +494,10 @@ let g:quickrun_config = {
   \     'command': 'pdflatex',
   \     'exec': ['%c %o %s']
   \   },
+  \   'plaintex': {
+  \     'command': 'pdftex',
+  \     'exec': ['%c %o %s']
+  \   },
   \ }
 
 " }}}
