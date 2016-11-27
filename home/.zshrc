@@ -134,7 +134,7 @@ case ${OSTYPE} in
     # Measure for brew doctor
     alias brew='env PATH=${PATH/$HOME\/\.pyenv\/shims:/} brew'
     # Update and Upgrade brew
-    alias upup='brew update && brew upgrade'
+    alias upup='brew update && brew upgrade && brew cleanup'
     # Turn on/off network connection with wifi command
     alias wifi='networksetup -setairportpower en0';;
   # Aliases for Linux
