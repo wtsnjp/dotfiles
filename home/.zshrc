@@ -7,11 +7,12 @@
 # Environments
 #---------------------------
 
-### LANG
+### Config
 export LANG=en_US.UTF-8
 
-### PAGER
+### Tools
 export PAGER="vimpager"
+export RLWRAP_HOME=".rlwrap"
 
 #---------------------------
 # Complete settings
