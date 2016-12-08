@@ -104,6 +104,7 @@ case ${OSTYPE} in
   # Functions for Mac
   darwin*)
     source ~/.zsh/functions/hugo.zsh
+    source ~/.zsh/functions/utility.zsh
 esac
 
 #---------------------------
