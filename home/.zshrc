@@ -100,11 +100,13 @@ fi
 # Functions
 #---------------------------
 
+local FUNCPATH="$HOME/.zsh/functions"
 case ${OSTYPE} in
   # Functions for Mac
   darwin*)
-    source ~/.zsh/functions/hugo.zsh
-    source ~/.zsh/functions/utility.zsh
+    source "$FUNCPATH/hugo.zsh"
+    source "$FUNCPATH/utility.zsh"
+    source "$FUNCPATH/cpdf.zsh"
 esac
 
 #---------------------------
