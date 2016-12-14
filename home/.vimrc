@@ -1,4 +1,4 @@
-" wtsnjp's vimrc
+" Watson's vimrc
 " Author: wtsnjp
 " Website: https://wtsnjp.com
 " Source: https://github.com/wtsnjp/dotfiles
@@ -150,9 +150,6 @@ endif
 " Startup
 "---------------------------
 
-" Open *.md file with filetype=markdown
-autocmd vimrc BufRead *.md setlocal ft=markdown
-
 " Open *.def file with filetype=tl (TeX on LaTeX)
 autocmd vimrc BufRead *.def setlocal ft=tl
 
@@ -229,12 +226,6 @@ command! -bang -nargs=? Sjis edit<bang> ++enc=sjis <args>
 command! -bang -nargs=? Euc edit<bang> ++enc=euc-jp <args>
 
 "---------------------------
-" Templates
-"---------------------------
-
-autocmd vimrc BufNewFile *.cpp 0r ~/.vim/template/cpp.txt
-
-"---------------------------
 " Plugins (Use dein.vim)
 "---------------------------
 
@@ -271,6 +262,7 @@ if s:use_dein && v:version >= 704
     call dein#add('Shougo/vimfiler')
     call dein#add('Shougo/vimshell', {'lazy': 1})
     call dein#add('vim-scripts/sudo.vim')
+    call dein#add('tyru/vim-altercmd')
 
     " Help
     call dein#add('vim-jp/vimdoc-ja')
@@ -351,6 +343,7 @@ if s:use_dein && v:version >= 704
     call dein#add('itchyny/lightline.vim')
 
     " Programming (General)
+    call dein#add('mattn/sonictemplate-vim')
     call dein#add('tyru/caw.vim')
     call dein#add('szw/vim-tags')
     call dein#add('scrooloose/syntastic')
@@ -499,6 +492,15 @@ let g:quickrun_config = {
   \     'exec': ['%c %o %s']
   \   },
   \ }
+
+" }}}
+
+" sonictemplate-vim {{{
+
+let g:sonictemplate_vim_template_dir = [
+  \   '~/.vim/dein/repos/github.com/mattn/sonictemplate-vim/template',
+  \   '~/repos/github.com/wtsnjp/templates'
+  \ ]
 
 " }}}
 
