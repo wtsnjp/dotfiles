@@ -314,7 +314,7 @@ if s:use_dein && v:version >= 704
 
     " Git
     call dein#add('cohama/agit.vim')
-    call dein#add('jaxbot/github-issues.vim')
+    "call dein#add('jaxbot/github-issues.vim')
     call dein#add('tyru/open-browser-github.vim')
 
     " Markdown
