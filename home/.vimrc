@@ -121,25 +121,28 @@ colorscheme hybrid
 syntax enable
 
 " Set backup directory
-set backupdir=$HOME/.vimbackup
+set backupdir=$HOME/.vim/backup
 if !isdirectory(&backupdir)
-  call mkdir(&backupdir, "p")
+  call mkdir(&backupdir, 'p')
+endif
+
+" Set swap directory
+set directory=$HOME/.vim/backup
+if !isdirectory(&directory)
+  call mkdir(&directory, 'p')
+endif
+
+" Enable semipermanent undo
+if has('persistent_undo')
+  set undodir=$HOME/.vim/undo
+  if !isdirectory(&undodir)
+    call mkdir(&undodir, 'p')
+  endif
+  set undofile
 endif
 
 " Default save space
 set browsedir=buffer
-
-" Set swap directory
-set directory=$HOME/.vimbackup
-if !isdirectory(&directory)
-  call mkdir(&directory, "p")
-endif
-
-" Enable semipermanent-undo
-if has('persistent_undo')
-  set undodir=~/.vim/undo
-  set undofile
-endif
 
 " Use jvgrep for outer grep
 if executable('jvgrep')
