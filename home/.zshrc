@@ -144,7 +144,9 @@ case ${OSTYPE} in
   # Aliases for Linux
   linux*)
     # Use colorful output by default
-    alias ls='ls --color=auto --human-readable';;
+    alias ls='ls --color=auto --human-readable'
+    # Update and Upgrade apt-get
+    alias upup='sudo apt-get update && sudo apt-get upgrade && sudo apt-get clean';;
 esac
 
 # Delete overlaped path
