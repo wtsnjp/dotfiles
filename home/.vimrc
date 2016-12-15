@@ -9,8 +9,18 @@
 "---------------------------
 
 " Encoding
+if &encoding !=? 'utf-8'
+  let &termencoding = &encoding
+  set encoding=utf-8
+endif
+
 scriptencoding utf-8
-set encoding=utf-8
+
+if has('guess_encode')
+  set fileencodings=ucs-bom,iso-2022-jp,guess,euc-jp,cp932
+else
+  set fileencodings=ucs-bom,iso-2022-jp,euc-jp,cp932
+endif
 
 " Augroup for this vimrc
 augroup vimrc
@@ -54,12 +64,15 @@ set whichwrap=b,s,h,l,<,>,[,]
 " Enable to delete EOL and indet with <delete>
 set backspace=indent,eol,start
 
+" Invisible characters
+set listchars=tab:>=,trail:_
+
 " Provision for em letters
 set ambiwidth=double
 
 " Tab width (default = 2)
 set tabstop=2
-set softtabstop=2	
+set softtabstop=2
 set shiftwidth=2
 
 " Use spaces instead of Tab char
@@ -89,9 +102,6 @@ set title
 " Folding
 set foldmethod=marker
 set foldlevel=0
-
-" Always generate a file-name with grep
-set grepprg=grep\ -nH\ $*
 
 " Don't recognize octal number
 set nrformats-=octal
@@ -144,6 +154,9 @@ endif
 " Default save space
 set browsedir=buffer
 
+" Always generate a file-name with grep
+set grepprg=grep\ -nH\ $*
+
 " Use jvgrep for outer grep
 if executable('jvgrep')
   set grepprg=jvgrep
@@ -164,10 +177,10 @@ autocmd vimrc FileType gitcommit setlocal spell
 autocmd vimrc FileType gitcommit startinsert
 
 " Restoration the position of cursor
-" autocmd BufReadPost *
-"   \ if line("'\"") > 1 && line("'\"") <= line("$") |
-"   \   exe "normal! g`\"" |
-"   \ endif
+autocmd BufReadPost *
+  \ if line("'\"") > 1 && line("'\"") <= line("$") |
+  \   exe "normal! g`\"" |
+  \ endif
 
 " Prepare ~/.vim dir
 let s:vimdir = $HOME . "/.vim"
@@ -207,6 +220,9 @@ set hlsearch
 
 " Loop search
 set wrapscan
+
+" Open Quickfix window after vimgrep
+autocmd vimrc QuickfixCmdPost vimgrep cw
 
 "---------------------------
 " Command line settings
@@ -254,6 +270,7 @@ if s:use_dein && v:version >= 704
   let &runtimepath = &runtimepath . ',' . s:dein_repo_dir
 
   " Begin plugin part
+  " TODO: write down to TOML file
   if dein#load_state(s:dein_dir)
     call dein#begin(s:dein_dir)
 
@@ -526,6 +543,9 @@ let g:unite_source_file_mru_limit = 100
 
 " vimfiler {{{
 
+" Disable safemode
+let g:vimfiler_safe_mode_by_default = 0
+
 " Use vimfiler as default explorer
 let g:vimfiler_as_default_explorer = 1
 
@@ -621,6 +641,7 @@ noremap <silent> <Space>n :<C-u>setlocal number!<CR>
 noremap <silent> <Space>i :<C-u>IndentLinesToggle<CR>
 
 " Toggle comment with caw
+" FIXME: CommentToggle() can not toggle multiple lines
 map     <silent> ,c <Plug>(caw:hatpos:toggle)
 noremap <silent> ,C :<C-u>call CommentToggle()<CR>
 function! CommentToggle()
@@ -738,3 +759,8 @@ endif
 
 let g:vim_indent_cont = 2
 
+"---------------------------
+" Finish
+"---------------------------
+
+set secure
