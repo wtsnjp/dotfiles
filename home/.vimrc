@@ -586,8 +586,8 @@ xnoremap > >gv
 xnoremap < <gv
 
 " Replace shortcut
-nnoremap // :<C-u>%s/
-vnoremap // :s/
+nnoremap // :<C-u>%s/\v
+vnoremap // :s/\v
 
 " Put empty line with <CR>
 nnoremap <CR> o<Esc>
