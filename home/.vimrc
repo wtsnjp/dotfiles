@@ -534,9 +534,9 @@ autocmd vimrc FileType vimfiler nmap <buffer> l <Plug>(vimfiler_expand_or_edit)
 " vinarise {{{
 
 " Enable with -b option
-autocmd vimrc BufReadPre  *.bin let &binary =1
-autocmd vimrc BufReadPost * if &binary | Vinarise
-autocmd vimrc BufWritePre * if &binary | Vinarise | endif
+autocmd vimrc BufReadPre   *.bin let &binary =1
+autocmd vimrc BufReadPost  * if &binary | Vinarise
+autocmd vimrc BufWritePre  * if &binary | Vinarise | endif
 autocmd vimrc BufWritePost * if &binary | Vinarise
 
 " }}}
