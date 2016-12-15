@@ -17,9 +17,9 @@ endif
 scriptencoding utf-8
 
 if has('guess_encode')
-  set fileencodings=ucs-bom,iso-2022-jp,guess,euc-jp,cp932
+  set fileencodings=utf-8,ucs-bom,iso-2022-jp,guess,euc-jp,cp932
 else
-  set fileencodings=ucs-bom,iso-2022-jp,euc-jp,cp932
+  set fileencodings=utf-8,ucs-bom,iso-2022-jp,euc-jp,cp932
 endif
 
 " Augroup for this vimrc
@@ -81,9 +81,6 @@ set expandtab
 " Smart indent
 set cindent
 set breakindent
-
-" Copy to clipboard
-set clipboard& clipboard+=unnamed
 
 " Don't load current .vimrc and .exrc
 set noexrc
@@ -150,6 +147,9 @@ if has('persistent_undo')
   endif
   set undofile
 endif
+
+" Viminfo file
+set viminfo& viminfo+=n$HOME/.vim/info
 
 " Default save space
 set browsedir=buffer
@@ -270,7 +270,7 @@ if s:use_dein && v:version >= 704
   let &runtimepath = &runtimepath . ',' . s:dein_repo_dir
 
   " Begin plugin part
-  " TODO: write down to TOML file
+  " TODO: write down in TOML file
   if dein#load_state(s:dein_dir)
     call dein#begin(s:dein_dir)
 
@@ -293,8 +293,12 @@ if s:use_dein && v:version >= 704
     call dein#add('osyo-manga/unite-quickfix')
     call dein#add('h1mesuke/unite-outline')
 
+    " Yank
+    call dein#add('LeafCage/yankround.vim')
+
     " Motion
     call dein#add('rhysd/clever-f.vim')
+    call dein#add('thinca/vim-poslist')
 
     " Operator
     call dein#add('kana/vim-operator-user')
@@ -303,7 +307,7 @@ if s:use_dein && v:version >= 704
     call dein#add('kana/vim-textobj-user')
     call dein#add('thinca/vim-textobj-between')
 
-    " Mode extention
+    " Block extention
     call dein#add('kana/vim-niceblock')
 
     " Web
@@ -334,7 +338,7 @@ if s:use_dein && v:version >= 704
 
     " Git
     call dein#add('cohama/agit.vim')
-    "call dein#add('jaxbot/github-issues.vim')
+    "call dein#add('jaxbot/github-issues.vim')    " turn off because require +python
     call dein#add('tyru/open-browser-github.vim')
 
     " Markdown
@@ -483,6 +487,12 @@ let g:netrw_nogx = 1
 
 " }}}
 
+" poslist {{{
+
+let g:poslist_histsize = 1000
+
+" }}}
+
 " previm {{{
 
 let g:previm_open_cmd = 'open -a Safari'
@@ -564,6 +574,19 @@ autocmd vimrc BufWritePost * if &binary | Vinarise
 
 " }}}
 
+" yankround {{{
+
+" Use directory under .vim
+let g:yankround_dir = '$HOME/.vim/yankround'
+if !isdirectory(g:yankround_dir)
+  call mkdir(g:yankround_dir, 'p')
+endif
+
+" Save 50 yank history
+let g:yankround_max_history = 50
+
+" }}}
+
 "---------------------------
 " Key mappings
 "---------------------------
@@ -576,12 +599,27 @@ noremap k gk
 noremap gj j
 noremap gk k
 
-" Yank naturaly
-nnoremap Y y$
-
 " Move without shift key
 noremap - $
 noremap 0 %
+
+" Yank naturaly
+nnoremap Y y$
+
+" Use yankround like YankRing.vim
+nmap p <Plug>(yankround-p)
+xmap p <Plug>(yankround-p)
+nmap P <Plug>(yankround-P)
+nmap <C-p> <Plug>(yankround-prev)
+nmap <C-n> <Plug>(yankround-next)
+
+" Select pasted text
+noremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
+
+" Substitute to yanked text
+nnoremap <silent> cy  ce<C-r>0<Esc>:let@/=@1<CR>:nohlsearch<CR>
+vnoremap <silent> cy  c<C-r>0<Esc>:let@/=@1<CR>:nohlsearch<CR>
+nnoremap <silent> ciy ciw<C-r>0<Esc>:let@/=@1<CR>:nohlsearch<CR>
 
 " Search with incsearch.vim
 map /  <Plug>(incsearch-forward)
@@ -596,7 +634,11 @@ nmap # <Plug>(asterisk-z#)<Plug>(anzu-update-search-status-with-echo)
 nmap g* <Plug>(asterisk-gz*)<Plug>(anzu-update-search-status-with-echo)
 nmap g# <Plug>(asterisk-gz#)<Plug>(anzu-update-search-status-with-echo)
 
-" Finish highlight with double <ESC>
+" Jump
+map <C-o> <Plug>(poslist-prev-pos)
+map <C-i> <Plug>(poslist-next-pos)
+
+" Finish highlight with double <Esc>
 nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
 
 " Indent quickly
@@ -608,6 +650,13 @@ xnoremap < <gv
 " Replace shortcut
 nnoremap // :<C-u>%s/\v
 vnoremap // :s/\v
+
+" Open command line window with function keys
+noremap <F5> <Esc>q:
+noremap <F6> <Esc>q/
+noremap q: <Nop>
+noremap q/ <Nop>
+noremap q? <Nop>
 
 " Put empty line with <CR>
 nnoremap <CR> o<Esc>
@@ -678,6 +727,10 @@ cnoremap <C-b> <Left>
 " Convenient history scrollers
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
+
+" Use yankround in command line mode
+cmap <C-r> <Plug>(yankround-insert-register)
+cmap <C-y> <Plug>(yankround-pop)
 
 " Move smooth in insertmode
 inoremap <C-a> <Home>
