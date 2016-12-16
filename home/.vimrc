@@ -103,7 +103,7 @@ set whichwrap=b,s,h,l,<,>,[,]
 set backspace=indent,eol,start
 
 " Invisible characters
-set listchars=tab:>=,trail:_
+set listchars=eol:$,space:_,conceal:?,nbsp:=,tab:>=,trail:=
 
 " Provision for em letters
 set ambiwidth=double
@@ -706,6 +706,9 @@ noremap  <silent> <Space>go :<C-u>OpenGithubFile<CR>
 
 " Show line number
 noremap <silent> <Space>n :<C-u>setlocal number!<CR>
+
+" Show invisible characters
+noremap <silent> <Space>l :<C-u>setlocal list!<CR>
 
 " Show indent line
 noremap <silent> <Space>i :<C-u>IndentLinesToggle<CR>
