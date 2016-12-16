@@ -240,12 +240,19 @@ set history=10000
 "---------------------------
 
 " Change encoding
-command! -bang -nargs=? Utf8 edit<bang> ++enc=utf-8 <args>
-command! -bang -nargs=? Sjis edit<bang> ++enc=sjis <args>
-command! -bang -nargs=? Euc edit<bang> ++enc=euc-jp <args>
+command! -bang -nargs=? Utf8 edit<bang> ++enc=utf-8  <args>
+command! -bang -nargs=? Sjis edit<bang> ++enc=sjis   <args>
+command! -bang -nargs=? Euc  edit<bang> ++enc=euc-jp <args>
 
 "---------------------------
-" Plugins (Use dein.vim)
+" Build-in plugins
+"---------------------------
+
+" Extend % motion
+runtime macros/matchit.vim
+
+"---------------------------
+" Plugins (with dein.vim)
 "---------------------------
 
 filetype plugin indent off
@@ -283,6 +290,9 @@ if s:use_dein && v:version >= 704
     call dein#add('Shougo/vimshell', {'lazy': 1})
     call dein#add('vim-scripts/sudo.vim')
     call dein#add('tyru/vim-altercmd')
+    if has('python')
+      call dein#add('gregsexton/VimCalc')
+    endif
 
     " Help
     call dein#add('vim-jp/vimdoc-ja')
@@ -338,8 +348,10 @@ if s:use_dein && v:version >= 704
 
     " Git
     call dein#add('cohama/agit.vim')
-    "call dein#add('jaxbot/github-issues.vim')    " turn off because require +python
     call dein#add('tyru/open-browser-github.vim')
+    if has('python')
+      call dein#add('jaxbot/github-issues.vim')
+    endif
 
     " Markdown
     call dein#add('kannokanno/previm')
@@ -600,8 +612,9 @@ noremap gj j
 noremap gk k
 
 " Move without shift key
+" NOTE: use map (not noremap) for matchit.vim
 noremap - $
-noremap 0 %
+map     0 %
 
 " Yank naturaly
 nnoremap Y y$
@@ -627,12 +640,13 @@ map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
 
 " Bring middle position after word search
-nmap n <Plug>(anzu-n)zzzv<Plug>(anzu-update-search-status-with-echo)
-nmap N <Plug>(anzu-N)zzzv<Plug>(anzu-update-search-status-with-echo)
-nmap * <Plug>(asterisk-z*)<Plug>(anzu-update-search-status-with-echo)
-nmap # <Plug>(asterisk-z#)<Plug>(anzu-update-search-status-with-echo)
-nmap g* <Plug>(asterisk-gz*)<Plug>(anzu-update-search-status-with-echo)
-nmap g# <Plug>(asterisk-gz#)<Plug>(anzu-update-search-status-with-echo)
+" FIXME: <Plug>(incsearch-nohl) does not work.
+nmap n  <Plug>(incsearch-nohl)<Plug>(anzu-n)zzzv<Plug>(anzu-update-search-status-with-echo)
+nmap N  <Plug>(incsearch-nohl)<Plug>(anzu-N)zzzv<Plug>(anzu-update-search-status-with-echo)
+nmap *  <Plug>(incsearch-nohl)<Plug>(asterisk-z*)<Plug>(anzu-update-search-status-with-echo)
+nmap #  <Plug>(incsearch-nohl)<Plug>(asterisk-z#)<Plug>(anzu-update-search-status-with-echo)
+nmap g* <Plug>(incsearch-nohl)<Plug>(asterisk-gz*)<Plug>(anzu-update-search-status-with-echo)
+nmap g# <Plug>(incsearch-nohl)<Plug>(asterisk-gz#)<Plug>(anzu-update-search-status-with-echo)
 
 " Jump
 map <C-o> <Plug>(poslist-prev-pos)
@@ -805,6 +819,13 @@ if s:dein_enable
   call submode#map('bufmove', 'n', '', '+', '<C-w>+')
   call submode#map('bufmove', 'n', '', '-', '<C-w>-')
 endif
+
+"---------------------------
+" TeX and LaTeX
+"---------------------------
+
+" Match \if and \fi
+autocmd vimrc FileType plaintex,tex,tl let b:match_words = &matchpairs . ',\if:\fi'
 
 "---------------------------
 " Vim script
