@@ -2,6 +2,7 @@
 " Author: wtsnjp
 " Website: https://wtsnjp.com
 " Source: https://github.com/wtsnjp/dotfiles
+" License: MIT
 
 
 "---------------------------
@@ -37,6 +38,43 @@ let s:is_unix = !s:is_mac && has('unix')
 
 " Define flags
 let s:use_dein = 1
+
+"---------------------------
+" Startup
+"---------------------------
+
+" Open *.def file with filetype=tl (TeX on LaTeX)
+autocmd vimrc BufRead *.def setlocal ft=tl
+
+" Open *.coffee file with filetype=coffee
+autocmd vimrc BufRead *.coffee setlocal ft=coffee
+
+" Spell check if commit message
+autocmd vimrc FileType gitcommit setlocal spell
+autocmd vimrc FileType gitcommit startinsert
+
+" Restoration the position of cursor
+autocmd BufReadPost *
+  \ if line("'\"") > 1 && line("'\"") <= line("$") |
+  \   exe "normal! g`\"" |
+  \ endif
+
+" Prepare ~/.vim dir
+let s:vimdir = $HOME . '/.vim'
+if has('vim_starting')
+  if !isdirectory(s:vimdir)
+    call system('mkdir ' . s:vimdir)
+  endif
+endif
+
+" Auto mkdir
+autocmd vimrc BufWritePre * call s:auto_mkdir(expand('<afile>:p:h'), v:cmdbang)
+function! s:auto_mkdir(dir, force)
+  if !isdirectory(a:dir) && (a:force ||
+      \ input(printf('"%s" does not exist. Create? [y/N]', a:dir)) =~? '^y\%[es]$')
+    call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
+  endif
+endfunction
 
 "---------------------------
 " General Settings
@@ -127,6 +165,7 @@ set background=dark
 colorscheme hybrid
 syntax enable
 
+" NOTE: Can not use variable of Vim script for options?
 " Set backup directory
 set backupdir=$HOME/.vim/backup
 if !isdirectory(&backupdir)
@@ -161,43 +200,6 @@ set grepprg=grep\ -nH\ $*
 if executable('jvgrep')
   set grepprg=jvgrep
 endif
-
-"---------------------------
-" Startup
-"---------------------------
-
-" Open *.def file with filetype=tl (TeX on LaTeX)
-autocmd vimrc BufRead *.def setlocal ft=tl
-
-" Open *.coffee file with filetype=coffee
-autocmd vimrc BufRead *.coffee setlocal ft=coffee
-
-" Spell check if commit message
-autocmd vimrc FileType gitcommit setlocal spell
-autocmd vimrc FileType gitcommit startinsert
-
-" Restoration the position of cursor
-autocmd BufReadPost *
-  \ if line("'\"") > 1 && line("'\"") <= line("$") |
-  \   exe "normal! g`\"" |
-  \ endif
-
-" Prepare ~/.vim dir
-let s:vimdir = $HOME . "/.vim"
-if has("vim_starting")
-  if !isdirectory(s:vimdir)
-    call system("mkdir " . s:vimdir)
-  endif
-endif
-
-" Auto mkdir
-autocmd vimrc BufWritePre * call s:auto_mkdir(expand('<afile>:p:h'), v:cmdbang)
-function! s:auto_mkdir(dir, force)
-  if !isdirectory(a:dir) && (a:force ||
-      \ input(printf('"%s" does not exist. Create? [y/N]', a:dir)) =~? '^y\%[es]$')
-    call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
-  endif
-endfunction
 
 "---------------------------
 " Serach settings
@@ -289,6 +291,7 @@ if s:use_dein && v:version >= 704
     call dein#add('Shougo/vimfiler')
     call dein#add('Shougo/vimshell', {'lazy': 1})
     call dein#add('vim-scripts/sudo.vim')
+    call dein#add('vim-jp/vital.vim')
     call dein#add('tyru/vim-altercmd')
     if has('python')
       call dein#add('gregsexton/VimCalc')
@@ -302,6 +305,10 @@ if s:use_dein && v:version >= 704
     call dein#add('Shougo/neomru.vim')
     call dein#add('osyo-manga/unite-quickfix')
     call dein#add('h1mesuke/unite-outline')
+
+    " Formatting
+    call dein#add('junegunn/vim-easy-align')
+    call dein#add('tpope/vim-abolish')
 
     " Yank
     call dein#add('LeafCage/yankround.vim')
@@ -589,7 +596,7 @@ autocmd vimrc BufWritePost * if &binary | Vinarise
 " yankround {{{
 
 " Use directory under .vim
-let g:yankround_dir = '$HOME/.vim/yankround'
+let g:yankround_dir = s:vimdir . 'yankround'
 if !isdirectory(g:yankround_dir)
   call mkdir(g:yankround_dir, 'p')
 endif
@@ -702,6 +709,9 @@ noremap <silent> <Space>n :<C-u>setlocal number!<CR>
 
 " Show indent line
 noremap <silent> <Space>i :<C-u>IndentLinesToggle<CR>
+
+" Align easily
+vmap ,a <Plug>(EasyAlign)
 
 " Toggle comment with caw
 " FIXME: CommentToggle() can not toggle multiple lines
