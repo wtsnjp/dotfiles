@@ -103,6 +103,7 @@ set whichwrap=b,s,h,l,<,>,[,]
 set backspace=indent,eol,start
 
 " Invisible characters
+" NOTE: letter '=' means invalid for me
 set listchars=eol:$,space:_,conceal:?,nbsp:=,tab:>=,trail:=
 
 " Provision for em letters
@@ -323,6 +324,7 @@ if s:use_dein && v:version >= 704
     " Text object
     call dein#add('kana/vim-textobj-user')
     call dein#add('thinca/vim-textobj-between')
+    call dein#add('tpopt/vim-surround')
 
     " Block extention
     call dein#add('kana/vim-niceblock')
