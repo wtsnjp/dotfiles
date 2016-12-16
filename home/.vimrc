@@ -103,7 +103,7 @@ set whichwrap=b,s,h,l,<,>,[,]
 set backspace=indent,eol,start
 
 " Invisible characters
-" NOTE: letter '=' means invalid for me
+" Note: letter '=' means invalid for me
 set listchars=eol:$,space:_,conceal:?,nbsp:=,tab:>=,trail:=
 
 " Provision for em letters
@@ -166,7 +166,7 @@ set background=dark
 colorscheme hybrid
 syntax enable
 
-" NOTE: Can not use variable of Vim script for options?
+" TODO: I want to use s:vimdir for these settings (to be DRY)
 " Set backup directory
 set backupdir=$HOME/.vim/backup
 if !isdirectory(&backupdir)
@@ -323,8 +323,14 @@ if s:use_dein && v:version >= 704
 
     " Text object
     call dein#add('kana/vim-textobj-user')
+    call dein#add('kana/vim-textobj-fold')
+    call dein#add('kana/vim-textobj-indent')
+    call dein#add('kana/vim-textobj-lastpat')
     call dein#add('thinca/vim-textobj-between')
-    call dein#add('tpopt/vim-surround')
+
+    " Surround.vim
+    call dein#add('tpope/vim-surround')
+    call dein#add('tpope/vim-repeat')
 
     " Block extention
     call dein#add('kana/vim-niceblock')
@@ -415,7 +421,7 @@ filetype plugin indent on
 "---------------------------
 " Plugin settings
 "---------------------------
-" NOTE: arrange in alphabetical order
+" Note: arrange in alphabetical order
 
 " caw.vim {{{
 
@@ -621,7 +627,7 @@ noremap gj j
 noremap gk k
 
 " Move without shift key
-" NOTE: use map (not noremap) for matchit.vim
+" TODO: use map (not noremap) for matchit.vim but maybe this is not good
 noremap - $
 map     0 %
 
@@ -649,7 +655,7 @@ map ?  <Plug>(incsearch-backward)
 map g/ <Plug>(incsearch-stay)
 
 " Bring middle position after word search
-" FIXME: <Plug>(incsearch-nohl) does not work.
+" FIXME: <Plug>(incsearch-nohl) does not work
 nmap n  <Plug>(incsearch-nohl)<Plug>(anzu-n)zzzv<Plug>(anzu-update-search-status-with-echo)
 nmap N  <Plug>(incsearch-nohl)<Plug>(anzu-N)zzzv<Plug>(anzu-update-search-status-with-echo)
 nmap *  <Plug>(incsearch-nohl)<Plug>(asterisk-z*)<Plug>(anzu-update-search-status-with-echo)
@@ -714,6 +720,9 @@ noremap <silent> <Space>l :<C-u>setlocal list!<CR>
 
 " Show indent line
 noremap <silent> <Space>i :<C-u>IndentLinesToggle<CR>
+
+" Use surround-S with s
+vmap s S
 
 " Align easily
 vmap ,a <Plug>(EasyAlign)
@@ -798,10 +807,7 @@ nnoremap <silent> ]b :<C-u>bnext<CR>
 nnoremap <silent> [B :<C-u>bfirst<CR>
 nnoremap <silent> ]B :<C-u>blast<CR>
 
-"---------------------------
-" Divide settings
-"---------------------------
-
+" Split window
 nnoremap s <Nop>
 nnoremap sj <C-w>j
 nnoremap sk <C-w>k
@@ -823,7 +829,6 @@ nnoremap sq :<C-u>bd<CR>
 nnoremap sQ :<C-u>qa<CR>
 nnoremap sb :<C-u>Unite buffer_tab -buffer-name=file<CR>
 nnoremap sB :<C-u>Unite buffer -buffer-name=file<CR>
-
 if s:dein_enable
   call submode#enter_with('bufmove', 'n', '', 's>', '<C-w>>')
   call submode#enter_with('bufmove', 'n', '', 's<', '<C-w><')
