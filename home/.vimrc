@@ -254,6 +254,9 @@ command! -bang -nargs=? Euc  edit<bang> ++enc=euc-jp <args>
 " Extend % motion
 runtime macros/matchit.vim
 
+" Enable :Man in any file
+runtime ftplugin/man.vim
+
 "---------------------------
 " Plugins (with dein.vim)
 "---------------------------
@@ -294,6 +297,9 @@ if s:use_dein && v:version >= 704
     call dein#add('vim-scripts/sudo.vim')
     call dein#add('vim-jp/vital.vim')
     call dein#add('tyru/vim-altercmd')
+
+    " Convenient
+    call dein#add('mattn/calendar-vim')
     if has('python')
       call dein#add('gregsexton/VimCalc')
     endif
@@ -377,7 +383,7 @@ if s:use_dein && v:version >= 704
     " Binary
     call dein#add('Shougo/vinarise', {'lazy': 1})
 
-    " Reference
+    " References
     call dein#add('thinca/vim-ref')
     call dein#add('yuku-t/vim-ref-ri')
 
