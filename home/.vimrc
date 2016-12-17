@@ -505,7 +505,7 @@ let g:neocomplete_enable_underbar_completion = 1
 let g:neocomplete_min_syntax_length = 3
 
 " Setting for vim-monster
-let g:neocomplete#sources#omni#input_patterns = {'ruby' : '[^. *\t]\.\w*\|\h\w*::'}
+let g:neocomplete#sources#omni#input_patterns = {'ruby': '[^. *\t]\.\w*\|\h\w*::'}
 
 " Do not show docstring
 autocmd vimrc FileType python setlocal completeopt-=preview
