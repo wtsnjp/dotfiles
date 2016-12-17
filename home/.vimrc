@@ -2,7 +2,6 @@
 " Author: wtsnjp
 " Website: https://wtsnjp.com
 " Source: https://github.com/wtsnjp/dotfiles
-" License: MIT
 
 
 "---------------------------
@@ -103,8 +102,7 @@ set whichwrap=b,s,h,l,<,>,[,]
 set backspace=indent,eol,start
 
 " Invisible characters
-" Note: letter '=' means invalid for me
-set listchars=eol:$,space:_,conceal:?,nbsp:=,tab:>=,trail:=
+set listchars=eol:$,space:_,conceal:?,nbsp:~,tab:>-,trail:=
 
 " Provision for em letters
 set ambiwidth=double
