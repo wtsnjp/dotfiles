@@ -53,7 +53,7 @@ autocmd vimrc FileType gitcommit setlocal spell
 autocmd vimrc FileType gitcommit startinsert
 
 " Restoration the position of cursor
-autocmd BufReadPost *
+autocmd vimrc BufReadPost *
   \ if line("'\"") > 1 && line("'\"") <= line("$") |
   \   exe "normal! g`\"" |
   \ endif
@@ -120,7 +120,7 @@ set cindent
 set breakindent
 
 " Don't load current .vimrc and .exrc
-set noexrc
+set exrc
 
 " Sound deadening
 set belloff=all
@@ -130,11 +130,12 @@ set noerrorbells
 set laststatus=2
 
 " Show title (on top)
-let &titleold=''
+set titleold=''
 set title
 
 " Folding
 set foldmethod=marker
+set foldmarker={{{,}}}
 set foldlevel=0
 
 " Don't recognize octal number
@@ -164,22 +165,21 @@ set background=dark
 colorscheme hybrid
 syntax enable
 
-" TODO: I want to use s:vimdir for these settings (to be DRY)
 " Set backup directory
-set backupdir=$HOME/.vim/backup
+let &backupdir = s:vimdir . '/backup'
 if !isdirectory(&backupdir)
   call mkdir(&backupdir, 'p')
 endif
 
 " Set swap directory
-set directory=$HOME/.vim/backup
+let &directory = s:vimdir . '/backup'
 if !isdirectory(&directory)
   call mkdir(&directory, 'p')
 endif
 
 " Enable semipermanent undo
 if has('persistent_undo')
-  set undodir=$HOME/.vim/undo
+  let &undodir= s:vimdir . '/undo'
   if !isdirectory(&undodir)
     call mkdir(&undodir, 'p')
   endif
@@ -538,8 +538,8 @@ let g:quickrun_config = {
   \     'outputter/buffer/split': ':botright 8sp',
   \     'outputter/buffer/close_on_empty': 1,
   \     'hook/time/enable': 1,
-  \     'runner': 'vimproc',
-  \     'runner/vimproc/updatetime': 40,
+  \     'runner': 'job',
+  \     'runner/job/updatetime': 40,
   \   },
   \   'python': {
   \     'cmdopt': '-B'
@@ -677,8 +677,6 @@ nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
 " Indent quickly
 nnoremap > >>
 nnoremap < <<
-xnoremap > >gv
-xnoremap < <gv
 
 " Replace shortcut
 nnoremap // :<C-u>%s/\v
@@ -798,12 +796,6 @@ nnoremap <F8> :<C-u>source %<CR>
 nnoremap ZZ <Nop>
 nnoremap ZQ <Nop>
 nnoremap Q <Nop>
-
-" Make serial number (vertical)
-noremap <silent> co :ContinuousNumber <C-a><CR>
-command! -count -nargs=1 ContinuousNumber
-  \ let c = col('.')|for n in range(1, <count>?<count>-line('.'):1)|
-  \ exec 'normal! j' . n . <q-args>|call cursor('.', c)|endfor
 
 " Move between buffers
 nnoremap <silent> [b :<C-u>bprevious<CR>
