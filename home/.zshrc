@@ -1,6 +1,6 @@
 # Watson's zshrc
-# Author: Watson
-# Website: http://watson-lab.com
+# Author: wtsnjp
+# Website: https://wtsnjp.com
 # Source: https://github.com/wtsnjp/dotfiles
 
 #---------------------------
