@@ -96,9 +96,6 @@ if type hub > /dev/null 2>&1; then
   eval "$(hub alias -s)"
 fi
 
-# Activate ssh-agent
-eval `ssh-agent`
-
 #---------------------------
 # Functions
 #---------------------------
