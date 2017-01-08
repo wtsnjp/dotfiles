@@ -685,6 +685,8 @@ vnoremap // :s/\v
 " Open command line window with function keys
 noremap <F5> <Esc>q:
 noremap <F6> <Esc>q/
+autocmd vimrc CmdwinEnter * noremap <buffer> <F5> <CR>q:
+autocmd vimrc CmdwinEnter * noremap <buffer> <F6> <CR>q/
 noremap q: <Nop>
 noremap q/ <Nop>
 noremap q? <Nop>
