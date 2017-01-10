@@ -732,9 +732,8 @@ vmap s S
 vmap ,a <Plug>(EasyAlign)
 
 " Toggle comment with caw
-" FIXME: CommentToggle() can not toggle multiple lines
 map     <silent> ,c <Plug>(caw:hatpos:toggle)
-noremap <silent> ,C :<C-u>call CommentToggle()<CR>
+noremap <silent> ,C :call CommentToggle()<CR>
 function! CommentToggle()
   let b:caw_hatpos_sp = ' '
   execute "normal \<Plug>(caw:hatpos:toggle)"
