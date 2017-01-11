@@ -11,7 +11,6 @@
 export LANG=en_US.UTF-8
 
 ### Tools
-export PAGER="vimpager"
 export RLWRAP_HOME=".rlwrap"
 
 #---------------------------
