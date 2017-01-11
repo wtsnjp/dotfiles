@@ -575,7 +575,7 @@ let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': ['ruby'] }
 " unite.vim {{{
 
 " Start with insert mode
-"let g:unite_enable_start_insert = 1
+let g:unite_enable_start_insert = 1
 
 " Number of saving resent files
 let g:unite_source_file_mru_limit = 100
@@ -748,7 +748,7 @@ map ,o <Plug>(openbrowser-smart-search)
 
 " Mappings for unite
 noremap [unite] <Nop>
-nmap ,u [unite]
+nmap ; [unite]
 nnoremap <silent> [unite]f :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
 nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
 nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
