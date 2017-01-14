@@ -13,6 +13,9 @@ export LANG=en_US.UTF-8
 ### Tools
 export RLWRAP_HOME=".rlwrap"
 
+### Fonts
+export OSFONTDIR="/Library/Fonts"
+
 #---------------------------
 # Complete settings
 #---------------------------

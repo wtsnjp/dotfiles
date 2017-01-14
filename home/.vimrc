@@ -575,7 +575,7 @@ let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': ['ruby'] }
 " unite.vim {{{
 
 " Start with insert mode
-let g:unite_enable_start_insert = 1
+"let g:unite_enable_start_insert = 1
 
 " Number of saving resent files
 let g:unite_source_file_mru_limit = 100
@@ -690,9 +690,6 @@ autocmd vimrc CmdwinEnter * noremap <buffer> <F6> <CR>q/
 noremap q: <Nop>
 noremap q/ <Nop>
 noremap q? <Nop>
-
-" Put empty line with <CR>
-nnoremap <CR> o<Esc>
 
 " Use <Space> as prefix
 map <Space> <Nop>
