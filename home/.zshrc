@@ -7,14 +7,11 @@
 # Environments
 #---------------------------
 
-### Config
+# Config
 export LANG=en_US.UTF-8
 
-### Tools
+# Tools
 export RLWRAP_HOME=".rlwrap"
-
-### Fonts
-export OSFONTDIR="/Library/Fonts"
 
 #---------------------------
 # Complete settings
@@ -94,9 +91,11 @@ if [ -f ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
 fi
 
 # Enable hub
-if type hub > /dev/null 2>&1; then
-  eval "$(hub alias -s)"
-fi
+which hub 2>&1 > /dev/null && eval "$(hub alias -s)"
+
+# Initialize rbenv & pyenv
+which rbenv 2>&1 > /dev/null && eval "$(rbenv init -)"
+which pyenv 2>&1 > /dev/null && eval "$(pyenv init -)"
 
 #---------------------------
 # Functions
@@ -123,9 +122,7 @@ alias rm='rm -i'
 # Execute with sudo
 alias please='sudo $(fc -ln -1)'
 
-# Hugo
-alias preview='hugo server -D -w'
-
+# Aliases depend on OS
 case ${OSTYPE} in
   # Aliases for Mac
   darwin*)
