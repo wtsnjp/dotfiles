@@ -496,13 +496,13 @@ endif
 let g:neocomplete#enable_at_startup = 1
 
 " Use smartcase
-let g:neocomplete_enable_smart_case = 1
+let g:neocomplete#enable_smart_case = 1
 
 " Use underbar completion
-let g:neocomplete_enable_underbar_completion = 1
+let g:neocomplete#enable_underbar_completion = 1
 
 " Set minimum syntax keyword length
-let g:neocomplete_min_syntax_length = 3
+let g:neocomplete#min_keyword_length = 3
 
 " Setting for vim-monster
 let g:neocomplete#sources#omni#input_patterns = {'ruby': '[^. *\t]\.\w*\|\h\w*::'}
@@ -756,13 +756,12 @@ nnoremap <silent> [unite]a :<C-u>UniteBookmarkAdd<CR>
 " Open vimfiler
 nnoremap <silent> ,f :<C-u>VimFiler -split -simple -winwidth=25 -no-quit<CR>
 
-" Move smooth in commandline
+" Emacs-style editing on the command-line
 cnoremap <C-a> <Home>
+cnoremap <C-b> <Left>
+cnoremap <C-d> <Del>
 cnoremap <C-e> <End>
 cnoremap <C-f> <Right>
-cnoremap <C-b> <Left>
-
-" Convenient history scrollers
 cnoremap <C-p> <Up>
 cnoremap <C-n> <Down>
 
@@ -770,21 +769,14 @@ cnoremap <C-n> <Down>
 cmap <C-r> <Plug>(yankround-insert-register)
 cmap <C-y> <Plug>(yankround-pop)
 
-" Move smooth in insertmode
-inoremap <C-a> <Home>
-inoremap <C-j> <Down>
-inoremap <C-k> <Up>
-inoremap <C-h> <Left>
-inoremap <C-l> <Right>
-inoremap <C-d> <delete>
-
 " Mappings for neocomplete
-inoremap <expr> <C-g> neocomplete#undo_completion()
-inoremap <expr> <TAB> pumvisible() ? neocomplete#complete_common_string() : "\<TAB>"
-inoremap <expr> <BS>  neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr> <C-y> neocomplete#close_popup()
-inoremap <expr> <C-e> neocomplete#cancel_popup()
-inoremap <expr> <CR>  pumvisible() ? neocomplete#close_popup() : lexima#expand('<CR>', 'i')
+inoremap <expr> <C-u> neocomplete#undo_completion()
+inoremap <expr> <TAB>
+  \ neocomplete#complete_common_string() != '' ?
+  \   neocomplete#complete_common_string() :
+  \ pumvisible() ? "\<C-n>" : "\<TAB>"
+inoremap <expr> <CR>
+  \ pumvisible() ? neocomplete#close_popup() : lexima#expand('<CR>', 'i')
 
 " Function keys
 nnoremap <F1> K
