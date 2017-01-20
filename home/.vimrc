@@ -60,6 +60,7 @@ autocmd vimrc BufReadPost *
 
 " Prepare ~/.vim dir
 let s:vimdir = $HOME . '/.vim'
+let s:vimdata = s:vimdir . '/data'
 if has('vim_starting')
   if !isdirectory(s:vimdir)
     call system('mkdir ' . s:vimdir)
@@ -130,7 +131,7 @@ set noerrorbells
 set laststatus=2
 
 " Show title (on top)
-set titleold=''
+set titleold=""
 set title
 
 " Folding
@@ -166,20 +167,20 @@ colorscheme hybrid
 syntax enable
 
 " Set backup directory
-let &backupdir = s:vimdir . '/backup'
+let &backupdir = s:vimdata . '/backup'
 if !isdirectory(&backupdir)
   call mkdir(&backupdir, 'p')
 endif
 
 " Set swap directory
-let &directory = s:vimdir . '/backup'
+let &directory = s:vimdata . '/backup'
 if !isdirectory(&directory)
   call mkdir(&directory, 'p')
 endif
 
 " Enable semipermanent undo
 if has('persistent_undo')
-  let &undodir= s:vimdir . '/undo'
+  let &undodir= s:vimdata . '/undo'
   if !isdirectory(&undodir)
     call mkdir(&undodir, 'p')
   endif
@@ -187,7 +188,8 @@ if has('persistent_undo')
 endif
 
 " Viminfo file
-set viminfo& viminfo+=n$HOME/.vim/info
+set viminfo&
+let &viminfo .= ',n' . s:vimdata . '/info'
 
 " Default save space
 set browsedir=buffer
@@ -278,7 +280,7 @@ if s:use_dein && v:version >= 704
     echo 'git clone ' . s:dein_repo . ' ' . s:dein_repo_dir
     call system('git clone ' . s:dein_repo . ' ' . s:dein_repo_dir)
   endif
-  let &runtimepath = &runtimepath . ',' . s:dein_repo_dir
+  let &runtimepath .= ',' . s:dein_repo_dir
 
   " Begin plugin part
   " TODO: write down in TOML file
@@ -324,6 +326,7 @@ if s:use_dein && v:version >= 704
 
     " Operator
     call dein#add('kana/vim-operator-user')
+    call dein#add('rhysd/vim-operator-surround')
 
     " Text object
     call dein#add('kana/vim-textobj-user')
@@ -331,10 +334,6 @@ if s:use_dein && v:version >= 704
     call dein#add('kana/vim-textobj-indent')
     call dein#add('kana/vim-textobj-lastpat')
     call dein#add('thinca/vim-textobj-between')
-
-    " Surround.vim
-    call dein#add('tpope/vim-surround')
-    call dein#add('tpope/vim-repeat')
 
     " Block extention
     call dein#add('kana/vim-niceblock')
@@ -403,6 +402,15 @@ if s:use_dein && v:version >= 704
     call dein#add('szw/vim-tags')
     call dein#add('scrooloose/syntastic')
     call dein#add('Yggdroot/indentLine')
+
+    " Python
+    "call dein#add('davidhalter/jedi-vim')
+    "call dein#add('andviro/flake8-vim')
+    "call dein#add('hynek/vim-python-pep8-indent')
+    call dein#add('bps/vim-textobj-python')
+
+    " Ruby
+    "call dein#add('osyo-manga/vim-monster')
 
     " Scheme
     call dein#add('wlangstroth/vim-racket')
@@ -608,7 +616,7 @@ autocmd vimrc BufWritePost * if &binary | Vinarise
 " yankround {{{
 
 " Use directory under .vim
-let g:yankround_dir = s:vimdir . 'yankround'
+let g:yankround_dir = s:vimdata . '/yankround'
 if !isdirectory(g:yankround_dir)
   call mkdir(g:yankround_dir, 'p')
 endif
@@ -722,11 +730,13 @@ noremap <silent> <Space>l :<C-u>setlocal list!<CR>
 " Show indent line
 noremap <silent> <Space>i :<C-u>IndentLinesToggle<CR>
 
-" Use surround-S with s
-vmap s S
-
 " Align easily
 vmap ,a <Plug>(EasyAlign)
+
+" Surround
+map <silent> ,sa <Plug>(operator-surround-append)
+map <silent> ,sd <Plug>(operator-surround-delete)
+map <silent> ,sr <Plug>(operator-surround-replace)
 
 " Toggle comment with caw
 map     <silent> ,c <Plug>(caw:hatpos:toggle)
@@ -738,10 +748,14 @@ function! CommentToggle()
 endfunction
 
 " QuickRun with some args
-nnoremap ,r :<C-u>QuickRun<Space>
+nnoremap ,qr :<C-u>QuickRun<Space>
+nnoremap ,qa :<C-u>QuickRun<Space>-args<Space>''<Left>
 
 " Open URL
 map ,o <Plug>(openbrowser-smart-search)
+
+" Open vimfiler
+nnoremap <silent> ,f :<C-u>VimFiler -split -simple -winwidth=25 -no-quit<CR>
 
 " Mappings for unite
 noremap [unite] <Nop>
@@ -752,9 +766,6 @@ nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
 nnoremap <silent> [unite]m :<C-u>Unite file_mru<CR>
 nnoremap <silent> [unite]d :<C-u>Unite bookmark<CR>
 nnoremap <silent> [unite]a :<C-u>UniteBookmarkAdd<CR>
-
-" Open vimfiler
-nnoremap <silent> ,f :<C-u>VimFiler -split -simple -winwidth=25 -no-quit<CR>
 
 " Emacs-style editing on the command-line
 cnoremap <C-a> <Home>
