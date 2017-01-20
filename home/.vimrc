@@ -42,15 +42,8 @@ let s:use_dein = 1
 " Startup
 "---------------------------
 
-" Open *.def file with filetype=tl (TeX on LaTeX)
-autocmd vimrc BufRead *.def setlocal ft=tl
-
-" Open *.coffee file with filetype=coffee
-autocmd vimrc BufRead *.coffee setlocal ft=coffee
-
-" Spell check if commit message
-autocmd vimrc FileType gitcommit setlocal spell
-autocmd vimrc FileType gitcommit startinsert
+" Open *.def file with filetype=plaintex
+autocmd vimrc BufRead *.def setlocal ft=plaintex
 
 " Restoration the position of cursor
 autocmd vimrc BufReadPost *
@@ -292,7 +285,6 @@ if s:use_dein && v:version >= 704
 
     " Utility
     call dein#add('Shougo/vimproc', {'build': 'make'})
-    call dein#add('Shougo/vimfiler')
     call dein#add('Shougo/vimshell', {'lazy': 1})
     call dein#add('vim-scripts/sudo.vim')
     call dein#add('vim-jp/vital.vim')
@@ -309,6 +301,7 @@ if s:use_dein && v:version >= 704
 
     " Unite
     call dein#add('Shougo/unite.vim', {'on_cmd': ['Unite']})
+    call dein#add('Shougo/vimfiler')
     call dein#add('Shougo/neomru.vim')
     call dein#add('osyo-manga/unite-quickfix')
     call dein#add('h1mesuke/unite-outline')
@@ -515,14 +508,12 @@ let g:neocomplete#min_keyword_length = 3
 " Setting for vim-monster
 let g:neocomplete#sources#omni#input_patterns = {'ruby': '[^. *\t]\.\w*\|\h\w*::'}
 
-" Do not show docstring
-autocmd vimrc FileType python setlocal completeopt-=preview
-
 " }}}
 
-" open-browser.vim {{{
+" netrw.vim {{{
 
 let g:netrw_nogx = 1
+let g:netrw_home = s:vimdata
 
 " }}}
 
@@ -596,10 +587,16 @@ let g:unite_source_file_mru_limit = 100
 let g:vimfiler_safe_mode_by_default = 0
 
 " Use vimfiler as default explorer
-let g:vimfiler_as_default_explorer = 1
+let g:vimfiler_as_default_explorer = 0
 
-" Expand dir with <CR>
-autocmd vimrc FileType vimfiler nmap <buffer> l <Plug>(vimfiler_expand_or_edit)
+" Settings for vimfiler
+autocmd vimrc FileType vimfiler call s:vimfiler_settings()
+function! s:vimfiler_settings()
+  setlocal modifiable write
+  nmap <buffer> l <Plug>(vimfiler_expand_or_edit)
+  nmap <buffer> q <Plug>(vimfiler_exit)
+  nmap <buffer> Q <Plug>(vimfiler_hide)
+endfunction
 
 " }}}
 
@@ -838,16 +835,30 @@ if s:dein_enable
 endif
 
 "---------------------------
-" TeX and LaTeX
+" Settings for languages
 "---------------------------
 
-" Match \if and \fi
-autocmd vimrc FileType plaintex,tex,tl let b:match_words = &matchpairs . ',\if:\fi'
+" Git commit
+autocmd vimrc FileType gitcommit call s:gitcommit_settings()
+function! s:gitcommit_settings()
+  setlocal spell
+  startinsert
+endfunction
 
-"---------------------------
+" Python
+autocmd vimrc FileType python call s:python_settings()
+function! s:python_settings()
+  setlocal completeopt-=preview
+endfunction
+
+" TeX/LaTeX
+autocmd vimrc FileType plaintex,tex call s:tex_settings()
+function! s:tex_settings()
+  let b:match_words = &matchpairs . ',\if:\fi'
+  setlocal indentkeys=''
+endfunction
+
 " Vim script
-"---------------------------
-
 let g:vim_indent_cont = 2
 
 "---------------------------
