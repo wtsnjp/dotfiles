@@ -531,6 +531,9 @@ let g:previm_open_cmd = 'open -a Safari'
 
 " quickrun {{{
 
+" Do not use default keymap
+let g:quickrun_no_default_key_mappings = 1
+
 " Options
 let g:quickrun_config = {
   \   '_': {
@@ -745,6 +748,7 @@ function! CommentToggle()
 endfunction
 
 " QuickRun with some args
+map <silent> ,r <Plug>(quickrun)
 nnoremap ,qr :<C-u>QuickRun<Space>
 nnoremap ,qa :<C-u>QuickRun<Space>-args<Space>''<Left>
 
@@ -843,6 +847,14 @@ autocmd vimrc FileType gitcommit call s:gitcommit_settings()
 function! s:gitcommit_settings()
   setlocal spell
   startinsert
+endfunction
+
+" Help
+autocmd vimrc FileType help call s:help_settings()
+function! s:help_settings()
+  map <buffer> <Space>  <C-d>
+  map <buffer> b <C-u>
+  map <buffer> q :<C-u>q<CR>
 endfunction
 
 " Python
