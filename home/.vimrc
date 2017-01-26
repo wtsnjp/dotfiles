@@ -86,8 +86,8 @@ set showcmd
 " Wrap long line
 set wrap
 
-" Ensure 8 lines visible
-set scrolloff=8
+" Ensure 3 lines visible
+set scrolloff=3
 
 " Beyond lines with holizonal movement
 set whichwrap=b,s,h,l,<,>,[,]
@@ -276,7 +276,6 @@ if s:use_dein && v:version >= 704
   let &runtimepath .= ',' . s:dein_repo_dir
 
   " Begin plugin part
-  " TODO: write down in TOML file
   if dein#load_state(s:dein_dir)
     call dein#begin(s:dein_dir)
 
@@ -872,6 +871,10 @@ endfunction
 
 " Vim script
 let g:vim_indent_cont = 2
+autocmd vimrc FileType vim call s:vimscript_settings()
+function! s:vimscript_settings()
+  setlocal keywordprg=:help
+endfunction
 
 "---------------------------
 " Finish
