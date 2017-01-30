@@ -851,6 +851,7 @@ endfunction
 " Help
 autocmd vimrc FileType help call s:help_settings()
 function! s:help_settings()
+  setlocal keywordprg=:help
   map <buffer> <Space>  <C-d>
   map <buffer> b <C-u>
   map <buffer> q :<C-u>q<CR>
