@@ -245,7 +245,7 @@ command! -bang -nargs=? Euc  edit<bang> ++enc=euc-jp <args>
 "---------------------------
 
 " Extend % motion
-runtime macros/matchit.vim
+"runtime macros/matchit.vim
 
 " Enable :Man in any file
 runtime ftplugin/man.vim
@@ -638,9 +638,8 @@ noremap gj j
 noremap gk k
 
 " Move without shift key
-" TODO: use map (not noremap) for matchit.vim but maybe this is not good
 noremap - $
-map     0 %
+noremap 0 %
 
 " Yank naturaly
 nnoremap Y y$
@@ -779,6 +778,10 @@ cnoremap <C-n> <Down>
 " Use yankround in command line mode
 cmap <C-r> <Plug>(yankround-insert-register)
 cmap <C-y> <Plug>(yankround-pop)
+
+" JK wiper
+inoremap jk <Esc>
+inoremap kj <Esc>
 
 " Mappings for neocomplete
 inoremap <expr> <C-u> neocomplete#undo_completion()
