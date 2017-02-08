@@ -796,6 +796,13 @@ inoremap <expr> <CR>
 nnoremap <F1> K
 nnoremap <F8> :<C-u>source %<CR>
 
+" Paste toggle
+noremap <F10> :<C-u>set paste<CR>
+noremap <F11> :<C-u>set nopaste<CR>
+inoremap <F10> <C-O>:set paste<CR>
+inoremap <F11> <Nop>
+set pastetoggle=<F11>
+
 " Disable unuse dangerous commands
 nnoremap ZZ <Nop>
 nnoremap ZQ <Nop>
