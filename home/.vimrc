@@ -127,11 +127,6 @@ set laststatus=2
 set titleold=""
 set title
 
-" Folding
-set foldmethod=marker
-set foldmarker={{{,}}}
-set foldlevel=0
-
 " Don't recognize octal number
 set nrformats-=octal
 
@@ -884,6 +879,9 @@ endfunction
 let g:vim_indent_cont = 2
 autocmd vimrc FileType vim call s:vimscript_settings()
 function! s:vimscript_settings()
+  setlocal foldmethod=marker
+  setlocal foldmarker={{{,}}}
+  setlocal foldlevel=0
   setlocal keywordprg=:help
 endfunction
 
