@@ -668,6 +668,10 @@ nmap #  <Plug>(incsearch-nohl)<Plug>(asterisk-z#)<Plug>(anzu-update-search-statu
 nmap g* <Plug>(incsearch-nohl)<Plug>(asterisk-gz*)<Plug>(anzu-update-search-status-with-echo)
 nmap g# <Plug>(incsearch-nohl)<Plug>(asterisk-gz#)<Plug>(anzu-update-search-status-with-echo)
 
+" Repeat substitute with flags
+nnoremap & :&&<CR>
+xnoremap & :&&<CR>
+
 " Jump
 map <C-o> <Plug>(poslist-prev-pos)
 map <C-i> <Plug>(poslist-next-pos)
