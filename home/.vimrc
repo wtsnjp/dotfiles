@@ -672,8 +672,8 @@ nmap g# <Plug>(incsearch-nohl)<Plug>(asterisk-gz#)<Plug>(anzu-update-search-stat
 map <C-o> <Plug>(poslist-prev-pos)
 map <C-i> <Plug>(poslist-next-pos)
 
-" Finish highlight with double <Esc>
-nnoremap <silent> <Esc><Esc> :<C-u>nohlsearch<CR>
+" Finish highlight with <C-l>
+nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
 
 " Indent quickly
 nnoremap > >>
@@ -682,15 +682,6 @@ nnoremap < <<
 " Replace shortcut
 nnoremap // :<C-u>%s/\v
 vnoremap // :s/\v
-
-" Open command line window with function keys
-noremap <F5> <Esc>q:
-noremap <F6> <Esc>q/
-autocmd vimrc CmdwinEnter * noremap <buffer> <F5> <CR>q:
-autocmd vimrc CmdwinEnter * noremap <buffer> <F6> <CR>q/
-noremap q: <Nop>
-noremap q/ <Nop>
-noremap q? <Nop>
 
 " Use <Space> as prefix
 map <Space> <Nop>
