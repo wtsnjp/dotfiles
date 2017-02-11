@@ -632,6 +632,10 @@ noremap k gk
 noremap gj j
 noremap gk k
 
+" Jump roughly
+noremap <C-j> }j
+noremap <C-k> {{j
+
 " Move without shift key
 noremap - $
 noremap 0 %
@@ -718,6 +722,9 @@ noremap <silent> <Space>l :<C-u>setlocal list!<CR>
 " Show indent line
 noremap <silent> <Space>i :<C-u>IndentLinesToggle<CR>
 
+" Enable spell check
+noremap <silent> <Space>s :<C-u>set spell!<CR>
+
 " Align easily
 vmap ,a <Plug>(EasyAlign)
 
@@ -768,10 +775,6 @@ cnoremap <C-n> <Down>
 " Use yankround in command line mode
 cmap <C-r> <Plug>(yankround-insert-register)
 cmap <C-y> <Plug>(yankround-pop)
-
-" JK wiper
-inoremap jk <Esc>
-inoremap kj <Esc>
 
 " Mappings for neocomplete
 inoremap <expr> <C-u> neocomplete#undo_completion()
