@@ -35,8 +35,8 @@ zstyle ':completion:*' ignore-parents parent pwd ..
 # Prompt settings
 #---------------------------
 
-local PCDIR=$'\n'%F{yello}%~%f$'\n'
-local PNAME="Watson-$MACHINE"
+PCDIR=$'\n'%F{yello}%~%f$'\n'
+PNAME="Watson-$MACHINE"
 PROMPT="$PCDIR$PNAME$ "
 PROMPT2="[$PNAME]> "
 
@@ -101,7 +101,7 @@ which pyenv 2>&1 > /dev/null && eval "$(pyenv init -)"
 # Functions
 #---------------------------
 
-local FUNCPATH="$HOME/.zsh/functions"
+FUNCPATH="$HOME/.zsh/functions"
 case ${OSTYPE} in
   # Functions for Mac
   darwin*)
