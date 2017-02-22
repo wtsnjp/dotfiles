@@ -860,6 +860,12 @@ function! s:help_settings()
   map <buffer> q :<C-u>q<CR>
 endfunction
 
+" Ruby
+autocmd vimrc FileType ruby call s:ruby_settings()
+function! s:ruby_settings()
+  noremap <buffer> <Space>, :!ruby %<CR>
+endfunction
+
 " Python
 autocmd vimrc FileType python call s:python_settings()
 function! s:python_settings()
