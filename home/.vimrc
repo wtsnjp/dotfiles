@@ -863,7 +863,7 @@ endfunction
 " Ruby
 autocmd vimrc FileType ruby call s:ruby_settings()
 function! s:ruby_settings()
-  noremap <buffer> <Space>, :!ruby %<CR>
+  noremap <buffer> <Space>% :!ruby %<CR>
 endfunction
 
 " Python
