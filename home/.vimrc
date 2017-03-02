@@ -85,6 +85,7 @@ set showcmd
 
 " Wrap long line
 set wrap
+set linebreak
 
 " Ensure 3 lines visible
 set scrolloff=3
