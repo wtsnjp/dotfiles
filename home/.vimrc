@@ -871,6 +871,7 @@ endfunction
 autocmd vimrc FileType python call s:python_settings()
 function! s:python_settings()
   setlocal completeopt-=preview
+  noremap <buffer> <Space>% :!python %<CR>
 endfunction
 
 " TeX/LaTeX
