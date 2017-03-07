@@ -877,7 +877,6 @@ endfunction
 " TeX/LaTeX
 autocmd vimrc FileType plaintex,tex call s:tex_settings()
 function! s:tex_settings()
-  let b:match_words = &matchpairs . ',\if:\fi'
   setlocal indentkeys=''
 endfunction
 
