@@ -638,8 +638,16 @@ noremap <C-j> }j
 noremap <C-k> {{j
 
 " Move without shift key
+noremap <silent> ^ :<C-u>call MoveBOL()<CR>
 noremap - $
 noremap 0 %
+function! MoveBOL()
+  let l:pre_col = col(".")
+  normal! ^
+  if col(".") == l:pre_col
+    normal! 0
+  endif
+endfunction
 
 " Yank naturaly
 nnoremap Y y$
