@@ -46,10 +46,12 @@ let s:use_dein = 1
 autocmd vimrc BufRead *.def setlocal ft=plaintex
 
 " Restoration the position of cursor
-autocmd vimrc BufReadPost *
-  \ if line("'\"") > 1 && line("'\"") <= line("$") |
-  \   exe "normal! g`\"" |
-  \ endif
+autocmd vimrc BufReadPost * call s:move_to_last_position()
+function! s:move_to_last_position()
+  if line("'\"") > 1 && line("'\"") <= line("$")
+    execute 'normal! g`"'
+  endif
+endfunction
 
 " Prepare ~/.vim dir
 let s:vimdir = $HOME . '/.vim'
@@ -747,7 +749,7 @@ map     <silent> ,c <Plug>(caw:hatpos:toggle)
 noremap <silent> ,C :call CommentToggle()<CR>
 function! CommentToggle()
   let b:caw_hatpos_sp = ' '
-  execute "normal \<Plug>(caw:hatpos:toggle)"
+  normal <Plug>(caw:hatpos:toggle)
   let b:caw_hatpos_sp = ''
 endfunction
 
