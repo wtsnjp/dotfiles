@@ -35,7 +35,7 @@ let s:is_mac = !s:is_windows && !s:is_cygwin
   \   (!executable('xdg-open') && system('uname') =~? '^darwin'))
 let s:is_unix = !s:is_mac && has('unix')
 
-" Define flags
+" Flags
 let s:use_dein = 1
 
 "---------------------------
