@@ -544,7 +544,7 @@ let g:quickrun_config = {
   \     'cmdopt': '-B'
   \   },
   \   'tex': {
-  \     'command': 'pdflatex',
+  \     'command': 'latexmk',
   \     'exec': ['%c %o %s']
   \   },
   \   'plaintex': {
@@ -748,9 +748,9 @@ map <silent> ,sr <Plug>(operator-surround-replace)
 map     <silent> ,c <Plug>(caw:hatpos:toggle)
 noremap <silent> ,C :call CommentToggle()<CR>
 function! CommentToggle()
-  let b:caw_hatpos_sp = ' '
-  normal <Plug>(caw:hatpos:toggle)
-  let b:caw_hatpos_sp = ''
+  let g:caw_hatpos_sp = ' '
+  normal ,c
+  let g:caw_hatpos_sp = ''
 endfunction
 
 " QuickRun with some args
