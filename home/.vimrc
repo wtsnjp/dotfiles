@@ -887,7 +887,9 @@ endfunction
 " TeX/LaTeX
 autocmd vimrc FileType plaintex,tex call s:tex_settings()
 function! s:tex_settings()
+  setlocal spell
   setlocal indentkeys=''
+  setlocal textwidth=79
 endfunction
 
 " Vim script
