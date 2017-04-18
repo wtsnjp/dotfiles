@@ -36,13 +36,9 @@ let hintcharacters = "hjklasdfgyuiopqwertnmzxcvb"
 let qmark a = ['https://www.amazon.co.jp/gp/video/watchlist/ref=nav_youraccount_ywl']
 let qmark b = ['https://blog.wtsnjp.com/']
 let qmark c = ['http://0-chromosome.hatenablog.jp']
-let qmark e = ['http://ut-tex.org/login.php']
-let qmark f = ['https://www.facebook.com/?locale=ja_JP']
 let qmark g = ['https://github.com/wtsnjp']
-let qmark h = ['http://b.hatena.ne.jp/hotentry']
-let qmark l = ['https://opac.dl.itc.u-tokyo.ac.jp/opac/opac_search/?loginMode=disp&']
 let qmark k = ['https://keep.google.com/']
-let qmark m = ['http://bookmeter.com']
+let qmark l = ['https://opac.dl.itc.u-tokyo.ac.jp/opac/opac_search/?loginMode=disp&']
 let qmark o = ['https://oku.edu.mie-u.ac.jp/tex/login/index.php']
 let qmark p = ['https://getpocket.com/a/queue/']
 let qmark q = ['http://qiita.com/wtsnjp']
@@ -50,6 +46,7 @@ let qmark s = ['http://scholar.google.com/?hl=ja']
 let qmark t = ['https://twitter.com']
 let qmark u = ['http://www.s.u-tokyo.ac.jp/ja/current']
 let qmark w = ['https://wtsnjp.com']
+let qmark x = ['https://texuser.slack.com/']
 
 "---------------------------
 " Move
