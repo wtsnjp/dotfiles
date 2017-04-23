@@ -43,7 +43,7 @@ let s:use_dein = 1
 "---------------------------
 
 " Open *.def file with filetype=plaintex
-autocmd vimrc BufRead *.def setlocal ft=plaintex
+autocmd vimrc BufRead *.def,*.ins setlocal ft=plaintex
 
 " Restoration the position of cursor
 autocmd vimrc BufReadPost * call s:move_to_last_position()
@@ -885,11 +885,16 @@ function! s:python_settings()
 endfunction
 
 " TeX/LaTeX
-autocmd vimrc FileType plaintex,tex call s:tex_settings()
+autocmd vimrc FileType tex call s:tex_settings()
 function! s:tex_settings()
   setlocal spell
-  setlocal indentkeys=''
   setlocal textwidth=79
+  setlocal indentkeys=''
+endfunction
+
+autocmd vimrc FileType plaintex call s:plaintex_settings()
+function! s:plaintex_settings()
+  setlocal indentkeys=''
 endfunction
 
 " Vim script
