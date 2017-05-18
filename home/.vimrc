@@ -445,12 +445,6 @@ let g:clever_f_fix_key_direction = 1
 
 " }}}
 
-" incsearch {{{
-
-let g:incsearch#magic = '\v'
-
-" }}}
-
 " indentLine {{{
 
 let g:indentLine_color_term = 111
