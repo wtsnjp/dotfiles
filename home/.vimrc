@@ -202,9 +202,9 @@ set ignorecase
 set smartcase
 
 " Very magic by default
-cnoremap <expr> s/ getcmdline() =~# '^\A*$' ? 's/\v' : 's/'
-cnoremap <expr> g/ getcmdline() =~# '^\A*$' ? 'g/\v' : 'g/'
-cnoremap <expr> v/ getcmdline() =~# '^\A*$' ? 'v/\v' : 'v/'
+cnoremap <expr> s/ getcmdline() =~# '^\A*$' ? 's/' : 's/'
+cnoremap <expr> g/ getcmdline() =~# '^\A*$' ? 'g/' : 'g/'
+cnoremap <expr> v/ getcmdline() =~# '^\A*$' ? 'v/' : 'v/'
 cnoremap s// s//
 cnoremap g// g//
 cnoremap v// v//
@@ -353,6 +353,7 @@ if s:use_dein && v:version >= 704
     " Debug
     call dein#add('thinca/vim-quickrun')
     call dein#add('osyo-manga/shabadou.vim')
+    call dein#add('thinca/vim-themis')
 
     " Git
     call dein#add('cohama/agit.vim')
@@ -407,6 +408,9 @@ if s:use_dein && v:version >= 704
 
     " Joke
     call dein#add('thinca/vim-scouter')
+
+    " Enable local plugins
+    call dein#local('~/repos/github.com/wtsnjp', {}, ['vim-*'])
 
     call dein#end()
     call dein#save_state()
@@ -538,6 +542,10 @@ let g:quickrun_config = {
   \     'cmdopt': '-B'
   \   },
   \   'tex': {
+  \     'command': 'latexmk',
+  \     'exec': ['%c %o %s']
+  \   },
+  \   'expl3': {
   \     'command': 'latexmk',
   \     'exec': ['%c %o %s']
   \   },
@@ -693,8 +701,8 @@ nnoremap > >>
 nnoremap < <<
 
 " Replace shortcut
-nnoremap // :<C-u>%s/\v
-vnoremap // :s/\v
+nnoremap // :<C-u>%s/
+vnoremap // :s/
 
 " Use <Space> as prefix
 map <Space> <Nop>
@@ -862,7 +870,7 @@ function! s:help_settings()
   setlocal keywordprg=:help
   map <buffer> <Space>  <C-d>
   map <buffer> b <C-u>
-  map <buffer> q :<C-u>q<CR>
+  "map <buffer> q :<C-u>q<CR>
 endfunction
 
 " Ruby
