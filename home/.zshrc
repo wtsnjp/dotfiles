@@ -21,11 +21,22 @@ export RLWRAP_HOME=".rlwrap"
 autoload -U compinit
 compinit -u
 
-# Complete git command (macOS only)
+# Complete git commands (macOS only)
 case ${OSTYPE} in
   darwin*)
     fpath=(/usr/local/share/zsh-completions $fpath)
 esac
+
+# Complete pip commands
+function _pip_completion {
+  local words cword
+  read -Ac words
+  read -cn cword
+  reply=( $( COMP_WORDS="$words[*]" \
+             COMP_CWORD=$(( cword-1 )) \
+             PIP_AUTO_COMPLETE=1 $words[1] ) )
+}
+compctl -K _pip_completion pip
 
 # Do not suggest current dir
 zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' '+m:{A-Z}={a-z}'
@@ -150,3 +161,4 @@ esac
 
 # Delete overlaped path
 typeset -U path cdpath fpath manpath
+
