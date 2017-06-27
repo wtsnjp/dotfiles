@@ -47,8 +47,11 @@ let s:use_dein = 1
 " Startup
 "---------------------------
 
-" Open *.def file with filetype=plaintex
-autocmd vimrc BufRead *.def,*.ins setlocal ft=plaintex
+" Open *.def/*.ins file with filetype=plaintex
+autocmd vimrc BufNewFile,BufRead *.def,*.ins setlocal ft=plaintex
+
+" Open *.rq file with filetype=sparql
+autocmd vimrc BufNewFile,BufRead *.rq setlocal ft=sparql
 
 " Restoration the position of cursor
 autocmd vimrc BufReadPost * call s:move_to_last_position()
@@ -372,6 +375,9 @@ if s:use_dein && v:version >= 704
 
     " TOML
     call dein#add('cespare/vim-toml')
+
+    " SPARQL
+    call dein#add('vim-scripts/sparql.vim')
 
     " Binary
     call dein#add('Shougo/vinarise', {'lazy': 1})
