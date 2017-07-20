@@ -102,11 +102,11 @@ if [ -f ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
 fi
 
 # Enable hub
-which hub 2>&1 > /dev/null && eval "$(hub alias -s)"
+which hub >/dev/null 2>&1 && eval "$(hub alias -s)"
 
 # Initialize rbenv & pyenv
-which rbenv 2>&1 > /dev/null && eval "$(rbenv init -)"
-which pyenv 2>&1 > /dev/null && eval "$(pyenv init -)"
+which rbenv >/dev/null 2>&1 && eval "$(rbenv init -)"
+which pyenv >/dev/null 2>&1 && eval "$(pyenv init -)"
 
 #---------------------------
 # Functions
