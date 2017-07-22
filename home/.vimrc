@@ -124,7 +124,7 @@ set expandtab
 set cindent
 set breakindent
 
-" Don't load current .vimrc and .exrc
+" Load current .vimrc and .exrc
 set exrc
 
 " Sound deadening
