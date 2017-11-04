@@ -156,7 +156,7 @@ set hidden
 " Reload when the file get changed
 set autoread
 
-" Spell check
+" Spell check (exclude CJK characters)
 set spelllang& spelllang+=cjk
 
 " Help language (show japanese help with 'keyword@ja')
@@ -242,30 +242,6 @@ set wildmode=longest:full,full
 
 " Save number
 set history=10000
-
-"---------------------------
-" Commands and functions
-"---------------------------
-
-" Change encoding
-command! -nargs=? Utf8 edit<bang> ++enc=utf-8  <args>
-command! -nargs=? Sjis edit<bang> ++enc=sjis   <args>
-command! -nargs=? Euc  edit<bang> ++enc=euc-jp <args>
-
-" Delete undoriles in undodir corresponding to non-exist files
-command! PurgeUndodir call s:purge_undodir()
-function! s:purge_undodir()
-  let l:nof = 0
-  let l:filelist = split(glob(&undodir . "/*"), "\n")
-  for f in l:filelist
-    let l:path = substitute(substitute(f, &undodir . "/", "", ""), "%", "/", "g")
-    if filereadable(l:path) == 0
-      let l:nof += 1
-      call delete(f)
-    endif
-  endfor
-  echo "Deleted " . l:nof . " files."
-endfunction
 
 "---------------------------
 " Build-in plugins
@@ -884,6 +860,30 @@ if s:dein_enable
   call submode#map('bufmove', 'n', '', '+', '<C-w>+')
   call submode#map('bufmove', 'n', '', '-', '<C-w>-')
 endif
+
+"---------------------------
+" Commands and functions
+"---------------------------
+
+" Change encoding
+command! -nargs=? Utf8 edit<bang> ++enc=utf-8  <args>
+command! -nargs=? Sjis edit<bang> ++enc=sjis   <args>
+command! -nargs=? Euc  edit<bang> ++enc=euc-jp <args>
+
+" Delete undoriles in undodir corresponding to non-exist files
+command! CleanUndodir call s:clean_undodir()
+function! s:clean_undodir()
+  let l:nof = 0
+  let l:filelist = split(glob(&undodir . '/*'), "\n")
+  for f in l:filelist
+    let l:path = substitute(substitute(f, &undodir . '/', '', ''), '%', '/', 'g')
+    if filereadable(l:path) == 0
+      let l:nof += 1
+      call delete(f)
+    endif
+  endfor
+  echo 'Deleted ' . l:nof . ' file(s).'
+endfunction
 
 "---------------------------
 " Settings for languages
