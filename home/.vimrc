@@ -47,8 +47,14 @@ let s:use_dein = 1
 " Startup
 "---------------------------
 
-" Open *.def/*.ins file with filetype=plaintex
-autocmd vimrc BufNewFile,BufRead *.def,*.ins setlocal ft=plaintex
+" Open *.def/*.ins/*.dtx/*.cfg file with filetype=plaintex
+autocmd vimrc BufNewFile,BufRead *.def,*.ins,*.dtx,*.cfg setlocal ft=plaintex
+
+" Open *.lvt file with filetype=tex
+autocmd vimrc BufNewFile,BufRead *.lvt setlocal ft=tex nospell
+
+" Open *.tlu file with filetype=lua
+autocmd vimrc BufNewFile,BufRead *.tlu setlocal ft=lua
 
 " Open *.rq file with filetype=sparql
 autocmd vimrc BufNewFile,BufRead *.rq setlocal ft=sparql
@@ -242,9 +248,24 @@ set history=10000
 "---------------------------
 
 " Change encoding
-command! -bang -nargs=? Utf8 edit<bang> ++enc=utf-8  <args>
-command! -bang -nargs=? Sjis edit<bang> ++enc=sjis   <args>
-command! -bang -nargs=? Euc  edit<bang> ++enc=euc-jp <args>
+command! -nargs=? Utf8 edit<bang> ++enc=utf-8  <args>
+command! -nargs=? Sjis edit<bang> ++enc=sjis   <args>
+command! -nargs=? Euc  edit<bang> ++enc=euc-jp <args>
+
+" Delete undoriles in undodir corresponding to non-exist files
+command! PurgeUndodir call s:purge_undodir()
+function! s:purge_undodir()
+  let l:nof = 0
+  let l:filelist = split(glob(&undodir . "/*"), "\n")
+  for f in l:filelist
+    let l:path = substitute(substitute(f, &undodir . "/", "", ""), "%", "/", "g")
+    if filereadable(l:path) == 0
+      let l:nof += 1
+      call delete(f)
+    endif
+  endfor
+  echo "Deleted " . l:nof . " files."
+endfunction
 
 "---------------------------
 " Build-in plugins
