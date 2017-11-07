@@ -48,7 +48,7 @@ let s:use_dein = 1
 "---------------------------
 
 " Open *.def/*.ins/*.dtx/*.cfg file with filetype=plaintex
-autocmd vimrc BufNewFile,BufRead *.def,*.ins,*.dtx,*.cfg setlocal ft=plaintex
+autocmd vimrc BufNewFile,BufRead *sty,*.def,*.ins,*.dtx,*.cfg setlocal ft=plaintex
 
 " Open *.lvt file with filetype=tex
 autocmd vimrc BufNewFile,BufRead *.lvt setlocal ft=tex nospell
@@ -869,6 +869,16 @@ endif
 command! -nargs=? Utf8 edit<bang> ++enc=utf-8  <args>
 command! -nargs=? Sjis edit<bang> ++enc=sjis   <args>
 command! -nargs=? Euc  edit<bang> ++enc=euc-jp <args>
+
+" Delete un-used plugin repositories
+command! CleanDeindir call s:clean_deindir()
+function! s:clean_deindir()
+  let l:repolist = dein#check_clean()
+  for r in l:repolist
+    call system('rm -rf ' . r)
+  endfor
+  echo 'Deleted ' . len(l:repolist) . ' file(s).'
+endfunction
 
 " Delete undoriles in undodir corresponding to non-exist files
 command! CleanUndodir call s:clean_undodir()
