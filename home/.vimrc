@@ -349,7 +349,7 @@ if s:use_dein && v:version >= 704
     call dein#add('Shougo/neosnippet.vim')
     call dein#add('Shougo/neosnippet-snippets')
     call dein#add('cohama/lexima.vim')
-    call dein#add('rhysd/github-complete.vim')
+    "call dein#add('rhysd/github-complete.vim')
     if has('lua')
       call dein#add('Shougo/neocomplete.vim', {'on_i': 1})
       call dein#add('ujihisa/neco-look', {'lazy': 1})
@@ -731,7 +731,7 @@ endif
 nnoremap <silent> <Space>w :<C-u>update<CR>
 
 " Git
-nnoremap <silent> <Space>g  :<C-u>!git<Space>
+nnoremap <silent> <Space>gc :<C-u>!git<Space>
 noremap  <silent> <Space>go :<C-u>OpenGithubFile<CR>
 
 " Show line number
@@ -744,7 +744,7 @@ noremap <silent> <Space>l :<C-u>setlocal list!<CR>
 noremap <silent> <Space>i :<C-u>IndentLinesToggle<CR>
 
 " Enable spell check
-noremap <silent> <Space>s :<C-u>set spell!<CR>
+noremap <silent> <Space>s :<C-u>setlocal spell!<CR>
 
 " Align easily
 vmap ,a <Plug>(EasyAlign)
@@ -915,10 +915,11 @@ function! s:help_settings()
   map <buffer> q :<C-u>q<CR>
 endfunction
 
-" Ruby
-autocmd vimrc FileType ruby call s:ruby_settings()
-function! s:ruby_settings()
-  noremap <buffer> <Space>% :!ruby %<CR>
+" Markdown
+autocmd vimrc FileType markdown call s:markdown_settings()
+function! s:markdown_settings()
+  setlocal spell
+  setlocal textwidth=79
 endfunction
 
 " Python
@@ -926,6 +927,12 @@ autocmd vimrc FileType python call s:python_settings()
 function! s:python_settings()
   setlocal completeopt-=preview
   noremap <buffer> <Space>% :!python %<CR>
+endfunction
+
+" Ruby
+autocmd vimrc FileType ruby call s:ruby_settings()
+function! s:ruby_settings()
+  noremap <buffer> <Space>% :!ruby %<CR>
 endfunction
 
 " TeX/LaTeX
