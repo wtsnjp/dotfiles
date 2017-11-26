@@ -920,6 +920,7 @@ autocmd vimrc FileType markdown call s:markdown_settings()
 function! s:markdown_settings()
   setlocal spell
   setlocal textwidth=79
+  setlocal indentkeys=''
 endfunction
 
 " Python
