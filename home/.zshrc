@@ -46,10 +46,12 @@ zstyle ':completion:*' ignore-parents parent pwd ..
 # Prompt settings
 #---------------------------
 
-PCDIR=$'\n'%F{yello}%~%f$'\n'
-PNAME="Watson-$MACHINE"
-PROMPT="$PCDIR$PNAME$ "
-PROMPT2="[$PNAME]> "
+() {
+  local pcdir=$'\n'%F{yello}%~%f$'\n'
+  local pname="Watson-$MACHINE"
+  export PROMPT="$pcdir$pname$ "
+  export PROMPT2="[$pname]> "
+}
 
 #---------------------------
 # History settings
