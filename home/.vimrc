@@ -51,7 +51,7 @@ let s:use_dein = 1
 autocmd vimrc BufNewFile,BufRead *sty,*.def,*.ins,*.dtx,*.cfg setlocal ft=plaintex
 
 " Open *.lvt file with filetype=tex
-autocmd vimrc BufNewFile,BufRead *.lvt setlocal ft=tex nospell
+autocmd vimrc BufNewFile,BufRead *.tex,*.lvt setlocal ft=tex nospell
 
 " Open *.tlu file with filetype=lua
 autocmd vimrc BufNewFile,BufRead *.tlu setlocal ft=lua
@@ -508,8 +508,12 @@ let g:neocomplete#enable_underbar_completion = 1
 " Set minimum syntax keyword length
 let g:neocomplete#min_keyword_length = 3
 
-" Setting for vim-monster
-let g:neocomplete#sources#omni#input_patterns = {'ruby': '[^. *\t]\.\w*\|\h\w*::'}
+" Do not collect Japanese
+if !exists('g:neocomplete#keyword_patterns')
+  let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+let g:neocomplete#keyword_patterns['expl3'] = '\h\w*\(:\a*\|\)'
 
 " }}}
 
@@ -893,6 +897,18 @@ function! s:clean_undodir()
     endif
   endfor
   echo 'Deleted ' . l:nof . ' file(s).'
+endfunction
+
+" Open file with kpathsea
+command! -nargs=1 Kpse call s:edit_kpsewhich('<args>')
+function! s:edit_kpsewhich(kw)
+  if stridx(a:kw, ".") < 0
+    let l:fn = a:kw . '.sty'
+  else
+    let l:fn = a:kw
+  endif
+  let l:path = system('kpsewhich ' . l:fn)
+  execute 'edit ' . l:path
 endfunction
 
 "---------------------------
