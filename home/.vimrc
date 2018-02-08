@@ -99,6 +99,9 @@ set formatoptions& formatoptions+=mM
 " Show keymap prefix
 set showcmd
 
+" Show the text normally
+set conceallevel=0
+
 " Wrap long line
 set wrap
 set linebreak
@@ -224,6 +227,7 @@ cnoremap g// g//
 cnoremap v// v//
 
 " Highlight search word
+set incsearch
 set hlsearch
 
 " Loop search
@@ -387,7 +391,6 @@ if s:use_dein && v:version >= 704
     call dein#add('kana/vim-submode')
 
     " Search
-    call dein#add('haya14busa/incsearch.vim')
     call dein#add('haya14busa/vim-asterisk')
     call dein#add('osyo-manga/vim-anzu')
     call dein#add('vim-scripts/ag.vim')
@@ -683,19 +686,40 @@ nnoremap <silent> cy  ce<C-r>0<Esc>:let@/=@1<CR>:nohlsearch<CR>
 vnoremap <silent> cy  c<C-r>0<Esc>:let@/=@1<CR>:nohlsearch<CR>
 nnoremap <silent> ciy ciw<C-r>0<Esc>:let@/=@1<CR>:nohlsearch<CR>
 
-" Search with incsearch.vim
-map /  <Plug>(incsearch-forward)
-map ?  <Plug>(incsearch-backward)
-map g/ <Plug>(incsearch-stay)
-
 " Bring middle position after word search
-" FIXME: <Plug>(incsearch-nohl) does not work
-nmap n  <Plug>(incsearch-nohl)<Plug>(anzu-n)zzzv<Plug>(anzu-update-search-status-with-echo)
-nmap N  <Plug>(incsearch-nohl)<Plug>(anzu-N)zzzv<Plug>(anzu-update-search-status-with-echo)
-nmap *  <Plug>(incsearch-nohl)<Plug>(asterisk-z*)<Plug>(anzu-update-search-status-with-echo)
-nmap #  <Plug>(incsearch-nohl)<Plug>(asterisk-z#)<Plug>(anzu-update-search-status-with-echo)
-nmap g* <Plug>(incsearch-nohl)<Plug>(asterisk-gz*)<Plug>(anzu-update-search-status-with-echo)
-nmap g# <Plug>(incsearch-nohl)<Plug>(asterisk-gz#)<Plug>(anzu-update-search-status-with-echo)
+nmap n  nzzzv<Plug>(anzu-update-search-status-with-echo)
+nmap N  Nzzzv<Plug>(anzu-update-search-status-with-echo)
+nmap *  <Plug>(asterisk-z*)<Plug>(anzu-update-search-status-with-echo)
+nmap #  <Plug>(asterisk-z#)<Plug>(anzu-update-search-status-with-echo)
+nmap g* <Plug>(asterisk-gz*)<Plug>(anzu-update-search-status-with-echo)
+nmap g# <Plug>(asterisk-gz#)<Plug>(anzu-update-search-status-with-echo)
+
+" Toggle / and :s
+cnoremap <expr> <C-@> ToggleSubstituteSearch(getcmdtype(), getcmdline())
+
+function! ToggleSubstituteSearch(type, line)
+  if a:type ==# '/' || a:type ==# '?'
+    let range = GetOnetime('s:range', '%')
+    return "\<End>\<C-U>\<BS>" . substitute(a:line, '^\(.*\)', ':' . range . 's/\1', '')
+  elseif a:type ==# ':'
+    let g:line = a:line
+    let [s:range, expr] = matchlist(a:line, '^\(.*\)s\%[ubstitute]\/\(.*\)$')[1:2]
+    if s:range ==# '''<,''>'
+      call setpos('.', getpos('''<'))
+    endif
+    return "\<End>\<C-U>\<BS>" . '/' . expr
+  endif
+endfunction
+
+function! GetOnetime(varname, defaultValue)
+  if !exists(a:varname)
+    return a:defaultValue
+  endif
+
+  let varValue = eval(a:varname)
+  execute 'unlet ' . a:varname
+  return varValue
+endfunction
 
 " Repeat substitute with flags
 nnoremap & :&&<CR>
