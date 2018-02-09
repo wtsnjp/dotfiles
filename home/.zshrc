@@ -110,6 +110,12 @@ which hub >/dev/null 2>&1 && eval "$(hub alias -s)"
 which rbenv >/dev/null 2>&1 && eval "$(rbenv init -)"
 which pyenv >/dev/null 2>&1 && eval "$(pyenv init -)"
 
+# OPAM configuration
+case ${OSTYPE} in
+  darwin*)
+    . ~/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+esac
+
 #---------------------------
 # Functions
 #---------------------------
@@ -163,4 +169,3 @@ esac
 
 # Delete overlaped path
 typeset -U path cdpath fpath manpath
-
