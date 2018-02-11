@@ -657,16 +657,9 @@ noremap <C-j> }j
 noremap <C-k> {{j
 
 " Move without shift key
-noremap <silent> ^ :<C-u>call MoveBOL()<CR>
+noremap <expr> ^ match(strpart(getline('.'), 0, col('.') - 1), '^\s\+$') >= 0 ? '0' : '^'
 noremap - $
 noremap 0 %
-function! MoveBOL()
-  let l:pre_col = col(".")
-  normal! ^
-  if col(".") == l:pre_col
-    normal! 0
-  endif
-endfunction
 
 " Yank naturaly
 nnoremap Y y$
