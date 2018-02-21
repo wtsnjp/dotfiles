@@ -469,7 +469,7 @@ let g:indentLine_enabled = 0
 
 " lexima {{{
 
-"call lexima#init()
+call lexima#add_rule({'char': "'", 'at': 'r\%#', 'input_after': "'", 'filetype': 'python'})
 
 " }}}
 
@@ -975,6 +975,13 @@ function! s:tex_settings()
   setlocal spell
   setlocal textwidth=79
   setlocal indentkeys=''
+  "call textobj#user#plugin('paragraph', {
+  "  \   'paragraph': {
+  "  \     'pattern': ['(\n\n|\n%\n)', '(\n\n|\n%\n)'],
+  "  \     'select-a': 'ap',
+  "  \     'select-i': 'ip',
+  "  \   },
+  "  \ })
 endfunction
 
 autocmd vimrc FileType plaintex call s:plaintex_settings()
