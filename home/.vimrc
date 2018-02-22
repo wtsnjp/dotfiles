@@ -27,6 +27,9 @@ else
   set fileencodings=utf-8,ucs-bom,iso-2022-jp,euc-jp,cp932
 endif
 
+" Load defaults.vim
+source $VIMRUNTIME/defaults.vim
+
 " Augroup for this vimrc
 augroup vimrc
   autocmd!
@@ -916,9 +919,9 @@ function! s:clean_undodir()
   echo 'Deleted ' . l:nof . ' file(s).'
 endfunction
 
-" Open file with kpathsea
-command! -nargs=1 Kpse call s:edit_kpsewhich('<args>')
-function! s:edit_kpsewhich(kw)
+" Search file with kpathsea and open
+command! -nargs=1 Kpse call s:kpsewhich_edit('<args>')
+function! s:kpsewhich_edit(kw)
   if stridx(a:kw, ".") < 0
     let l:fn = a:kw . '.sty'
   else
@@ -927,6 +930,15 @@ function! s:edit_kpsewhich(kw)
   let l:path = system('kpsewhich ' . l:fn)
   execute 'edit ' . l:path
 endfunction
+
+" Open file with TeXShop (macOS only)
+if s:is_mac
+  command! -nargs=1 Texshop call s:texshop('<args>')
+  function! s:texshop(kw)
+    silent execute '!open -a TeXShop.app ' . a:kw
+    redraw!
+  endfunction
+endif
 
 "---------------------------
 " Settings for languages
