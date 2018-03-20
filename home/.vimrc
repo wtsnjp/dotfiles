@@ -99,6 +99,9 @@ set fileformats=unix,dos,mac
 " Do not insert space when join Japanese lines
 set formatoptions& formatoptions+=mM
 
+" Disable the use of the mouse
+set mouse=
+
 " Show keymap prefix
 set showcmd
 
@@ -147,7 +150,7 @@ set noerrorbells
 set laststatus=2
 
 " Show title (on top)
-set titleold=""
+set titleold=
 set title
 
 " Don't recognize octal number
@@ -349,8 +352,9 @@ if s:use_dein && v:version >= 704
     call dein#add('basyura/twibill.vim')
     call dein#add('basyura/TweetVim')
 
-    " Lingr
+    " Online chat
     call dein#add('tsukkee/lingr-vim')
+    call dein#add('y0za/vim-reading-vimrc')
 
     " Completion
     call dein#add('Shougo/neosnippet.vim')
@@ -935,6 +939,7 @@ endfunction
 if s:is_mac
   command! -nargs=1 Texshop call s:texshop('<args>')
   function! s:texshop(kw)
+    update
     silent execute '!open -a TeXShop.app ' . a:kw
     redraw!
   endfunction
@@ -989,7 +994,7 @@ function! s:tex_settings()
   setlocal indentkeys=''
   "call textobj#user#plugin('paragraph', {
   "  \   'paragraph': {
-  "  \     'pattern': ['(\n\n|\n%\n)', '(\n\n|\n%\n)'],
+  "  \     'pattern': ['\n\n', '\n\n'],
   "  \     'select-a': 'ap',
   "  \     'select-i': 'ip',
   "  \   },
