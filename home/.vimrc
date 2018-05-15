@@ -660,8 +660,8 @@ noremap gj j
 noremap gk k
 
 " Jump roughly
-noremap <C-j> }j
-noremap <C-k> {{j
+noremap <C-j> }
+noremap <C-k> {
 
 " Move without shift key
 noremap <expr> ^ match(strpart(getline('.'), 0, col('.') - 1), '^\s\+$') >= 0 ? '0' : '^'
@@ -986,11 +986,17 @@ function! s:ruby_settings()
   noremap <buffer> <Space>% :!ruby %<CR>
 endfunction
 
+" Text
+autocmd vimrc FileType text call s:text_settings()
+function! s:text_settings()
+  setlocal spell
+  setlocal textwidth=79
+endfunction
+
 " TeX/LaTeX
 autocmd vimrc FileType tex call s:tex_settings()
 function! s:tex_settings()
-  setlocal spell
-  setlocal textwidth=79
+  call s:text_settings()
   setlocal indentkeys=''
   "call textobj#user#plugin('paragraph', {
   "  \   'paragraph': {
@@ -999,6 +1005,12 @@ function! s:tex_settings()
   "  \     'select-i': 'ip',
   "  \   },
   "  \ })
+  "
+  function! OpenLatexOutPdf()
+    silent execute '!open ./out/' . expand('%:r') . '.pdf'
+    redraw!
+  endfunction
+  nnoremap <buffer> <silent> <Space>o :<C-u>call OpenLatexOutPdf()<CR>
 endfunction
 
 autocmd vimrc FileType plaintex call s:plaintex_settings()
