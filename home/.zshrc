@@ -38,6 +38,12 @@ function _pip_completion {
 }
 compctl -K _pip_completion pip
 
+# Gem travis
+[ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
+
+# Texdoc
+compctl -k "(($(awk '/^name[^.]*$/ {print $2}' $(kpsewhich -var-value TEXMFROOT)/tlpkg/texlive.tlpdb)))" texdoc
+
 # Do not suggest current dir
 zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' '+m:{A-Z}={a-z}'
 zstyle ':completion:*' ignore-parents parent pwd ..
@@ -158,7 +164,9 @@ case ${OSTYPE} in
     # Update and Upgrade brew
     alias upup='brew update && brew upgrade && brew cleanup'
     # Turn on/off network connection with wifi command
-    alias wifi='networksetup -setairportpower en0';;
+    alias wifi='networksetup -setairportpower en0'
+    # Temporary
+    alias llmk="texlua ~/repos/github.com/wtsnjp/llmk/llmk.lua";;
   # Aliases for Linux
   linux*)
     # Use colorful output by default
