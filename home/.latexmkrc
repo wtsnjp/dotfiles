@@ -13,4 +13,5 @@ $makeindex = "makeindex";
 $pdf_mode = 3;
 # Equivalent to the -pv option.
 # $preview_mode = 1;
-$out_dir = "./out";
+#$out_dir = "./out";
+$clean_ext = 'synctex.gz synctex.gz(busy) run.xml tex.bak bbl bcf fdb_latexmk run tdo %R-blx.bib'
