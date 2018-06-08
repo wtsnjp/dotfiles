@@ -969,7 +969,6 @@ endfunction
 autocmd vimrc FileType markdown call s:markdown_settings()
 function! s:markdown_settings()
   setlocal spell
-  setlocal textwidth=79
   setlocal indentkeys=''
 endfunction
 
@@ -1005,12 +1004,16 @@ function! s:tex_settings()
   "  \     'select-i': 'ip',
   "  \   },
   "  \ })
-  "
   function! OpenLatexOutPdf()
-    silent execute '!open ./out/' . expand('%:r') . '.pdf'
+    silent execute '!open ' . expand('%:r') . '.pdf'
+    redraw!
+  endfunction
+  function! LatexmkCleanup()
+    silent execute '!latexmk -quiet -c'
     redraw!
   endfunction
   nnoremap <buffer> <silent> <Space>o :<C-u>call OpenLatexOutPdf()<CR>
+  nnoremap <buffer> <silent> <Space>c :<C-u>call LatexmkCleanup()<CR>
 endfunction
 
 autocmd vimrc FileType plaintex call s:plaintex_settings()
