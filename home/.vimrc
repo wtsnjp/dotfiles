@@ -301,6 +301,7 @@ if s:use_dein && v:version >= 704
     call dein#add('vim-scripts/sudo.vim')
     call dein#add('vim-jp/vital.vim')
     call dein#add('tyru/vim-altercmd')
+    call dein#add('thinca/vim-localrc')
 
     " Convenient
     call dein#add('mattn/calendar-vim')
@@ -953,7 +954,8 @@ endif
 " Git commit
 autocmd vimrc FileType gitcommit call s:gitcommit_settings()
 function! s:gitcommit_settings()
-  setlocal spell
+  call s:text_settings()
+  setlocal spellcapcheck=
   startinsert
 endfunction
 
@@ -969,8 +971,7 @@ endfunction
 " Markdown
 autocmd vimrc FileType markdown call s:markdown_settings()
 function! s:markdown_settings()
-  setlocal spell
-  setlocal indentkeys=''
+  call s:text_settings()
 endfunction
 
 " Python
@@ -989,6 +990,7 @@ endfunction
 " Text
 autocmd vimrc FileType text call s:text_settings()
 function! s:text_settings()
+  setlocal indentkeys=''
   setlocal spell
   setlocal textwidth=79
 endfunction
@@ -997,7 +999,6 @@ endfunction
 autocmd vimrc FileType tex call s:tex_settings()
 function! s:tex_settings()
   call s:text_settings()
-  setlocal indentkeys=''
   "call textobj#user#plugin('paragraph', {
   "  \   'paragraph': {
   "  \     'pattern': ['\n\n', '\n\n'],
