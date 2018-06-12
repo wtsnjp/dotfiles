@@ -563,6 +563,7 @@ let g:quickrun_config = {
   \     'runner/job/updatetime': 40,
   \   },
   \   'python': {
+  \     'command': 'python3',
   \     'cmdopt': '-B'
   \   },
   \   'tex': {
@@ -978,7 +979,7 @@ endfunction
 autocmd vimrc FileType python call s:python_settings()
 function! s:python_settings()
   setlocal completeopt-=preview
-  noremap <buffer> <Space>% :!python %<CR>
+  noremap <buffer> <Space>% :!python3 %<CR>
 endfunction
 
 " Ruby
