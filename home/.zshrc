@@ -14,20 +14,23 @@ export LANG=en_US.UTF-8
 export RLWRAP_HOME=".rlwrap"
 
 #---------------------------
-# Complete settings
+# Completion
 #---------------------------
 
-# Enable complete
+# Enable completion
 autoload -U compinit
 compinit -u
 
-# Complete git commands (macOS only)
 case ${OSTYPE} in
+  # completion for macOS
   darwin*)
+    # git
     fpath=(/usr/local/share/zsh-completions $fpath)
+    # texdoc
+    compctl -k "(($(awk '/^name[^.]*$/ {print $2}' $(kpsewhich -var-value TEXMFROOT)/tlpkg/texlive.tlpdb)))" texdoc
 esac
 
-# Complete pip commands
+# pip
 function _pip_completion {
   local words cword
   read -Ac words
@@ -38,11 +41,8 @@ function _pip_completion {
 }
 compctl -K _pip_completion pip
 
-# Gem travis
+# travis (gem)
 [ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
-
-# Texdoc
-compctl -k "(($(awk '/^name[^.]*$/ {print $2}' $(kpsewhich -var-value TEXMFROOT)/tlpkg/texlive.tlpdb)))" texdoc
 
 # Do not suggest current dir
 zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' '+m:{A-Z}={a-z}'
