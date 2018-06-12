@@ -1000,21 +1000,105 @@ endfunction
 autocmd vimrc FileType tex call s:tex_settings()
 function! s:tex_settings()
   call s:text_settings()
-  "call textobj#user#plugin('paragraph', {
-  "  \   'paragraph': {
-  "  \     'pattern': ['\n\n', '\n\n'],
-  "  \     'select-a': 'ap',
-  "  \     'select-i': 'ip',
-  "  \   },
-  "  \ })
+  call textobj#user#plugin('paragraph', {
+    \   'paragraph': {
+    \     'select-a-function': 'CurrentLatexParagraphA',
+    \     'select-a': 'ap',
+    \     'select-i-function': 'CurrentLatexParagraphI',
+    \     'select-i': 'ip',
+    \   },
+    \ })
+
+  function! CurrentLatexParagraphA()
+    let curr_pos = getpos('.')
+    let head_pos = curr_pos
+
+    normal! G
+    let last_line = getpos('.')[1]
+
+    call setpos('.', curr_pos)
+    let mp = -1
+
+    while mp < 0
+      let mp = match(getline('.'), '^%\?$')
+      if getpos('.')[1] != 1
+        let head_pos = getpos('.')
+        normal! k
+      else
+        break
+      endif
+    endwhile
+
+    call setpos('.', curr_pos)
+    let mp = -1
+
+    normal! j
+    while mp < 0
+      let tail_pos = getpos('.')
+      let mp = match(getline('.'), '^%\?$')
+      if getpos('.')[1] != last_line
+        normal! j
+      else
+        break
+      endif
+    endwhile
+
+    normal! 0
+    return ['V', head_pos, tail_pos]
+  endfunction
+
+  function! CurrentLatexParagraphI()
+    let curr_pos = getpos('.')
+    let head_pos = curr_pos
+    let tail_pos = curr_pos
+
+    normal! G
+    let last_line = getpos('.')[1]
+
+    call setpos('.', curr_pos)
+    let mp = -1
+
+    while mp < 0
+      let mp = match(getline('.'), '^%\?$')
+      if mp < 0
+        if getpos('.')[1] != 1
+          let head_pos = getpos('.')
+          normal! k
+        else
+          break
+        endif
+      endif
+    endwhile
+
+    call setpos('.', curr_pos)
+    let mp = -1
+
+    while mp < 0
+      let mp = match(getline('.'), '^%\?$')
+      if mp < 0
+        let tail_pos = getpos('.')
+        if getpos('.')[1] != last_line
+          normal! j
+        else
+          break
+        endif
+      endif
+    endwhile
+
+    normal! 0
+    return ['V', head_pos, tail_pos]
+  endfunction
+
   function! OpenLatexOutPdf()
     silent execute '!open ' . expand('%:r') . '.pdf'
     redraw!
   endfunction
+
   function! LatexmkCleanup()
     silent execute '!latexmk -quiet -c'
     redraw!
   endfunction
+
   nnoremap <buffer> <silent> <Space>o :<C-u>call OpenLatexOutPdf()<CR>
   nnoremap <buffer> <silent> <Space>c :<C-u>call LatexmkCleanup()<CR>
 endfunction
