@@ -127,13 +127,12 @@ esac
 #---------------------------
 
 FUNCPATH="$HOME/.zsh/functions"
-case ${OSTYPE} in
-  # Functions for Mac
-  darwin*)
-    source "$FUNCPATH/hugo.zsh"
-    source "$FUNCPATH/utility.zsh"
-    source "$FUNCPATH/cpdf.zsh"
-esac
+func_src=($FUNCPATH/hugo.zsh $FUNCPATH/utility.zsh $FUNCPATH/cpdf.zsh)
+for fs in $func_src; do
+  if [ -f $fs ]; then
+    source $fs
+  fi
+done
 
 #---------------------------
 # Aliases
