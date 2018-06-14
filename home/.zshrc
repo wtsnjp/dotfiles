@@ -4,31 +4,40 @@
 # Source: https://github.com/wtsnjp/dotfiles
 
 #---------------------------
-# Environments
+# Startup
 #---------------------------
 
-# Config
-export LANG=en_US.UTF-8
+# load system-wide settings
+if [ -x /usr/libexec/path_helper ]; then
+  eval `/usr/libexec/path_helper -s`
+fi
 
-# Tools
+# environment variables
+export LANG=en_US.UTF-8
 export RLWRAP_HOME=".rlwrap"
 
 #---------------------------
 # Completion
 #---------------------------
 
-# Enable completion
+# enable completion
 autoload -U compinit
 compinit -u
 
-case ${OSTYPE} in
-  # completion for macOS
-  darwin*)
-    # git
-    fpath=(/usr/local/share/zsh-completions $fpath)
-    # texdoc
-    compctl -k "(($(awk '/^name[^.]*$/ {print $2}' $(kpsewhich -var-value TEXMFROOT)/tlpkg/texlive.tlpdb)))" texdoc
-esac
+# git
+if [ -e /usr/local/share/zsh-completions ]; then
+  fpath=(/usr/local/share/zsh-completions $fpath)
+fi
+
+# texdoc
+() {
+  which kpsewhich > /dev/null
+  if [ $? = 0 ]; then
+    cmd="(($(awk '/^name[^.]*$/ {print $2}'\
+      $(kpsewhich -var-value TEXMFROOT)/tlpkg/texlive.tlpdb)))"
+    compctl -k $cmd texdoc
+  fi
+}
 
 # pip
 function _pip_completion {
@@ -44,7 +53,7 @@ compctl -K _pip_completion pip
 # travis (gem)
 [ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
 
-# Do not suggest current dir
+# do not suggest current dir
 zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' '+m:{A-Z}={a-z}'
 zstyle ':completion:*' ignore-parents parent pwd ..
 
@@ -63,18 +72,18 @@ zstyle ':completion:*' ignore-parents parent pwd ..
 # History settings
 #---------------------------
 
-# Dir and its size
+# dir and its size
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 
-# Ignore duplication command history list
+# ignore duplication command history list
 setopt hist_ignore_dups
 
-# Share command history data
+# share command history data
 setopt share_history
 
-# Extend history search
+# extend history search
 autoload history-search-end
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
@@ -85,94 +94,96 @@ bindkey "^N" history-beginning-search-forward-end
 # Confortable settings
 #---------------------------
 
-# Run cd with path
+# run cd with path
 setopt auto_cd
 
-# Remember move history (show list with "cd -[Tab]")
+# remember move history (show list with "cd -[Tab]")
 setopt auto_pushd
 
-# Correct command
+# correct command
 setopt correct
 
-# Show alternate list compact
+# show alternate list compact
 setopt list_packed 
 
-# Exec R-lang with r
+# exec R-lang with r
 disable r
 
 #---------------------------
 # Optional settings
 #---------------------------
 
-# Enable highlight
+# enable highlight
 if [ -f ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
   source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
-# Enable hub
+# enable hub
 which hub >/dev/null 2>&1 && eval "$(hub alias -s)"
 
-# Initialize rbenv & pyenv
+# initialize rbenv & pyenv
 which rbenv >/dev/null 2>&1 && eval "$(rbenv init -)"
 which pyenv >/dev/null 2>&1 && eval "$(pyenv init -)"
 
-# OPAM configuration
-case ${OSTYPE} in
-  darwin*)
-    . ~/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
-esac
+# use binary from cargo
+which cargo >/dev/null 2>&1 && path=(/Users/asakura/.cargo/bin $path)
 
 #---------------------------
 # Functions
 #---------------------------
 
-FUNCPATH="$HOME/.zsh/functions"
-func_src=($FUNCPATH/hugo.zsh $FUNCPATH/utility.zsh $FUNCPATH/cpdf.zsh)
-for fs in $func_src; do
-  if [ -f $fs ]; then
-    source $fs
-  fi
-done
+() {
+  funcpath="$HOME/.zsh/functions"
+  func_src=(hugo.zsh utility.zsh cpdf.zsh)
+  for name in $func_src; do
+    fs="$HOME/.zsh/functions/$name"
+    [ -f $fs ] && source $fs
+  done
+}
 
 #---------------------------
 # Aliases
 #---------------------------
 
-# Ask before delete files
-alias cp='cp -i'
-alias mv='mv -i'
-alias rm='rm -i'
+# ask before delete files
+alias cp="cp -i"
+alias mv="mv -i"
+alias rm="rm -i"
 
-# Execute with sudo
+# execute with sudo
 alias please='sudo $(fc -ln -1)'
 
-# Aliases depend on OS
+# aliases depending on OS
 case ${OSTYPE} in
-  # Aliases for Mac
+  # Aliases for macOS
   darwin*)
-    # Use colorful output by default
-    alias ls='ls -Gh'
-    alias gls='gls --color=auto --human-readable'
-    # Move files to trash with rm command
-    alias rm='rmtrash'
-    # Launch IPython quickly
-    alias ipy='ipython'
-    alias ipy3='ipython3'
-    # Measure for brew doctor
-    alias brew='env PATH=${PATH/$HOME\/\.pyenv\/shims:/} brew'
-    # Update and Upgrade brew
-    alias upup='brew update && brew upgrade && brew cleanup'
-    # Turn on/off network connection with wifi command
-    alias wifi='networksetup -setairportpower en0'
-    # Temporary
-    alias llmk="texlua ~/repos/github.com/wtsnjp/llmk/llmk.lua";;
-  # Aliases for Linux
+    # ls: colorful output by default
+    alias ls="ls -Gh"
+    alias gls="gls --color=auto --human-readable"
+    # rm: use rmtrash for safety
+    alias rm="rmtrash"
+    # launch IPython quickly
+    alias ipy="ipython"
+    alias ipy3="ipython3"
+    # update & upgrade brew
+    alias upup="brew update && brew upgrade && brew cleanup"
+    # turn on/off network connection with wifi command
+    alias wifi="networksetup -setairportpower en0";;
+  # aliases for Linux
   linux*)
-    # Use colorful output by default
-    alias ls='ls --color=auto --human-readable'
-    # Update and Upgrade apt-get
-    alias upup='sudo apt-get update && sudo apt-get upgrade && sudo apt-get clean';;
+    # ls: colorful output by default
+    alias ls="ls --color=auto --human-readable";;
 esac
 
-# Delete overlaped path
+#---------------------------
+# Finalize
+#---------------------------
+
+# prefered PATH
+path=(/Users/asakura/bin $path)
+
+# delete overlaped paths
 typeset -U path cdpath fpath manpath
+
+# prevent lines inserted unintentionally
+:<< COMMENTOUT
