@@ -17,17 +17,41 @@ export LANG=en_US.UTF-8
 export RLWRAP_HOME=".rlwrap"
 
 #---------------------------
+# Zplug
+#---------------------------
+
+# install
+if [ ! -d ~/.zplug ];then
+  curl -sL --proto-redir -all,https\
+    https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+fi
+
+# initialize
+source ~/.zplug/init.zsh
+
+# list of plugins
+zplug "zsh-users/zsh-completions"
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
+
+# load plugins
+zplug load
+
+# install plugins if there are plugins that have not been installed
+if ! zplug check --verbose; then
+  printf "Install? [y/N]: "
+  if read -q; then
+    echo
+    zplug install
+  fi
+fi
+
+#---------------------------
 # Completion
 #---------------------------
 
 # enable completion
 autoload -U compinit
 compinit -u
-
-# git
-if [ -e /usr/local/share/zsh-completions ]; then
-  fpath=(/usr/local/share/zsh-completions $fpath)
-fi
 
 # texdoc
 () {
@@ -113,11 +137,6 @@ disable r
 # Optional settings
 #---------------------------
 
-# enable highlight
-if [ -f ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
-  source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-fi
-
 # enable hub
 which hub >/dev/null 2>&1 && eval "$(hub alias -s)"
 
@@ -128,15 +147,10 @@ which pyenv >/dev/null 2>&1 && eval "$(pyenv init -)"
 # use binary from cargo
 which cargo >/dev/null 2>&1 && path=(/Users/asakura/.cargo/bin $path)
 
-#---------------------------
-# Functions
-#---------------------------
-
+# load my plugins
 () {
-  funcpath="$HOME/.zsh/functions"
-  func_src=(hugo.zsh utility.zsh cpdf.zsh)
-  for name in $func_src; do
-    fs="$HOME/.zsh/functions/$name"
+  func_src=($HOME/.zsh/functions/*.zsh)
+  for fs in $func_src; do
     [ -f $fs ] && source $fs
   done
 }
