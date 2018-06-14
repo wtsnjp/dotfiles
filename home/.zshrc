@@ -58,9 +58,9 @@ compinit -u
 () {
   which kpsewhich > /dev/null
   if [ $? = 0 ]; then
-    tlpdb="$(kpsewhich -var-value TEXMFROOT)/tlpkg/texlive.tlpdb"
+    local tlpdb="$(kpsewhich -var-value TEXMFROOT)/tlpkg/texlive.tlpdb"
     if [ -f $tlpdb ]; then
-      cmd="(($(awk '/^name[^.]*$/ {print $2}' )))"
+      local cmd="(($(awk '/^name[^.]*$/ {print $2}' $tlpdb)))"
       compctl -k $cmd texdoc
     fi
   fi
