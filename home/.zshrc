@@ -13,6 +13,7 @@ if [ -x /usr/libexec/path_helper ]; then
 fi
 
 # environment variables
+export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export RLWRAP_HOME=".rlwrap"
 
@@ -21,13 +22,13 @@ export RLWRAP_HOME=".rlwrap"
 #---------------------------
 
 # install
-if [ ! -d ~/.zplug ];then
+if [ ! -d ~/.zplug ]; then
   curl -sL --proto-redir -all,https\
     https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
 fi
 
 # initialize
-source ~/.zplug/init.zsh
+source ~/.zplug/init.zsh > /dev/null 2>&1
 
 # list of plugins
 zplug "zsh-users/zsh-completions"
@@ -57,9 +58,11 @@ compinit -u
 () {
   which kpsewhich > /dev/null
   if [ $? = 0 ]; then
-    cmd="(($(awk '/^name[^.]*$/ {print $2}'\
-      $(kpsewhich -var-value TEXMFROOT)/tlpkg/texlive.tlpdb)))"
-    compctl -k $cmd texdoc
+    tlpdb="$(kpsewhich -var-value TEXMFROOT)/tlpkg/texlive.tlpdb"
+    if [ -f $tlpdb ]; then
+      cmd="(($(awk '/^name[^.]*$/ {print $2}' )))"
+      compctl -k $cmd texdoc
+    fi
   fi
 }
 
