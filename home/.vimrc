@@ -51,7 +51,7 @@ let s:use_dein = 1
 "---------------------------
 
 " Open *.def/*.ins/*.dtx/*.cfg file with filetype=plaintex
-autocmd vimrc BufNewFile,BufRead *sty,*.def,*.ins,*.dtx,*.cfg setlocal ft=plaintex
+autocmd vimrc BufNewFile,BufRead *.sty,*.def,*.ins,*.dtx,*.cfg setlocal ft=plaintex
 
 " Open *.lvt file with filetype=tex
 autocmd vimrc BufNewFile,BufRead *.tex,*.lvt setlocal ft=tex nospell
@@ -579,6 +579,15 @@ let g:quickrun_config = {
   \     'exec': ['%c %o %s']
   \   },
   \ }
+
+" }}}
+
+" localrc {{{
+
+" load '.local.vimrc's
+" FIXME: this is a default behavior, but it doesn't work
+" cf. https://github.com/thinca/vim-localrc/blob/master/plugin/localrc.vim#L29-L30
+autocmd vimrc BufNewFile,BufReadPost * nested call localrc#load(g:localrc_filename)
 
 " }}}
 
