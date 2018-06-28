@@ -15,7 +15,7 @@ fi
 # environment variables
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
-export RLWRAP_HOME=".rlwrap"
+export RLWRAP_HOME="$HOME/.rlwrap"
 
 #---------------------------
 # Zplug
