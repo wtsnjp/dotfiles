@@ -363,8 +363,18 @@ if s:use_dein && v:version >= 704
     call dein#add('cohama/lexima.vim')
     "call dein#add('rhysd/github-complete.vim')
     if has('lua')
-      call dein#add('Shougo/neocomplete.vim', {'on_i': 1})
       call dein#add('ujihisa/neco-look', {'lazy': 1})
+    endif
+
+    " Omni completion
+    if has('timers') && has('python3') && system('pip3 show neovim') !=# ''
+      call dein#add('Shougo/deoplete.nvim', {'on_i': 1})
+      if !has('nvim')
+        call dein#add('roxma/nvim-yarp')
+        call dein#add('roxma/vim-hug-neovim-rpc')
+      endif
+    elseif has('lua')
+      call dein#add('Shougo/neocomplete.vim', {'on_i': 1})
     endif
 
     " Debug
@@ -506,26 +516,47 @@ endif
 
 " }}}
 
-" neocomplete {{{
+" neocomplete/deoplete {{{
 
-" Enbale default
-let g:neocomplete#enable_at_startup = 1
+if dein#tap('deoplete.nvim')
+  " Enbale default
+  let g:deoplete#enable_at_startup = 1
 
-" Use smartcase
-let g:neocomplete#enable_smart_case = 1
+  " Use smartcase
+  let g:deoplete#enable_smart_case = 1
 
-" Use underbar completion
-let g:neocomplete#enable_underbar_completion = 1
+  " Use underbar completion
+  let g:deoplete#enable_underbar_completion = 1
 
-" Set minimum syntax keyword length
-let g:neocomplete#min_keyword_length = 3
+  " Set minimum syntax keyword length
+  let g:deoplete#min_keyword_length = 3
 
-" Do not collect Japanese
-if !exists('g:neocomplete#keyword_patterns')
-  let g:neocomplete#keyword_patterns = {}
+  " Do not collect Japanese
+  if !exists('g:deoplete#keyword_patterns')
+    let g:deoplete#keyword_patterns = {}
+  endif
+  let g:deoplete#keyword_patterns['default'] = '\h\w*'
+  let g:deoplete#keyword_patterns['expl3'] = '\h\w*\(:\a*\|\)'
+elseif dein#tap('neocomplete.vim')
+  " Enbale default
+  let g:neocomplete#enable_at_startup = 1
+
+  " Use smartcase
+  let g:neocomplete#enable_smart_case = 1
+
+  " Use underbar completion
+  let g:neocomplete#enable_underbar_completion = 1
+
+  " Set minimum syntax keyword length
+  let g:neocomplete#min_keyword_length = 3
+
+  " Do not collect Japanese
+  if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+  endif
+  let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+  let g:neocomplete#keyword_patterns['expl3'] = '\h\w*\(:\a*\|\)'
 endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-let g:neocomplete#keyword_patterns['expl3'] = '\h\w*\(:\a*\|\)'
 
 " }}}
 
@@ -838,13 +869,23 @@ cmap <C-r> <Plug>(yankround-insert-register)
 cmap <C-y> <Plug>(yankround-pop)
 
 " Mappings for neocomplete
-inoremap <expr> <C-u> neocomplete#undo_completion()
-inoremap <expr> <TAB>
-  \ neocomplete#complete_common_string() != '' ?
-  \   neocomplete#complete_common_string() :
-  \ pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr> <CR>
-  \ pumvisible() ? neocomplete#close_popup() : lexima#expand('<CR>', 'i')
+if dein#tap('deoplete.nvim')
+  inoremap <expr> <C-u> deoplete#undo_completion()
+  inoremap <expr> <TAB>
+    \ deoplete#complete_common_string() != '' ?
+    \   deoplete#complete_common_string() :
+    \ pumvisible() ? "\<C-n>" : "\<TAB>"
+  inoremap <expr> <CR>
+    \ pumvisible() ? deoplete#close_popup() : lexima#expand('<CR>', 'i')
+elseif dein#tap('neocomplete.vim')
+  inoremap <expr> <C-u> neocomplete#undo_completion()
+  inoremap <expr> <TAB>
+    \ neocomplete#complete_common_string() != '' ?
+    \   neocomplete#complete_common_string() :
+    \ pumvisible() ? "\<C-n>" : "\<TAB>"
+  inoremap <expr> <CR>
+    \ pumvisible() ? neocomplete#close_popup() : lexima#expand('<CR>', 'i')
+endif
 
 " Function keys
 nnoremap <F1> K
