@@ -367,13 +367,14 @@ if s:use_dein && v:version >= 704
     endif
 
     " Omni completion
-    if has('timers') && has('python3') && system('pip3 show neovim') !=# ''
-      call dein#add('Shougo/deoplete.nvim', {'on_i': 1})
-      if !has('nvim')
-        call dein#add('roxma/nvim-yarp')
-        call dein#add('roxma/vim-hug-neovim-rpc')
-      endif
-    elseif has('lua')
+    "if has('timers') && has('python3') && system('pip3 show neovim') !=# ''
+    "  call dein#add('Shougo/deoplete.nvim', {'on_i': 1})
+    "  if !has('nvim')
+    "    call dein#add('roxma/nvim-yarp')
+    "    call dein#add('roxma/vim-hug-neovim-rpc')
+    "  endif
+    "elseif has('lua')
+    if has('lua')
       call dein#add('Shougo/neocomplete.vim', {'on_i': 1})
     endif
 
