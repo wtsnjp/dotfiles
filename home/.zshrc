@@ -182,8 +182,6 @@ case ${OSTYPE} in
     # launch IPython quickly
     alias ipy="ipython"
     alias ipy3="ipython3"
-    # update & upgrade brew
-    alias upup="brew update && brew upgrade && brew cleanup"
     # turn on/off network connection with wifi command
     alias wifi="networksetup -setairportpower en0";;
   # aliases for Linux
@@ -197,7 +195,7 @@ esac
 #---------------------------
 
 # prefered PATH
-path=(/Users/asakura/bin $path)
+path=(/Users/asakura/bin /usr/local/sbin $path)
 
 # delete overlaped paths
 typeset -U path cdpath fpath manpath
