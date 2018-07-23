@@ -17,6 +17,15 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export RLWRAP_HOME="$HOME/.rlwrap"
 
+# utility functions
+function __is_exist() {
+  which $1 >/dev/null 2>&1
+}
+
+function __shortcut() {
+  __is_exist $2 && alias $1="$2"
+}
+
 #---------------------------
 # Zplug
 #---------------------------
@@ -56,7 +65,7 @@ compinit -u
 
 # texdoc
 () {
-  which kpsewhich > /dev/null
+  __is_exist kpsewhich
   if [ $? = 0 ]; then
     local tlpdb="$(kpsewhich -var-value TEXMFROOT)/tlpkg/texlive.tlpdb"
     if [ -f $tlpdb ]; then
@@ -141,14 +150,14 @@ disable r
 #---------------------------
 
 # enable hub
-which hub >/dev/null 2>&1 && eval "$(hub alias -s)"
+__is_exist hub && eval "$(hub alias -s)"
 
 # initialize rbenv & pyenv
-which rbenv >/dev/null 2>&1 && eval "$(rbenv init -)"
-which pyenv >/dev/null 2>&1 && eval "$(pyenv init -)"
+__is_exist rbenv && eval "$(rbenv init -)"
+__is_exist pyenv && eval "$(pyenv init -)"
 
 # use binary from cargo
-which cargo >/dev/null 2>&1 && path=(/Users/asakura/.cargo/bin $path)
+__is_exist cargo && path=(/Users/asakura/.cargo/bin $path)
 
 # load my plugins
 () {
@@ -170,6 +179,10 @@ alias rm="rm -i"
 # execute with sudo
 alias please='sudo $(fc -ln -1)'
 
+# shortcuts
+__shortcut ipy ipython
+__shortcut ipy3 ipython3
+
 # aliases depending on OS
 case ${OSTYPE} in
   # Aliases for macOS
@@ -179,9 +192,6 @@ case ${OSTYPE} in
     alias gls="gls --color=auto --human-readable"
     # rm: use rmtrash for safety
     alias rm="rmtrash"
-    # launch IPython quickly
-    alias ipy="ipython"
-    alias ipy3="ipython3"
     # turn on/off network connection with wifi command
     alias wifi="networksetup -setairportpower en0";;
   # aliases for Linux
@@ -194,11 +204,14 @@ esac
 # Finalize
 #---------------------------
 
-# prefered PATH
+# preferred PATH
 path=(/Users/asakura/bin /usr/local/sbin $path)
 
-# delete overlaped paths
+# delete overlapped paths
 typeset -U path cdpath fpath manpath
+
+# remove local functions
+unfunction __is_exist __shortcut
 
 # prevent lines inserted unintentionally
 :<< COMMENTOUT
