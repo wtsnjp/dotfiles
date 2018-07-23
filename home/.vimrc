@@ -28,7 +28,9 @@ else
 endif
 
 " Load defaults.vim
-source $VIMRUNTIME/defaults.vim
+if v:version >= 800
+  source $VIMRUNTIME/defaults.vim
+endif
 
 " Augroup for this vimrc
 augroup vimrc
@@ -599,11 +601,11 @@ let g:quickrun_config = {
   \     'cmdopt': '-B'
   \   },
   \   'tex': {
-  \     'command': 'latexmk',
+  \     'command': 'llmk',
   \     'exec': ['%c %o %s']
   \   },
   \   'expl3': {
-  \     'command': 'latexmk',
+  \     'command': 'llmk',
   \     'exec': ['%c %o %s']
   \   },
   \   'plaintex': {
@@ -626,7 +628,6 @@ autocmd vimrc BufNewFile,BufReadPost * nested call localrc#load(g:localrc_filena
 " sonictemplate-vim {{{
 
 let g:sonictemplate_vim_template_dir = [
-  \   '~/.vim/dein/repos/github.com/mattn/sonictemplate-vim/template',
   \   '~/repos/github.com/wtsnjp/templates'
   \ ]
 
