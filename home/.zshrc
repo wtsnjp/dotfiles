@@ -59,35 +59,15 @@ fi
 # Completion
 #---------------------------
 
-# enable completion
-autoload -U compinit
-compinit -u
-
-# texdoc
-() {
-  __is_exist kpsewhich
-  if [ $? = 0 ]; then
-    local tlpdb="$(kpsewhich -var-value TEXMFROOT)/tlpkg/texlive.tlpdb"
-    if [ -f $tlpdb ]; then
-      local cmd="(($(awk '/^name[^.]*$/ {print $2}' $tlpdb)))"
-      compctl -k $cmd texdoc
-    fi
-  fi
-}
-
-# pip
-function _pip_completion {
-  local words cword
-  read -Ac words
-  read -cn cword
-  reply=( $( COMP_WORDS="$words[*]" \
-             COMP_CWORD=$(( cword-1 )) \
-             PIP_AUTO_COMPLETE=1 $words[1] ) )
-}
-compctl -K _pip_completion pip
+# load local completion functions
+fpath=(~/.zsh/completions $fpath)
 
 # travis (gem)
 [ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
+
+# enable completion
+autoload -U compinit
+compinit -u
 
 # do not suggest current dir
 zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' '+m:{A-Z}={a-z}'
