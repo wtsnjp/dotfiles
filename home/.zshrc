@@ -185,7 +185,7 @@ esac
 #---------------------------
 
 # preferred PATH
-path=(/Users/asakura/bin /usr/local/sbin $path)
+path=(/Users/asakura/bin /usr/local/texlive/2018/bin/x86_64-darwin /usr/local/sbin $path)
 
 # delete overlapped paths
 typeset -U path cdpath fpath manpath
