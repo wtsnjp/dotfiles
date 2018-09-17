@@ -1024,14 +1024,16 @@ endfunction
 " Markdown
 autocmd vimrc FileType markdown call s:markdown_settings()
 function! s:markdown_settings()
-  call s:text_settings()
+  setlocal indentkeys=''
+  setlocal spell
 endfunction
 
 " Python
 autocmd vimrc FileType python call s:python_settings()
 function! s:python_settings()
   setlocal completeopt-=preview
-  noremap <buffer> <Space>% :!python3 %<CR>
+  noremap <buffer> <Space>% :!python %<CR>
+  nnoremap <buffer> <silent> <Space>y :0,$!yapf<CR><C-o>
 endfunction
 
 " Ruby
