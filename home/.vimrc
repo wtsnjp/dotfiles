@@ -819,6 +819,10 @@ noremap <silent> <Space>i :<C-u>IndentLinesToggle<CR>
 " Enable spell check
 noremap <silent> <Space>s :<C-u>setlocal spell!<CR>
 
+" Command launcher
+vnoremap <Space><CR> :!sh<CR>
+nnoremap <Space><CR> V:!sh<CR>
+
 " Align easily
 vmap ,a <Plug>(EasyAlign)
 
