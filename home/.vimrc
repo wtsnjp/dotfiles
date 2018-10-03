@@ -699,8 +699,8 @@ let g:yankround_max_history = 50
 " Move natural in wrap line
 noremap <Down> gj
 noremap <Up>   gk
-noremap j gj
-noremap k gk
+nnoremap <expr> j v:count ? 'j' : 'gj'
+nnoremap <expr> k v:count ? 'k' : 'gk'
 noremap gj j
 noremap gk k
 
