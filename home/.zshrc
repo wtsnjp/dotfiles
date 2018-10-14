@@ -137,7 +137,7 @@ __is_exist rbenv && eval "$(rbenv init -)"
 __is_exist pyenv && eval "$(pyenv init -)"
 
 # use binary from cargo
-__is_exist cargo && path=(/Users/asakura/.cargo/bin $path)
+__is_exist cargo && path=($HOME/.cargo/bin $path)
 
 # load my plugins
 () {
@@ -185,7 +185,7 @@ esac
 #---------------------------
 
 # preferred PATH
-path=(/Users/asakura/bin /usr/local/texlive/2018/bin/x86_64-darwin /usr/local/sbin $path)
+path=($HOME/bin /usr/local/texlive/2018/bin/x86_64-darwin /usr/local/sbin $path)
 
 # delete overlapped paths
 typeset -U path cdpath fpath manpath
