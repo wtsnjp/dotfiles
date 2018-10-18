@@ -597,7 +597,7 @@ let g:quickrun_config = {
   \     'runner/job/updatetime': 40,
   \   },
   \   'python': {
-  \     'command': 'python3',
+  \     'command': 'python',
   \     'cmdopt': '-B'
   \   },
   \   'tex': {
