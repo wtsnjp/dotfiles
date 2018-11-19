@@ -256,16 +256,6 @@ set wildmode=longest:full,full
 set history=10000
 
 "---------------------------
-" Build-in plugins
-"---------------------------
-
-" Extend % motion
-"runtime macros/matchit.vim
-
-" Enable :Man in any file
-runtime ftplugin/man.vim
-
-"---------------------------
 " Plugins (with dein.vim)
 "---------------------------
 
@@ -326,9 +316,11 @@ if s:use_dein && v:version >= 704
     call dein#add('tpope/vim-abolish')
 
     " Yank
+    call dein#add('machakann/vim-highlightedyank')
     call dein#add('LeafCage/yankround.vim')
 
     " Motion
+    call dein#add('andymass/vim-matchup')
     call dein#add('rhysd/clever-f.vim')
     call dein#add('thinca/vim-poslist')
 
@@ -369,13 +361,13 @@ if s:use_dein && v:version >= 704
     endif
 
     " Omni completion
-    "if has('timers') && has('python3') && system('pip3 show neovim') !=# ''
-    "  call dein#add('Shougo/deoplete.nvim', {'on_i': 1})
-    "  if !has('nvim')
-    "    call dein#add('roxma/nvim-yarp')
-    "    call dein#add('roxma/vim-hug-neovim-rpc')
-    "  endif
-    "elseif has('lua')
+    " if has('timers') && has('python3') && system('pip3 show neovim') !=# ''
+    "   call dein#add('Shougo/deoplete.nvim', {'on_i': 1})
+    "   if !has('nvim')
+    "     call dein#add('roxma/nvim-yarp')
+    "     call dein#add('roxma/vim-hug-neovim-rpc')
+    "   endif
+    " elseif has('lua')
     if has('lua')
       call dein#add('Shougo/neocomplete.vim', {'on_i': 1})
     endif
@@ -408,6 +400,7 @@ if s:use_dein && v:version >= 704
     " References
     call dein#add('thinca/vim-ref')
     call dein#add('yuku-t/vim-ref-ri')
+    call dein#add('lambdalisue/vim-manpager')
 
     " Submode
     call dein#add('kana/vim-submode')
@@ -482,6 +475,12 @@ let g:clever_f_fix_key_direction = 1
 
 " }}}
 
+" vim-highlightedyank {{{
+
+let g:highlightedyank_highlight_duration = 200
+
+" }}}
+
 " indentLine {{{
 
 let g:indentLine_color_term = 111
@@ -508,6 +507,15 @@ let g:lightline = {
   \     'filelines': '%LL'
   \   }
   \ }
+
+" }}}
+
+" vim-matchup {{{
+
+let g:matchup_mappings_enabled = 0
+let g:matchup_matchparen_enabled = 1
+" TODO: This seems to have a bug; let's make an issue
+" let g:matchup_delim_noskips = 1
 
 " }}}
 
@@ -711,7 +719,8 @@ noremap <C-k> {
 " Move without shift key
 noremap <expr> ^ match(strpart(getline('.'), 0, col('.') - 1), '^\s\+$') >= 0 ? '0' : '^'
 noremap - $
-noremap 0 %
+" noremap 0 %
+map 0 <plug>(matchup-%)
 
 " Yank naturaly
 nnoremap Y y$
@@ -1049,6 +1058,7 @@ endfunction
 " Text
 autocmd vimrc FileType text call s:text_settings()
 function! s:text_settings()
+  setlocal nocindent
   setlocal indentkeys=''
   setlocal spell
   setlocal textwidth=79
