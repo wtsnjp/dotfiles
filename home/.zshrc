@@ -12,6 +12,9 @@ if [ -x /usr/libexec/path_helper ]; then
   eval `/usr/libexec/path_helper -s`
 fi
 
+# make sure to put /usr/local to PATH
+path=(/usr/local/bin /usr/local/sbin $path)
+
 # environment variables
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
@@ -185,7 +188,7 @@ esac
 #---------------------------
 
 # preferred PATH
-path=($HOME/bin /usr/local/texlive/2018/bin/x86_64-darwin /usr/local/sbin $path)
+path=($HOME/bin /usr/local/texlive/2018/bin/x86_64-darwin $path)
 
 # delete overlapped paths
 typeset -U path cdpath fpath manpath
