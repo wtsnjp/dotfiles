@@ -939,6 +939,7 @@ nnoremap sp gT
 nnoremap sr <C-w>r
 nnoremap s= <C-w>=
 nnoremap sw <C-w>w
+nnoremap sc <C-w>c
 nnoremap so <C-w>o
 nnoremap ss :<C-u>sp<CR>
 nnoremap sv :<C-u>vs<CR>
