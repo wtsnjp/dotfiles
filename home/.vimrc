@@ -1038,6 +1038,7 @@ endfunction
 " Markdown
 autocmd vimrc FileType markdown call s:markdown_settings()
 function! s:markdown_settings()
+  setlocal nocindent
   setlocal indentkeys=''
   setlocal spell
 endfunction
