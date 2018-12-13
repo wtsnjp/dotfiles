@@ -1019,7 +1019,7 @@ endif
 "---------------------------
 
 " Git commit
-autocmd vimrc FileType gitcommit call s:gitcommit_settings()
+autocmd vimrc FileType gitcommit,gina-commit call s:gitcommit_settings()
 function! s:gitcommit_settings()
   call s:text_settings()
   setlocal spellcapcheck=
