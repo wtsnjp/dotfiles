@@ -1,0 +1,24 @@
+# Watson's gitconfig
+# Author: wtsnjp
+# Website: https://wtsnjp.com
+# Source: https://github.com/wtsnjp/dotfiles
+
+[user]
+name = Watson
+email = wtsnjp@gmail.com
+
+[core]
+excludesfile = ~/.gitignore.global
+editor = vim
+pager = less
+
+[color]
+ui = auto
+
+[push]
+default = simple
+
+[credential]
+helper = osxkeychain
+
+# vim: ft=dosini:

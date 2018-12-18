@@ -21,12 +21,12 @@ export LANG=en_US.UTF-8
 export RLWRAP_HOME="$HOME/.rlwrap"
 
 # utility functions
-function __is_exist() {
+function __is_cmd_exist() {
   which $1 >/dev/null 2>&1
 }
 
 function __shortcut() {
-  __is_exist $2 && alias $1="$2"
+  __is_cmd_exist $2 && alias $1="$2"
 }
 
 #---------------------------
@@ -133,14 +133,16 @@ disable r
 #---------------------------
 
 # enable hub
-__is_exist hub && eval "$(hub alias -s)"
+__is_cmd_exist hub && eval "$(hub alias -s)"
 
 # initialize rbenv & pyenv
-__is_exist rbenv && eval "$(rbenv init -)"
-__is_exist pyenv && eval "$(pyenv init -)"
+__is_cmd_exist rbenv && eval "$(rbenv init -)"
+__is_cmd_exist pyenv && eval "$(pyenv init -)"
 
 # use binary from cargo
-__is_exist cargo && path=($HOME/.cargo/bin $path)
+if [ -d ~/.cargo/bin ]; then
+  path=($HOME/.cargo/bin $path)
+fi
 
 # load my plugins
 () {
@@ -194,7 +196,7 @@ path=($HOME/bin /usr/local/texlive/2018/bin/x86_64-darwin $path)
 typeset -U path cdpath fpath manpath
 
 # remove local functions
-unfunction __is_exist __shortcut
+unfunction __is_cmd_exist __shortcut
 
 # prevent lines inserted unintentionally
 :<< COMMENTOUT

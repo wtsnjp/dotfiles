@@ -1,0 +1,12 @@
+# Watson's gemrc
+# Author: wtsnjp
+# Website: https://wtsnjp.com
+# Source: https://github.com/wtsnjp/dotfiles
+
+install: --no-rdoc --no-ri
+update: --no-rdoc --no-ri
+sources:
+- http://gems.rubyforge.org
+- http://gems.github.com
+
+# vim: ft=yaml:

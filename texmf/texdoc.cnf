@@ -1,0 +1,13 @@
+# Watson's texdoc.cnf
+# Author: wtsnjp
+# Website: https://wtsnjp.com
+# Source: https://github.com/wtsnjp/dotfiles
+
+# preference
+lang = ja
+viewer_md = open
+
+# alias
+alias cheat = platexsheet-jsclasses
+alias sym = symbols-a4
+alias title = titlepages

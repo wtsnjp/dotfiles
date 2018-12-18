@@ -1,0 +1,85 @@
+" Watson's cvimrc
+" Author: wtsnjp
+" Website: https://wtsnjp.com
+" Source: https://github.com/wtsnjp/dotfiles
+
+"---------------------------
+" General Settings
+"---------------------------
+
+" Auto sync
+set autoupdategist
+
+" Disable unnecessary functions
+set nohud
+set nosmoothscroll
+
+" Scroll
+let scrolltep = 30
+let fullpagescrollpercent = 100
+
+" Command line
+let barposition = 'bottom'
+
+" Blacklist
+let blacklists = [
+  \   'https://mail.google.com/*',
+  \   'https://docs.google.com/*',
+  \   'https://*.slack.com/*',
+  \   'https://calendar.google.com/calendar/*'
+  \ ]
+
+"---------------------------
+" Hit-a-Hint
+"---------------------------
+
+" Use custome chars
+let hintcharacters = "hjklasdfgyuiopqwertnmzxcvb"
+
+"---------------------------
+" Qmarks
+"---------------------------
+
+let qmark a = ['https://www.amazon.co.jp/gp/video/watchlist/ref=nav_youraccount_ywl']
+let qmark b = ['https://blog.wtsnjp.com/']
+let qmark c = ['https://calendar.google.com/calendar/r/']
+let qmark g = ['https://github.com/wtsnjp']
+let qmark i = ['https://www.instapaper.com/u']
+let qmark j = ['https://ja.stackoverflow.com/']
+let qmark k = ['https://keep.google.com/']
+let qmark m = ['https://miyao-lab.slack.com/']
+let qmark o = ['https://oku.edu.mie-u.ac.jp/tex/login/index.php']
+let qmark q = ['http://qiita.com/']
+let qmark s = ['http://scholar.google.com/?hl=ja']
+let qmark t = ['https://texuser.slack.com/']
+let qmark w = ['https://wtsnjp.com']
+let qmark x = ['https://tex.stackexchange.com/']
+
+"---------------------------
+" Move
+"---------------------------
+
+map <C-h> scrollLeft
+map <C-j> scrollDown
+map <C-k> scrollUp
+map <C-l> scrollRight
+map <C-u> scrollPageUp
+map <C-d> scrollPageDown
+map <C-b> scrollFullPageUp
+map <C-f> scrollFullPageDown
+
+"---------------------------
+" Scripts
+"---------------------------
+
+" yank '%title% %url%'
+copyTitleUrl() -> {{
+  RUNTIME('getRootUrl', function(url) {
+    let ret = document.title + " " + url;
+    Clipboard.copy(ret);
+    Status.setMessage(ret, 2);
+  });
+}}
+map yt :call copyTitleUrl<CR>
+
+" vim: ft=vim:

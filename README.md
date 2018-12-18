@@ -1,18 +1,17 @@
 # Watson's dotfiles
 
-### Installation
+## Activate configuration
 
-You can install dotfiles with [Homesick](https://github.com/technicalpickles/homesick).
-
-```
-$ gem install homesick
-$ homesick clone wtsnjp/dotfiles
-$ homesick symlink dotfiles
-```
-
-### Git configuration
+You can link most of the configuration with Rake:
 
 ```
-$ homesick cd dotfiles
-$ git config remote.origin.url git@github.com:wtsnjp/dotfiles.git
+$ rake link
 ```
+
+## License
+
+All files in this repository are licensed under [the MIT license](./LICENSE).
+
+---
+
+Takuto ASAKURA ([wtsnjp](https://twitter.com/wtsnjp))

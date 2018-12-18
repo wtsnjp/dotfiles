@@ -1,0 +1,10 @@
+% Watson's texmf.cnf
+% Author: wtsnjp
+% Website: https://wtsnjp.com
+% Source: https://github.com/wtsnjp/dotfiles
+
+% Path
+OSFONTDIR = /Library/Fonts
+
+% TeX engine
+max_print_line = 199

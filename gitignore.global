@@ -1,0 +1,8 @@
+# Watson's gitignore.global
+# Author: wtsnjp
+# Website: https://wtsnjp.com
+# Source: https://github.com/wtsnjp/dotfiles
+
+.DS_Store
+
+# vim: ft=conf:
