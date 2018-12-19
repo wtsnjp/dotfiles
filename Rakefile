@@ -1,10 +1,28 @@
 # Rakefile for wtsnjp/dotfiles.
-require 'os'
 require 'pathname'
 
 # constants
 HOME = Pathname.new(ENV["HOME"])
 PWD = Pathname.pwd
+
+# judge platform
+def os
+  @os ||= (
+    host_os = RbConfig::CONFIG['host_os']
+    case host_os
+    when /mswin|msys|mingw|cygwin|bccwin|wince|emc/
+      :windows
+    when /darwin|mac os/
+      :macos
+    when /linux/
+      :linux
+    when /solaris|bsd/
+      :unix
+    else
+      raise "unknown os: #{host_os.inspect}"
+    end
+  )
+end
 
 # the dotfiles map { String => Pathname }
 ## common
@@ -22,7 +40,7 @@ dotfiles_map = {
 }
 
 ## macOS
-if OS.mac?
+if os == :macos
   dotfiles_map["zsh/functions/macos.zsh"] = HOME + ".zsh/functions/macos.zsh"
 end
 
