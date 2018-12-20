@@ -136,6 +136,9 @@ disable r
 __is_cmd_exist hub && eval "$(hub alias -s)"
 
 # initialize rbenv & pyenv
+if [ -d ~/.rbenv/bin ]; then
+  path=($HOME/.rbenv/bin $path)
+fi
 __is_cmd_exist rbenv && eval "$(rbenv init -)"
 __is_cmd_exist pyenv && eval "$(pyenv init -)"
 
