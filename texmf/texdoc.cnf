@@ -11,3 +11,4 @@ viewer_md = open
 alias cheat = platexsheet-jsclasses
 alias sym = symbols-a4
 alias title = titlepages
+alias l3 = source3
