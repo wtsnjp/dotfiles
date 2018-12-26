@@ -8,9 +8,7 @@
 #---------------------------
 
 # load system-wide settings
-if [ -x /usr/libexec/path_helper ]; then
-  eval "$(/usr/libexec/path_helper -s)"
-fi
+[ -x /usr/libexec/path_helper ] && eval "$(/usr/libexec/path_helper -s)"
 
 # make sure to put /usr/local to PATH
 path=(/usr/local/bin /usr/local/sbin $path)
@@ -18,22 +16,52 @@ path=(/usr/local/bin /usr/local/sbin $path)
 # environment variables
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
-export RLWRAP_HOME="$HOME/.rlwrap"
 
-# utility functions
-function __is_cmd_exist() {
-  which $1 >/dev/null 2>&1
+#---------------------------
+# Utility
+#---------------------------
+
+# the toggle function
+function __enable_utils() {
+  # initialize
+  typeset -g -a __utils_list
+  __utils_list=(__util_function)
+  function __util_function() { __utils_list=($__utils_list $1) }
+
+  ## __is_cmd_exist <command>
+  # if <command> exists, return true
+  __util_function __is_cmd_exist
+  function __is_cmd_exist() { which $1 >/dev/null 2>&1 }
+
+  ## __add_path <path>
+  # add <path> if the dir exists
+  __util_function __add_path
+  function __add_path() { [ -d $1 ] && path=($1 $path) }
+
+  ## __shortcut <alias> <command>
+  # make a shortcut <alias> if the <command> exist
+  __util_function __shortcut
+  function __shortcut() { __is_cmd_exist $2 && alias $1="$2" }
+
+  ## __relax
+  # do nothing for a moment
+  __util_function __relax
+  function __relax() { sleep 0.1 }
+
+  ## __eval_cmd <command> [<arg> ...]
+  # eval <command> with a message
+  function __eval_cmd() { echo "* $*" && eval "$*" }
+
+  ## __disable_utils
+  # disable the utilities
+  __util_function __disable_utils
+  function __disable_utils() {
+    for fn in $__utils_list; do unfunction $fn; done
+  }
 }
 
-function __add_path() {
-  if [ -d $1 ]; then
-    path=($1 $path)
-  fi
-}
-
-function __shortcut() {
-  __is_cmd_exist $2 && alias $1="$2"
-}
+# enable utilities for this script
+__enable_utils
 
 #---------------------------
 # Zplug
@@ -150,6 +178,9 @@ __is_cmd_exist pyenv && eval "$(pyenv init -)"
 # use binary from cargo
 __add_path "$HOME/.cargo/bin"
 
+# save readline histories to ~/.rlwrap
+__is_cmd_exist rlwrap && export RLWRAP_HOME="$HOME/.rlwrap"
+
 # load my plugins
 () {
   func_src=($HOME/.zsh/functions/*.zsh)
@@ -201,8 +232,8 @@ path=($HOME/bin /usr/local/texlive/2018/bin/x86_64-darwin $path)
 # delete overlapped paths
 typeset -U path cdpath fpath manpath
 
-# remove local functions
-unfunction __is_cmd_exist __add_path __shortcut
+# cleanup utility functions
+__disable_utils
 
 # prevent lines inserted unintentionally
 :<< COMMENTOUT
