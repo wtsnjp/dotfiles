@@ -24,9 +24,8 @@ export LANG=en_US.UTF-8
 # the toggle function
 function __enable_utils() {
   # initialize
-  typeset -g -a __utils_list
-  __utils_list=(__util_function)
-  function __util_function() { __utils_list=($__utils_list $1) }
+  local utils=(__util_function)
+  function __util_function() { utils=($utils $1) }
 
   ## __is_cmd_exist <command>
   # if <command> exists, return true
@@ -55,9 +54,7 @@ function __enable_utils() {
   ## __disable_utils
   # disable the utilities
   __util_function __disable_utils
-  function __disable_utils() {
-    for fn in $__utils_list; do unfunction $fn; done
-  }
+  eval "__disable_utils() { for fn in $utils; do unfunction \$fn; done }"
 }
 
 # enable utilities for this script
