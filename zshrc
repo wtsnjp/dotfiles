@@ -21,44 +21,25 @@ export LANG=en_US.UTF-8
 # Utility
 #---------------------------
 
-# the toggle function
-function __enable_utils() {
-  # initialize
-  local utils=(__util_function)
-  function __util_function() { utils=($utils $1) }
+## __is_cmd <command>
+# if <command> exists, return true
+function __is_cmd() { which $1 >/dev/null 2>&1 }
 
-  ## __is_cmd_exist <command>
-  # if <command> exists, return true
-  __util_function __is_cmd_exist
-  function __is_cmd_exist() { which $1 >/dev/null 2>&1 }
+## __add_path <path>
+# add <path> if the dir exists
+function __add_path() { [ -d $1 ] && path=($1 $path) }
 
-  ## __add_path <path>
-  # add <path> if the dir exists
-  __util_function __add_path
-  function __add_path() { [ -d $1 ] && path=($1 $path) }
+## __shortcut <alias> <command>
+# make a shortcut <alias> if the <command> exist
+function __shortcut() { __is_cmd $2 && alias $1="$2" }
 
-  ## __shortcut <alias> <command>
-  # make a shortcut <alias> if the <command> exist
-  __util_function __shortcut
-  function __shortcut() { __is_cmd_exist $2 && alias $1="$2" }
+## __relax
+# do nothing for a moment
+function __relax() { sleep 0.1 }
 
-  ## __relax
-  # do nothing for a moment
-  __util_function __relax
-  function __relax() { sleep 0.1 }
-
-  ## __eval_cmd <command> [<arg> ...]
-  # eval <command> with a message
-  function __eval_cmd() { echo "* $*" && eval "$*" }
-
-  ## __disable_utils
-  # disable the utilities
-  __util_function __disable_utils
-  eval "__disable_utils() { for fn in $utils; do unfunction \$fn; done }"
-}
-
-# enable utilities for this script
-__enable_utils
+## __eval_cmd <command> [<arg> ...]
+# eval <command> with a message
+function __eval_cmd() { echo "* $*" && eval "$*" }
 
 #---------------------------
 # Zplug
@@ -164,19 +145,19 @@ disable r
 #---------------------------
 
 # enable hub
-__is_cmd_exist hub && eval "$(hub alias -s)"
+__is_cmd hub && eval "$(hub alias -s)"
 
 # initialize rbenv & pyenv
 __add_path "$HOME/.rbenv/bin"
 __add_path "$HOME/.pyenv/bin"
-__is_cmd_exist rbenv && eval "$(rbenv init -)"
-__is_cmd_exist pyenv && eval "$(pyenv init -)"
+__is_cmd rbenv && eval "$(rbenv init -)"
+__is_cmd pyenv && eval "$(pyenv init -)"
 
 # use binary from cargo
 __add_path "$HOME/.cargo/bin"
 
 # save readline histories to ~/.rlwrap
-__is_cmd_exist rlwrap && export RLWRAP_HOME="$HOME/.rlwrap"
+__is_cmd rlwrap && export RLWRAP_HOME="$HOME/.rlwrap"
 
 # load my plugins
 () {
@@ -228,9 +209,6 @@ path=($HOME/bin /usr/local/texlive/2018/bin/x86_64-darwin $path)
 
 # delete overlapped paths
 typeset -U path cdpath fpath manpath
-
-# cleanup utility functions
-__disable_utils
 
 # prevent lines inserted unintentionally
 :<< COMMENTOUT
