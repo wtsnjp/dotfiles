@@ -220,7 +220,8 @@ esac
 
 # load my plugins
 () {
-  local func_src=($HOME/.zsh/functions/*.zsh)
+  local -a func_src
+  func_src=($HOME/.zsh/functions/*.zsh)
   for fs in $func_src; do
     __exec_file $fs
   done
