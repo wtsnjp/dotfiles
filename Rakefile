@@ -34,18 +34,21 @@ dotfiles_map = {
   "vimrc" => HOME + ".vimrc",
   "zshrc" => HOME + ".zshrc",
   "zsh/completions/_texdoc" => HOME + ".zsh/completions/_texdoc",
-  "zsh/functions/hugo.zsh" => HOME + ".zsh/functions/hugo.zsh",
   "zsh/functions/ltxpkg-install.zsh" => HOME + ".zsh/functions/ltxpkg-install.zsh",
   "zsh/functions/utility.zsh" => HOME + ".zsh/functions/utility.zsh",
 }
 
 ## macOS
 if os == :macos
+  dotfiles_map["zsh/functions/hugo.zsh"] = HOME + ".zsh/functions/hugo.zsh"
   dotfiles_map["zsh/functions/macos.zsh"] = HOME + ".zsh/functions/macos.zsh"
 end
 
 ## TeX Live
 if system("which kpsewhich > #{File::NULL} 2> #{File::NULL}")
+  # zsh functions for TeX
+  dotfiles_map["zsh/functions/tex.zsh"] = HOME + ".zsh/functions/tex.zsh"
+
   # TEXMF trees
   TEXMFHOME = Pathname.new(`kpsewhich --var-value TEXMFHOME`.chomp)
 
