@@ -37,22 +37,26 @@ function __shortcut() { __is_cmd $2 && alias $1="$2" }
 # do nothing for a moment
 function __relax() { sleep 0.1 }
 
-## __eval_cmd <command> [<arg> ...]
+## __exec_cmd <command> [<arg> ...]
 # eval <command> with a message
-function __eval_cmd() { echo "* $*" && eval "$*" }
+function __exec_cmd() { echo "* $@" && eval "$@" }
+
+## __exec_file <file>
+# exec <file> if it exists
+function __exec_file() { [ -f $1 ] && source $1 }
 
 #---------------------------
 # Zplug
 #---------------------------
 
 # install
-if [ ! -d ~/.zplug ]; then
+if [ ! -d $HOME/.zplug ]; then
   curl -sL --proto-redir -all,https\
     https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
 fi
 
 # initialize
-source ~/.zplug/init.zsh > /dev/null 2>&1
+source $HOME/.zplug/init.zsh > /dev/null 2>&1
 
 # list of plugins
 zplug "zsh-users/zsh-completions"
@@ -75,10 +79,10 @@ fi
 #---------------------------
 
 # load local completion functions
-fpath=(~/.zsh/completions $fpath)
+fpath=($HOME/.zsh/completions $fpath)
 
 # travis (gem)
-[ -f ~/.travis/travis.sh ] && source ~/.travis/travis.sh
+__exec_file $HOME/.travis/travis.sh
 
 # enable completion
 autoload -U compinit
@@ -104,7 +108,7 @@ zstyle ':completion:*' ignore-parents parent pwd ..
 #---------------------------
 
 # dir and its size
-HISTFILE=~/.zsh_history
+HISTFILE=$HOME/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 
@@ -156,56 +160,71 @@ __is_cmd pyenv && eval "$(pyenv init -)"
 # use binary from cargo
 __add_path "$HOME/.cargo/bin"
 
-# save readline histories to ~/.rlwrap
+# save readline histories to $HOME/.rlwrap
 __is_cmd rlwrap && export RLWRAP_HOME="$HOME/.rlwrap"
 
-# load my plugins
-() {
-  func_src=($HOME/.zsh/functions/*.zsh)
-  for fs in $func_src; do
-    [ -f $fs ] && source $fs
-  done
-}
+#---------------------------
+# Prefered PATH
+#---------------------------
+
+# the $HOME/bin
+__add_path "$HOME/bin"
+
+# TeX Live binaries
+case $OSTYPE in
+  darwin*)
+    __add_path "/usr/local/texlive/2018/bin/x86_64-darwin"
+    ;;
+esac
 
 #---------------------------
 # Aliases
 #---------------------------
 
-# ask before delete files
-alias cp="cp -i"
-alias mv="mv -i"
-alias rm="rm -i"
-
 # execute with sudo
 alias please='sudo $(fc -ln -1)'
 
-# shortcuts
+# safer rm
+if __is_cmd rmtrash; then
+  alias rm="rmtrash"
+else
+  alias rm="rm -i"
+fi
+
+# prevent deleting files unintentionally
+alias cp="cp -i"
+alias mv="mv -i"
+
+# IPython
 __shortcut ipy ipython
 __shortcut ipy3 ipython3
 
 # aliases depending on OS
-case ${OSTYPE} in
+case $OSTYPE in
   # Aliases for macOS
   darwin*)
     # ls: colorful output by default
     alias ls="ls -Gh"
     alias gls="gls --color=auto --human-readable"
-    # rm: use rmtrash for safety
-    alias rm="rmtrash"
-    # turn on/off network connection with wifi command
-    alias wifi="networksetup -setairportpower en0";;
+    ;;
   # aliases for Linux
   linux*)
     # ls: colorful output by default
-    alias ls="ls --color=auto --human-readable";;
+    alias ls="ls --color=auto --human-readable"
+    ;;
 esac
 
 #---------------------------
 # Finalize
 #---------------------------
 
-# preferred PATH
-path=($HOME/bin /usr/local/texlive/2018/bin/x86_64-darwin $path)
+# load my plugins
+() {
+  local func_src=($HOME/.zsh/functions/*.zsh)
+  for fs in $func_src; do
+    __exec_file $fs
+  done
+}
 
 # delete overlapped paths
 typeset -U path cdpath fpath manpath
