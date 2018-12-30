@@ -27,6 +27,18 @@ function tstex() {
   : > ${test_file} && echo ${test_file}
 }
 
+## kpse <file>
+# open the <file> in texmf scope with vim
+function kpse() {
+  local target
+  if echo $1 | fgrep -q '.'; then
+    target="$1"
+  else
+    target="$1.sty"
+  fi
+  vim "$(kpsewhich $target)"
+}
+
 ## texlua [<arg> ...]
 # wrap function for texlua (enable the repl)
 function texlua() {
