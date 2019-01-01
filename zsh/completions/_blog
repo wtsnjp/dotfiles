@@ -1,0 +1,37 @@
+#compdef blog
+# Watson's zsh completion script for the blog function
+# Author: wtsnjp
+# Website: https://wtsnjp.com
+# Source: https://github.com/wtsnjp/dotfiles
+
+function _blog() {
+  _arguments -C \
+    '1: :__blog_commands' \
+    '*:: :->args' && return 0
+
+  case $state in
+    args)
+      case words[1] in
+        publish|undraft)
+          _files -W $BLOG_PATH/content/post
+        ;;
+      esac
+    ;;
+  esac
+}
+
+function __blog_commands() {
+  local -a _c
+  _c=(
+    'new:create a new entry'
+    'preview:preview the blog'
+    'publish:publish the entry'
+    'undraft:undraft the entry'
+    'update:just update the blog'
+  )
+  _describe -t commands 'commands' _c
+}
+
+_blog "$@"
+
+# vim: ft=zsh:
