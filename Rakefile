@@ -44,7 +44,7 @@ if os == :macos
   dotfiles_map["zsh/functions/macos.zsh"] = HOME + ".zsh/functions/macos.zsh"
 
   # blog management
-  dotfiles_map["zsh/functions/hugo.zsh"] = HOME + ".zsh/functions/hugo.zsh"
+  dotfiles_map["zsh/functions/blog.zsh"] = HOME + ".zsh/functions/blog.zsh"
   dotfiles_map["zsh/completions/_blog"] = HOME + ".zsh/completions/_blog"
 end
 
