@@ -43,20 +43,20 @@ function __exec_cmd() { echo "* $@" && eval "$@" }
 
 ## __exec_file <file>
 # exec <file> if it exists
-function __exec_file() { [ -f $1 ] && source $1 }
+function __exec_file() { [ -f "$1" ] && source "$1" }
 
 #---------------------------
 # Zplug
 #---------------------------
 
 # install
-if [ ! -d $HOME/.zplug ]; then
+if [ ! -d "$HOME/.zplug" ]; then
   curl -sL --proto-redir -all,https\
     https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
 fi
 
 # initialize
-source $HOME/.zplug/init.zsh > /dev/null 2>&1
+source "$HOME/.zplug/init.zsh" > /dev/null 2>&1
 
 # list of plugins
 zplug "zsh-users/zsh-completions"
@@ -82,7 +82,7 @@ fi
 fpath=($HOME/.zsh/completions $fpath)
 
 # travis (gem)
-__exec_file $HOME/.travis/travis.sh
+__exec_file "$HOME/.travis/travis.sh"
 
 # enable completion
 autoload -U compinit
@@ -108,9 +108,9 @@ zstyle ':completion:*' ignore-parents parent pwd ..
 #---------------------------
 
 # dir and its size
-HISTFILE=$HOME/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
+export HISTFILE="$HOME/.zsh_history"
+export HISTSIZE=10000
+export SAVEHIST=10000
 
 # ignore duplication command history list
 setopt hist_ignore_dups
@@ -223,7 +223,7 @@ esac
   local -a func_src
   func_src=($HOME/.zsh/functions/*.zsh)
   for fs in $func_src; do
-    __exec_file $fs
+    __exec_file "$fs"
   done
 }
 
