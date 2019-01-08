@@ -1,0 +1,20 @@
+#compdef kpse
+# Watson's zsh completion script for the kpse function
+# Author: wtsnjp
+# Website: https://wtsnjp.com
+# Source: https://github.com/wtsnjp/dotfiles
+
+function _kpse() {
+  _arguments -C '*: :->package' && return 0
+
+  local tlpdb="$(kpsewhich -var-value TEXMFROOT)/tlpkg/texlive.tlpdb"
+  case $state in
+    package)
+      _values 'package' $(awk '/^name[^.]*$/ {print $2}' $tlpdb)
+    ;;
+  esac
+}
+
+_kpse "$@"
+
+# vim: ft=zsh:
