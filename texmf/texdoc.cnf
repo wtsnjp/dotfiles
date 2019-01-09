@@ -12,3 +12,6 @@ alias cheat = platexsheet-jsclasses
 alias sym = symbols-a4
 alias title = titlepages
 alias l3 = source3
+
+# test
+ext_list=pdf, htm, html, txt, md, ps, dvi, 
