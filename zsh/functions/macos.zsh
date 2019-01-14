@@ -9,6 +9,9 @@ if [[ ! $OSTYPE = darwin* ]]; then
   return
 fi
 
+# environment variables
+export HOMEBREW_INSTALL_CLEANUP=1
+
 ## wifi [on|off]
 # toggle wifi
 function wifi() { networksetup -setairportpower en0 $1 }
@@ -24,5 +27,5 @@ function um() {
 # the daily routine
 function upup() {
   __exec_cmd brew update && __relax
-  __exec_cmd brew upgrade --cleanup && __relax
+  __exec_cmd brew upgrade && __relax
 }
