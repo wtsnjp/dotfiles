@@ -46,6 +46,10 @@ if os == :macos
   # blog management
   dotfiles_map["zsh/functions/blog.zsh"] = HOME + ".zsh/functions/blog.zsh"
   dotfiles_map["zsh/completions/_blog"] = HOME + ".zsh/completions/_blog"
+
+  # site management
+  dotfiles_map["zsh/functions/site.zsh"] = HOME + ".zsh/functions/site.zsh"
+  dotfiles_map["zsh/completions/_site"] = HOME + ".zsh/completions/_site"
 end
 
 ## TeX Live

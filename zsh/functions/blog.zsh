@@ -10,7 +10,7 @@ if [[ ! $OSTYPE = darwin* ]]; then
 fi
 
 # config
-export BLOG_PATH=$HOME/repos/blog.wtsnjp.com
+export BLOG_PATH="$HOME/repos/blog.wtsnjp.com"
 
 # wrapper
 function blog() {
