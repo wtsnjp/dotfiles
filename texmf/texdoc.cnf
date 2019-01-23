@@ -3,7 +3,9 @@
 # Website: https://wtsnjp.com
 # Source: https://github.com/wtsnjp/dotfiles
 
-# preference
+##### personal preference #####
+
+# general
 lang = ja
 viewer_md = open
 
@@ -13,5 +15,10 @@ alias sym = symbols-a4
 alias title = titlepages
 alias l3 = source3
 
-# test
+##### candidates for the standard #####
+
+# add "md" to ext_list
 ext_list=pdf, htm, html, txt, md, ps, dvi, 
+
+# adjscore for bxjscls
+adjscore manual = 1.5
