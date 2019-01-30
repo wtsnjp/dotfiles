@@ -27,16 +27,40 @@ function tstex() {
   : > ${test_file} && echo ${test_file}
 }
 
-## kpse <file>
-# open the <file> in texmf scope with vim
-function kpse() {
-  local target
+## ksrc <file>
+# open the source <file> in texmf scope with vim
+function ksrc() {
+  local keyword
   if echo $1 | fgrep -q '.'; then
-    target="$1"
+    keyword="$1"
   else
-    target="$1.sty"
+    keyword="$1.sty"
   fi
-  vim "$(kpsewhich $target)"
+  local target="$(kpsewhich $keyword)"
+  if [ -n "$target" ]; then
+    vim "$target"
+  else
+    echo "Source file \"$keyword\" does not exist!"
+    return 1
+  fi
+}
+
+## kdoc <file>
+# open the documentation <file> in texmf scope with vim
+function kdoc() {
+  local keyword
+  if echo $1 | fgrep -q '.'; then
+    keyword="$1"
+  else
+    keyword="$1.tex"
+  fi
+  local target="$(kpsewhich --format=doc $keyword)"
+  if [ -n "$target" ]; then
+    vim "$target"
+  else
+    echo "Documentation \"$keyword\" does not exist!"
+    return 1
+  fi
 }
 
 ## texlua [<arg> ...]
