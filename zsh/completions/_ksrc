@@ -1,0 +1,20 @@
+#compdef ksrc
+# Watson's zsh completion script for the ksrc function
+# Author: wtsnjp
+# Website: https://wtsnjp.com
+# Source: https://github.com/wtsnjp/dotfiles
+
+function _ksrc() {
+  _arguments -C '*: :->package' && return 0
+
+  local tlpdb="$(kpsewhich -var-value TEXMFROOT)/tlpkg/texlive.tlpdb"
+  case $state in
+    package)
+      _values 'package' $(awk '/^name[^.]*$/ {print $2}' $tlpdb)
+    ;;
+  esac
+}
+
+_ksrc "$@"
+
+# vim: ft=zsh:

@@ -1,10 +1,10 @@
-#compdef kpse
-# Watson's zsh completion script for the kpse function
+#compdef kdoc
+# Watson's zsh completion script for the kdoc function
 # Author: wtsnjp
 # Website: https://wtsnjp.com
 # Source: https://github.com/wtsnjp/dotfiles
 
-function _kpse() {
+function _kdoc() {
   _arguments -C '*: :->package' && return 0
 
   local tlpdb="$(kpsewhich -var-value TEXMFROOT)/tlpkg/texlive.tlpdb"
@@ -15,6 +15,6 @@ function _kpse() {
   esac
 }
 
-_kpse "$@"
+_kdoc "$@"
 
 # vim: ft=zsh:
