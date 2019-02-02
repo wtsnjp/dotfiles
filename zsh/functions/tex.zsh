@@ -27,40 +27,50 @@ function tstex() {
   : > ${test_file} && echo ${test_file}
 }
 
-## ksrc <file>
-# open the source <file> in texmf scope with vim
-function ksrc() {
-  local keyword
-  if echo $1 | fgrep -q '.'; then
-    keyword="$1"
+## kpse [-d] <file>
+# open <file> in texmf scope with vim
+function kpse() {
+  if [ "$1" = "-d" ]; then
+    __kpse_doc $2
   else
-    keyword="$1.sty"
-  fi
-  local target="$(kpsewhich $keyword)"
-  if [ -n "$target" ]; then
-    vim "$target"
-  else
-    echo "Source file \"$keyword\" does not exist!"
-    return 1
+    __kpse_src $1
   fi
 }
 
-## kdoc <file>
-# open the documentation <file> in texmf scope with vim
-function kdoc() {
-  local keyword
-  if echo $1 | fgrep -q '.'; then
-    keyword="$1"
-  else
-    keyword="$1.tex"
-  fi
-  local target="$(kpsewhich --format=doc $keyword)"
-  if [ -n "$target" ]; then
-    vim "$target"
-  else
-    echo "Documentation \"$keyword\" does not exist!"
-    return 1
-  fi
+## __kpse_src <file>
+function __kpse_src() {
+  local target
+  local exts=("" ".dtx" ".sty")
+
+  for ext in "$exts[@]"; do
+    target=$(kpsewhich "$1$ext")
+
+    if [ -n "$target" ]; then
+      vim "$target"
+      return 0
+    fi
+  done
+
+  echo "Source for \"$1\" does not exist!"
+  return 1
+}
+
+## __kpse_doc <file>
+function __kpse_doc() {
+  local target
+  local exts=("" ".tex")
+
+  for ext in "$exts[@]"; do
+    target=$(kpsewhich --format=doc "$1$ext")
+
+    if [ -n "$target" ]; then
+      vim "$target"
+      return 0
+    fi
+  done
+
+  echo "Documentation for \"$1\" does not exist!"
+  return 1
 }
 
 ## texlua [<arg> ...]

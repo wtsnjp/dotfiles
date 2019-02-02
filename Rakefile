@@ -56,8 +56,7 @@ end
 if system("which kpsewhich > #{File::NULL} 2> #{File::NULL}")
   # zsh scripts for TeX
   dotfiles_map["zsh/functions/tex.zsh"] = HOME + ".zsh/functions/tex.zsh"
-  dotfiles_map["zsh/completions/_ksrc"] = HOME + ".zsh/completions/_ksrc"
-  dotfiles_map["zsh/completions/_kdoc"] = HOME + ".zsh/completions/_kdoc"
+  dotfiles_map["zsh/completions/_kpse"] = HOME + ".zsh/completions/_kpse"
 
   # TEXMF trees
   TEXMFHOME = Pathname.new(`kpsewhich --var-value TEXMFHOME`.chomp)
