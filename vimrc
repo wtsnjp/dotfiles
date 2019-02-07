@@ -1090,7 +1090,9 @@ function! s:tex_settings()
     let mp = -1
 
     while mp < 0
-      let mp = match(getline('.'), '^%\?$')
+      " empty line, only a comment letter '%', or begining of envrionment is a
+      " delimiter of paragraph
+      let mp = match(getline('.'), '^\(%\?\|\\begin{.\+}\)$')
       if getpos('.')[1] != 1
         let head_pos = getpos('.')
         normal! k
@@ -1105,7 +1107,9 @@ function! s:tex_settings()
     normal! j
     while mp < 0
       let tail_pos = getpos('.')
-      let mp = match(getline('.'), '^%\?$')
+      " empty line, only a comment letter '%', or end of envrionment is a
+      " delimiter of paragraph
+      let mp = match(getline('.'), '^\(%\?\|\\end{.\+}\)$')
       if getpos('.')[1] != last_line
         normal! j
       else
@@ -1129,7 +1133,9 @@ function! s:tex_settings()
     let mp = -1
 
     while mp < 0
-      let mp = match(getline('.'), '^%\?$')
+      " empty line, only a comment letter '%', or begining of envrionment is a
+      " delimiter of paragraph
+      let mp = match(getline('.'), '^\(%\?\|\\begin{.\+}\)$')
       if mp < 0
         if getpos('.')[1] != 1
           let head_pos = getpos('.')
@@ -1144,7 +1150,9 @@ function! s:tex_settings()
     let mp = -1
 
     while mp < 0
-      let mp = match(getline('.'), '^%\?$')
+      " empty line, only a comment letter '%', or end of envrionment is a
+      " delimiter of paragraph
+      let mp = match(getline('.'), '^\(%\?\|\\end{.\+}\)$')
       if mp < 0
         let tail_pos = getpos('.')
         if getpos('.')[1] != last_line
