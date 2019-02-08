@@ -21,4 +21,10 @@ default = simple
 [credential]
 helper = osxkeychain
 
+[diff]
+wordRegex = [^?-?][?-?]*
+
+[alias]
+jdiff = diff --word-diff=color
+
 # vim: ft=dosini:
