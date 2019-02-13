@@ -17,8 +17,5 @@ alias l3 = source3
 
 ##### candidates for the standard #####
 
-# add "md" to ext_list
-ext_list=pdf, htm, html, txt, md, ps, dvi, 
-
 # adjscore for bxjscls
 adjscore manual = 1.5
