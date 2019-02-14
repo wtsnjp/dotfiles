@@ -3,6 +3,9 @@
 # Website: https://wtsnjp.com
 # Source: https://github.com/wtsnjp/dotfiles
 
+# NOTE: to open this file with Vim, use following Ex command
+#       :e ++bad=keep gitconfig
+
 [user]
 name = Watson
 email = wtsnjp@gmail.com
@@ -22,9 +25,9 @@ default = simple
 helper = osxkeychain
 
 [diff]
-wordRegex = [^?-?][?-?]*
+wordRegex = [^€-¿][€-¿]*
 
 [alias]
 jdiff = diff --word-diff=color
 
-# vim: ft=dosini:
+# vim: ft=dosini fenc=utf-8:
