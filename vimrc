@@ -432,6 +432,9 @@ if s:use_dein && v:version >= 704
     " Scheme
     call dein#add('wlangstroth/vim-racket')
 
+    " English grammar check
+    call dein#add('rhysd/vim-grammarous')
+
     " Joke
     call dein#add('thinca/vim-scouter')
 
@@ -472,6 +475,23 @@ let g:clever_f_use_migemo = 1
 
 " Fix the moving direction with f or F
 let g:clever_f_fix_key_direction = 1
+
+" }}}
+
+" vim-grammarous {{{
+
+let g:grammarous#hooks = {}
+function! g:grammarous#hooks.on_check(errs)
+  nmap <buffer>,g <Plug>(grammarous-open-info-window)
+  nmap <buffer><C-n> <Plug>(grammarous-move-to-next-error)
+  nmap <buffer><C-p> <Plug>(grammarous-move-to-previous-error)
+endfunction
+
+function! g:grammarous#hooks.on_reset(errs)
+  nunmap <buffer>,g
+  nunmap <buffer><C-n>
+  nunmap <buffer><C-p>
+endfunction
 
 " }}}
 
@@ -527,7 +547,7 @@ endif
 
 " }}}
 
-" neocomplete/deoplete {{{
+" neocomplete / deoplete {{{
 
 if dein#tap('deoplete.nvim')
   " Enbale default
@@ -957,6 +977,10 @@ if s:dein_enable
   call submode#map('bufmove', 'n', '', '+', '<C-w>+')
   call submode#map('bufmove', 'n', '', '-', '<C-w>-')
 endif
+
+" Execute grammer check
+nnoremap ,g :<C-u>GrammarousCheck<CR>
+vnoremap ,g :<C-u>'<,'>GrammarousCheck<CR>
 
 "---------------------------
 " Commands and functions
