@@ -167,15 +167,15 @@ __is_cmd rlwrap && export RLWRAP_HOME="$HOME/.rlwrap"
 # Prefered PATH
 #---------------------------
 
-# the $HOME/bin
-__add_path "$HOME/bin"
-
 # TeX Live binaries
 case $OSTYPE in
   darwin*)
     __add_path "/usr/local/texlive/2018/bin/x86_64-darwin"
     ;;
 esac
+
+# the $HOME/bin
+__add_path "$HOME/bin"
 
 #---------------------------
 # Aliases
