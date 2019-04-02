@@ -33,8 +33,6 @@ dotfiles_map = {
   "latexmkrc" => HOME + ".latexmkrc",
   "vimrc" => HOME + ".vimrc",
   "zshrc" => HOME + ".zshrc",
-  "zsh/completions/_texdoc" => HOME + ".zsh/completions/_texdoc",
-  "zsh/functions/ltxpkg-install.zsh" => HOME + ".zsh/functions/ltxpkg-install.zsh",
   "zsh/functions/utility.zsh" => HOME + ".zsh/functions/utility.zsh",
 }
 
@@ -54,9 +52,12 @@ end
 
 ## TeX Live
 if system("which kpsewhich > #{File::NULL} 2> #{File::NULL}")
-  # zsh scripts for TeX
+  # zsh functions for TeX
   dotfiles_map["zsh/functions/tex.zsh"] = HOME + ".zsh/functions/tex.zsh"
+  dotfiles_map["zsh/functions/ltxpkg-install.zsh"] = HOME + ".zsh/functions/ltxpkg-install.zsh"
+
   dotfiles_map["zsh/completions/_kpse"] = HOME + ".zsh/completions/_kpse"
+  dotfiles_map["zsh/completions/_texdoc"] = HOME + ".zsh/completions/_texdoc"
 
   # TEXMF trees
   TEXMFHOME = Pathname.new(`kpsewhich --var-value TEXMFHOME`.chomp)
