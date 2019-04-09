@@ -1042,12 +1042,17 @@ endif
 " Settings for languages
 "---------------------------
 
-" Git commit
+" Git
 autocmd vimrc FileType gitcommit,gina-commit call s:gitcommit_settings()
 function! s:gitcommit_settings()
   call s:text_settings()
   setlocal spellcapcheck=
-  startinsert
+  normal! gg
+endfunction
+
+autocmd vimrc FileType gitrebase call s:gitrebase_settings()
+function! s:gitrebase_settings()
+  normal! gg
 endfunction
 
 " Help
