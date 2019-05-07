@@ -93,6 +93,16 @@ zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' '+m:{A-Z}={a-z}'
 zstyle ':completion:*' ignore-parents parent pwd ..
 
 #---------------------------
+# fzf
+#---------------------------
+
+if __is_cmd fzf; then
+  __exec_file "$HOME/.fzf.zsh"
+  export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git"'
+  export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
+fi
+
+#---------------------------
 # Prompt settings
 #---------------------------
 
