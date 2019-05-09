@@ -21,6 +21,9 @@ function wifi() { networksetup -setairportpower en0 $1 }
 function um() {
   osascript -e \
     'tell application "Finder" to eject (every disk whose ejectable is true)'
+  __relax
+  osascript -e \
+    'tell application "Finder" to eject (every disk whose ejectable is true)'
 }
 
 ## upup
