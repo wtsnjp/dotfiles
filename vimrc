@@ -61,6 +61,9 @@ autocmd vimrc BufNewFile,BufRead *.tex,*.lvt setlocal ft=tex nospell
 " Open *.tlu file with filetype=lua
 autocmd vimrc BufNewFile,BufRead *.tlu setlocal ft=lua
 
+" Open *.tsv file with filetype=tsv
+autocmd vimrc BufNewFile,BufRead *.tsv setlocal ft=tsv
+
 " Open *.rq file with filetype=sparql
 autocmd vimrc BufNewFile,BufRead *.rq setlocal ft=sparql
 
@@ -1059,7 +1062,7 @@ endfunction
 autocmd vimrc FileType help call s:help_settings()
 function! s:help_settings()
   setlocal keywordprg=:help
-  map <buffer> <Space>  <C-d>
+  map <buffer> <Space> <C-d>
   map <buffer> b <C-u>
   map <buffer> q :<C-u>q<CR>
 endfunction
@@ -1093,6 +1096,15 @@ function! s:text_settings()
   setlocal indentkeys=''
   setlocal spell
   setlocal textwidth=79
+endfunction
+
+" TSV
+autocmd vimrc FileType tsv call s:tsv_settings()
+function! s:tsv_settings()
+  setlocal tabstop=8
+  setlocal softtabstop=8
+  setlocal shiftwidth=8
+  setlocal noexpandtab
 endfunction
 
 " TeX/LaTeX
