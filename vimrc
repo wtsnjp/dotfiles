@@ -1218,8 +1218,13 @@ function! s:tex_settings()
     redraw!
   endfunction
 
+  function! CanonicalizeClipboad()
+    let @* = substitute(@*, '- ', '', 'g')
+  endfunction
+
   nnoremap <buffer> <silent> <Space>o :<C-u>call OpenLatexOutPdf()<CR>
   nnoremap <buffer> <silent> <Space>c :<C-u>call LatexmkCleanup()<CR>
+  nnoremap <buffer> <silent> <Space>x :<C-u>call CanonicalizeClipboad()<CR>
 endfunction
 
 autocmd vimrc FileType plaintex call s:plaintex_settings()
