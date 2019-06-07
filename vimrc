@@ -855,6 +855,10 @@ noremap <silent> <Space>s :<C-u>setlocal spell!<CR>
 vnoremap <Space><CR> :!sh<CR>
 nnoremap <Space><CR> V:!sh<CR>
 
+" Search for selection range
+vnoremap <Space>/ "ay<ESC>/<C-r>a
+vnoremap <Space>? "ay<ESC>?<C-r>a
+
 " Align easily
 vmap ,a <Plug>(EasyAlign)
 
