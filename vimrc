@@ -345,11 +345,6 @@ if s:use_dein && v:version >= 704
     call dein#add('mattn/webapi-vim')
     call dein#add('tyru/open-browser.vim')
 
-    " Twitter
-    call dein#add('basyura/bitly.vim')
-    call dein#add('basyura/twibill.vim')
-    call dein#add('basyura/TweetVim')
-
     " Online chat
     call dein#add('tsukkee/lingr-vim')
     call dein#add('y0za/vim-reading-vimrc')
