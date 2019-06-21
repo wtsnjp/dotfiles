@@ -456,12 +456,6 @@ filetype plugin indent on
 "---------------------------
 " Note: arrange in alphabetical order
 
-" caw.vim {{{
-
-let g:caw_hatpos_sp = ''
-
-" }}}
-
 " crever-f.vim {{{
 
 " Ignorecase and smartcase
@@ -864,11 +858,11 @@ map <silent> ,sr <Plug>(operator-surround-replace)
 
 " Toggle comment with caw
 map     <silent> ,c <Plug>(caw:hatpos:toggle)
-noremap <silent> ,C :call CommentToggle()<CR>
-function! CommentToggle()
-  let g:caw_hatpos_sp = ' '
+noremap <silent> ,C :call SourceCommentToggle()<CR>
+function! SourceCommentToggle()
+  let b:caw_hatpos_sp = ''
   normal ,c
-  let g:caw_hatpos_sp = ''
+  let b:caw_hatpos_sp = g:caw_hatpos_sp
 endfunction
 
 " QuickRun with some args
