@@ -719,8 +719,8 @@ let g:yankround_max_history = 50
 " Move natural in wrap line
 noremap <Down> gj
 noremap <Up>   gk
-nnoremap <expr> j v:count ? 'j' : 'gj'
-nnoremap <expr> k v:count ? 'k' : 'gk'
+noremap <expr> j v:count ? 'j' : 'gj'
+noremap <expr> k v:count ? 'k' : 'gk'
 noremap gj j
 noremap gk k
 
@@ -857,11 +857,11 @@ map <silent> ,sd <Plug>(operator-surround-delete)
 map <silent> ,sr <Plug>(operator-surround-replace)
 
 " Toggle comment with caw
-map     <silent> ,c <Plug>(caw:hatpos:toggle)
-noremap <silent> ,C :call SourceCommentToggle()<CR>
+map     <silent> ,C <Plug>(caw:hatpos:toggle)
+noremap <silent> ,c :call SourceCommentToggle()<CR>
 function! SourceCommentToggle()
   let b:caw_hatpos_sp = ''
-  normal ,c
+  normal ,C
   let b:caw_hatpos_sp = g:caw_hatpos_sp
 endfunction
 
