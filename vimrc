@@ -456,6 +456,13 @@ filetype plugin indent on
 "---------------------------
 " Note: arrange in alphabetical order
 
+" caw.vim {{{
+
+" Disable default keymaps
+let g:caw_no_default_keymappings = 1
+
+" }}}
+
 " crever-f.vim {{{
 
 " Ignorecase and smartcase
@@ -860,7 +867,7 @@ map <silent> ,sr <Plug>(operator-surround-replace)
 map     <silent> ,C <Plug>(caw:hatpos:toggle)
 noremap <silent> ,c :call SourceCommentToggle()<CR>
 function! SourceCommentToggle()
-  let b:caw_hatpos_sp = ''
+  let b:caw_hatpos_sp = ""
   normal ,C
   let b:caw_hatpos_sp = g:caw_hatpos_sp
 endfunction
