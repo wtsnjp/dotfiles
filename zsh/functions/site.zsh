@@ -32,11 +32,12 @@ function site-preview() {
 # update the site
 function site-update() {
   cd $SITE_PATH
+  local msg="$(git show --oneline | head -n 1)"
   __exec_cmd hugo
 
   cd $SITE_PATH/public
   __exec_cmd git add -A
-  __exec_cmd git commit -m "\"only update\""
+  __exec_cmd git commit -m \"${msg}\"
   __exec_cmd git push origin master
 
   cd $SITE_PATH
