@@ -181,6 +181,7 @@ __is_cmd rlwrap && export RLWRAP_HOME="$HOME/.rlwrap"
 case $OSTYPE in
   darwin*)
     __add_path "$HOME/.tlbin"
+    __add_path "/usr/local/opt/gettext/bin"
     ;;
 esac
 
