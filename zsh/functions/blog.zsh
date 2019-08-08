@@ -61,11 +61,12 @@ function blog-undraft() {
 # update the blog
 function blog-update() {
   cd $BLOG_PATH
+  local msg="$(git show --oneline | head -n 1)"
   __exec_cmd hugo
 
   cd $BLOG_PATH/public
   __exec_cmd git add -A
-  __exec_cmd git commit -m "\"only update\""
+  __exec_cmd git commit -m \"${msg}\"
   __exec_cmd git push origin gh-pages
 
   cd $BLOG_PATH
