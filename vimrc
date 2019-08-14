@@ -864,11 +864,13 @@ map <silent> ,sd <Plug>(operator-surround-delete)
 map <silent> ,sr <Plug>(operator-surround-replace)
 
 " Toggle comment with caw
-map     <silent> ,C <Plug>(caw:hatpos:toggle)
-noremap <silent> ,c :call SourceCommentToggle()<CR>
-function! SourceCommentToggle()
-  let b:caw_hatpos_sp = ""
-  normal ,C
+map      <silent> ,C <Plug>(caw:hatpos:toggle)
+nnoremap <silent> ,c :<C-u>call SourceCommentToggle('n')<CR>
+vnoremap <silent> ,c :<C-u>call SourceCommentToggle('v')<CR>
+function! SourceCommentToggle(mode)
+  let b:caw_hatpos_sp = ''
+  let l:keymap = a:mode ==# 'v' ? 'gv,C' : ',C'
+  execute 'normal ' . l:keymap
   let b:caw_hatpos_sp = g:caw_hatpos_sp
 endfunction
 
