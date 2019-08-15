@@ -35,7 +35,7 @@ function __shortcut() { __is_cmd $2 && alias $1="$2" }
 
 ## __relax
 # do nothing for a moment
-function __relax() { sleep 0.1 }
+function __relax() { sleep 0.5 }
 
 ## __exec_cmd <command> [<arg> ...]
 # eval <command> with a message

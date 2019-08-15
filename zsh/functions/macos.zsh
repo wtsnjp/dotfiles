@@ -19,11 +19,9 @@ function wifi() { networksetup -setairportpower en0 $1 }
 ## um
 # unmount all external disks
 function um() {
-  osascript -e \
-    'tell application "Finder" to eject (every disk whose ejectable is true)'
-  __relax
-  osascript -e \
-    'tell application "Finder" to eject (every disk whose ejectable is true)'
+  local cond="(every disk whose ejectable is true)"
+  local script="tell application \"Finder\" to eject $cond"
+  osascript -e "$script" && __relax && osascript -e "$script"
 }
 
 ## upup
