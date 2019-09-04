@@ -3,7 +3,7 @@ require 'pathname'
 
 # constants
 HOME = Pathname.new(ENV["HOME"])
-PWD = Pathname.pwd
+REPO_ROOT = Pathname.pwd
 
 # judge platform
 def os
@@ -78,7 +78,7 @@ dotfiles_map = dotfiles_map.sort.to_h
 desc "Show the list of the symlinks"
 task :list do
   dotfiles_map.each do |s, t|
-    src = PWD + s
+    src = REPO_ROOT + s
     if t.symlink? and t.readlink == src
       puts "#{t} -> #{src}"
     end
@@ -93,7 +93,7 @@ task :link do
 
     # create a symlink
     begin
-      ln_s PWD + s, t, verbose: false
+      ln_s REPO_ROOT + s, t, verbose: false
       puts "Link #{t}"
     rescue Errno::EEXIST
       puts "File #{t} already exist; passing."
@@ -104,7 +104,7 @@ end
 desc "Remove all symlinks to this repository"
 task :unlink do
   dotfiles_map.each do |s, t|
-    src = PWD + s
+    src = REPO_ROOT + s
     if t.symlink? and t.readlink == src
       rm_f t, verbose: false
       puts "Remove #{t}"
