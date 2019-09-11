@@ -108,7 +108,7 @@ fi
 
 () {
   local pcdir=$'\n'%F{yello}%~%f$'\n'
-  local pname="Watson-$MACHINE"
+  local pname="wtsnjp@$MACHINE"
   export PROMPT="$pcdir$pname$ "
   export PROMPT2="[$pname]> "
 }
