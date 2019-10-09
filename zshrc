@@ -108,7 +108,7 @@ fi
 
 () {
   if [ -z "$MACHINE" ]; then
-    export MACHINE=$(localhost)
+    export MACHINE="$(hostname)"
   fi
 
   local pcdir=$'\n'%F{yello}%~%f$'\n'
