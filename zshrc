@@ -107,6 +107,10 @@ fi
 #---------------------------
 
 () {
+  if [ -z "$MACHINE" ]; then
+    export MACHINE=$(localhost)
+  fi
+
   local pcdir=$'\n'%F{yello}%~%f$'\n'
   local pname="wtsnjp@$MACHINE"
   export PROMPT="$pcdir$pname$ "
