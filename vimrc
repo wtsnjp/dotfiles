@@ -1215,8 +1215,8 @@ function! s:tex_settings()
     redraw!
   endfunction
 
-  function! LatexmkCleanup()
-    silent execute '!latexmk -quiet -c'
+  function! LatexCleanup()
+    silent execute '!llmk --clean %'
     redraw!
   endfunction
 
@@ -1225,7 +1225,7 @@ function! s:tex_settings()
   endfunction
 
   nnoremap <buffer> <silent> <Space>o :<C-u>call OpenLatexOutPdf()<CR>
-  nnoremap <buffer> <silent> <Space>c :<C-u>call LatexmkCleanup()<CR>
+  nnoremap <buffer> <silent> <Space>c :<C-u>call LatexCleanup()<CR>
   nnoremap <buffer> <silent> <Space>x :<C-u>call CanonicalizeClipboad()<CR>
 endfunction
 
