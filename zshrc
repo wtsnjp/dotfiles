@@ -245,5 +245,31 @@ esac
 # delete overlapped paths
 typeset -U path cdpath fpath manpath
 
+#---------------------------
+# Stop updating!
+#---------------------------
+
+autoload -Uz colors
+
+function __warn_update() {
+  echo "${fg[red]}!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+  echo "${fg[red]}! ${fg[yellow]}WARNING"
+  echo "${fg[red]}!"
+  echo "${fg[red]}! ${fg[yellow]}Do NOT update anything until submitting your master thesis!"
+  echo "${fg[red]}!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+}
+
+function upup() {
+  __warn_update
+}
+
+function sudo() {
+  if [ "$1" = "tlmgr" ]; then
+    __warn_update
+  else
+    command sudo "$@"
+  fi
+}
+
 # prevent lines inserted unintentionally
 :<< COMMENTOUT
