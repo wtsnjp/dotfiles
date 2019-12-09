@@ -1227,6 +1227,10 @@ function! s:tex_settings()
   nnoremap <buffer> <silent> <Space>o :<C-u>call OpenLatexOutPdf()<CR>
   nnoremap <buffer> <silent> <Space>c :<C-u>call LatexCleanup()<CR>
   nnoremap <buffer> <silent> <Space>x :<C-u>call CanonicalizeClipboad()<CR>
+  "nnoremap <buffer> <silent> gqip gqip:%s/\.  /. /g<CR>
+
+  " make sure to save the file before typesetting it by quickrun.vim
+  map <silent> ,r :<C-u>update<CR><Plug>(quickrun)
 endfunction
 
 autocmd vimrc FileType plaintex call s:plaintex_settings()
