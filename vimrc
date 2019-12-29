@@ -844,6 +844,17 @@ noremap <silent> <Space>l :<C-u>setlocal list!<CR>
 " Show indent line
 noremap <silent> <Space>i :<C-u>IndentLinesToggle<CR>
 
+" Highlight wdith > 80 parts
+noremap <silent> <Space>8 :<C-u>call ToggleShow80()<CR>
+function! ToggleShow80()
+  if strlen(&colorcolumn) > 0
+    setlocal colorcolumn=""
+  else
+    execute "setlocal colorcolumn=" . join(range(81, 9999), ',')
+  endif
+endfunction
+
+
 " Enable spell check
 noremap <silent> <Space>s :<C-u>setlocal spell!<CR>
 
@@ -1135,7 +1146,7 @@ function! s:tex_settings()
     while mp < 0
       " empty line, only a comment letter '%', or begining of envrionment is a
       " delimiter of paragraph
-      let mp = match(getline('.'), '^\(%\?\|\\begin{.\+}\)$')
+      let mp = match(getline('.'), '^\(%\?\|\\begin{.\+\)$')
       if getpos('.')[1] != 1
         let head_pos = getpos('.')
         normal! k
@@ -1152,7 +1163,7 @@ function! s:tex_settings()
       let tail_pos = getpos('.')
       " empty line, only a comment letter '%', or end of envrionment is a
       " delimiter of paragraph
-      let mp = match(getline('.'), '^\(%\?\|\\end{.\+}\)$')
+      let mp = match(getline('.'), '^\(%\?\|\\end{.\+\)$')
       if getpos('.')[1] != last_line
         normal! j
       else
@@ -1178,7 +1189,7 @@ function! s:tex_settings()
     while mp < 0
       " empty line, only a comment letter '%', or begining of envrionment is a
       " delimiter of paragraph
-      let mp = match(getline('.'), '^\(%\?\|\\begin{.\+}\)$')
+      let mp = match(getline('.'), '^\(%\?\|\\begin{.\+\)$')
       if mp < 0
         if getpos('.')[1] != 1
           let head_pos = getpos('.')
@@ -1195,7 +1206,7 @@ function! s:tex_settings()
     while mp < 0
       " empty line, only a comment letter '%', or end of envrionment is a
       " delimiter of paragraph
-      let mp = match(getline('.'), '^\(%\?\|\\end{.\+}\)$')
+      let mp = match(getline('.'), '^\(%\?\|\\end{.\+\)$')
       if mp < 0
         let tail_pos = getpos('.')
         if getpos('.')[1] != last_line
