@@ -385,6 +385,7 @@ if s:use_dein && v:version >= 704
 
     " Markdown
     call dein#add('kannokanno/previm')
+    call dein#add('plasticboy/vim-markdown')
 
     " TOML
     call dein#add('cespare/vim-toml')
@@ -526,6 +527,12 @@ let g:lightline = {
   \     'filelines': '%LL'
   \   }
   \ }
+
+" }}}
+
+" vim-markdown {{{
+
+let g:vim_markdown_folding_disabled = 1
 
 " }}}
 
