@@ -11,11 +11,8 @@ viewer_md = open
 
 # alias
 alias cheat = platexsheet-jsclasses
-alias sym = symbols-a4
-alias title = titlepages
+alias kpse = kpathsea
 alias l3 = source3
-
-##### candidates for the standard #####
-
-# adjscore for bxjscls
-adjscore manual = 1.5
+alias sym = symbols-a4
+alias tl = texlive-ja
+alias title = titlepages
