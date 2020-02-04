@@ -48,6 +48,10 @@ function __texsw_functions() {
       fi
       echo "$texsw_status$tl_name\t($tl_path)"
     done
+
+    local global_tl=$(readlink ~/.tlbin | gsed -r 's@(.*)/bin/x86_64-darwin@\1@')
+    echo
+    echo "global: ${global_tl}"
   }
 
   function __texsw_switch() {
@@ -70,6 +74,13 @@ function __texsw_functions() {
     echo "texsw: switch to: $TEXSW_CURRENT_TEXLIVE"
     echo "texsw:      from: $prev_tl"
   }
+
+  function __texsw_global_switch() {
+    if __texsw_switch $1; then
+      unlink "$HOME/.tlbin"
+      ln -s "$TEXSW_CURRENT_TEXLIVE/bin/x86_64-darwin" "$HOME/.tlbin"
+    fi
+  }
 }
 
 ## preparation
@@ -78,6 +89,8 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     function texsw() {
       if [ "$1" = "-l" ]; then
         __texsw_list
+      elif [ "$1" = "-g" ]; then
+        __texsw_global_switch $2
       else
         __texsw_switch $1
       fi

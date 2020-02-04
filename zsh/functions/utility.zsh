@@ -4,5 +4,5 @@ function mkcd() {
 }
 
 function find-in() {
-  find $1 -type f -print | xargs ggrep ${@:2:($#-1)}
+  find $1 -type d -name .git -prune -o -type f -print | xargs ggrep ${@:2:($#-1)}
 }
