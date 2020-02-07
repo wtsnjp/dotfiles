@@ -23,6 +23,7 @@ let barposition = 'bottom'
 
 " Blacklist
 let blacklists = [
+  \   '*://*/*.pdf',
   \   'https://mail.google.com/*',
   \   'https://docs.google.com/*',
   \   'https://*.slack.com/*',
