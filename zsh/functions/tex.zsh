@@ -20,9 +20,18 @@ function __texsw_init() {
     texsw_texlives[$(basename $tl)]="$tl"
   done
 
-  # default: the latest texlive
-  local latest=$(echo ${(@O)texsw_texlives} | cut -d' ' -f 1)
-  export TEXSW_CURRENT_TEXLIVE=$latest
+  # get global texlive
+  if [ -h "$HOME/.tlbin" ]; then
+    export TEXSW_GLOBAL_TEXLIVE=$(readlink $HOME/.tlbin \
+      | gsed -r 's@(.*)/bin/x86_64-darwin@\1@')
+  fi
+
+  # default: global texlive or the latest texlive
+  if [ -v TEXSW_GLOBAL_TEXLIVE ]; then
+    export TEXSW_CURRENT_TEXLIVE=$TEXSW_GLOBAL_TEXLIVE
+  else
+    export TEXSW_CURRENT_TEXLIVE=$(echo ${(@O)texsw_texlives} | cut -d' ' -f 1)
+  fi
   __add_path "$TEXSW_CURRENT_TEXLIVE/bin/x86_64-darwin"
 
   # add dev TL
@@ -49,9 +58,8 @@ function __texsw_functions() {
       echo "$texsw_status$tl_name\t($tl_path)"
     done
 
-    local global_tl=$(readlink ~/.tlbin | gsed -r 's@(.*)/bin/x86_64-darwin@\1@')
     echo
-    echo "global: ${global_tl}"
+    echo "global: $TEXSW_GLOBAL_TEXLIVE"
   }
 
   function __texsw_switch() {
@@ -79,6 +87,7 @@ function __texsw_functions() {
     if __texsw_switch $1; then
       unlink "$HOME/.tlbin"
       ln -s "$TEXSW_CURRENT_TEXLIVE/bin/x86_64-darwin" "$HOME/.tlbin"
+      export TEXSW_GLOBAL_TEXLIVE="$TEXSW_CURRENT_TEXLIVE"
     fi
   }
 }
