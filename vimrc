@@ -510,6 +510,7 @@ let g:indentLine_enabled = 0
 
 " lexima {{{
 
+call lexima#init()
 call lexima#add_rule({'char': "'", 'at': 'r\%#', 'input_after': "'", 'filetype': 'python'})
 
 " }}}
@@ -870,8 +871,8 @@ vnoremap <Space><CR> :!sh<CR>
 nnoremap <Space><CR> V:!sh<CR>
 
 " Search for selection range
-vnoremap <Space>/ "ay<ESC>/<C-r>a
-vnoremap <Space>? "ay<ESC>?<C-r>a
+vnoremap <Space>/ "ay<Esc>/<C-r>a
+vnoremap <Space>? "ay<Esc>?<C-r>a
 
 " Align easily
 vmap ,a <Plug>(EasyAlign)
@@ -929,20 +930,20 @@ cmap <C-y> <Plug>(yankround-pop)
 " Mappings for neocomplete
 if dein#tap('deoplete.nvim')
   inoremap <expr> <C-u> deoplete#undo_completion()
-  inoremap <expr> <TAB>
+  inoremap <expr> <Tab>
     \ deoplete#complete_common_string() != '' ?
     \   deoplete#complete_common_string() :
-    \ pumvisible() ? "\<C-n>" : "\<TAB>"
+    \ pumvisible() ? "\<C-n>" : "\<Tab>"
   inoremap <expr> <CR>
-    \ pumvisible() ? deoplete#close_popup() : lexima#expand('<CR>', 'i')
+    \ pumvisible() ? deoplete#close_popup() : lexima#expand('<LT>CR>', 'i')
 elseif dein#tap('neocomplete.vim')
   inoremap <expr> <C-u> neocomplete#undo_completion()
-  inoremap <expr> <TAB>
+  inoremap <expr> <Tab>
     \ neocomplete#complete_common_string() != '' ?
     \   neocomplete#complete_common_string() :
-    \ pumvisible() ? "\<C-n>" : "\<TAB>"
+    \ pumvisible() ? "\<C-n>" : "\<Tab>"
   inoremap <expr> <CR>
-    \ pumvisible() ? neocomplete#close_popup() : lexima#expand('<CR>', 'i')
+    \ pumvisible() ? neocomplete#close_popup() : lexima#expand('<LT>CR>', 'i')
 endif
 
 " Function keys
@@ -1107,6 +1108,13 @@ endfunction
 autocmd vimrc FileType ruby call s:ruby_settings()
 function! s:ruby_settings()
   noremap <buffer> <Space>% :!ruby %<CR>
+endfunction
+
+" Rust
+autocmd vimrc FileType rust call s:rust_settings()
+function! s:rust_settings()
+  noremap <buffer> <Space>t :QuickRun -exec "cargo test"<CR>
+  noremap <buffer> <Space>; A;<Esc>
 endfunction
 
 " Text
