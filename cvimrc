@@ -46,6 +46,7 @@ let qmark a = ['https://www.amazon.co.jp/gp/video/watchlist/ref=nav_youraccount_
 let qmark b = ['https://blog.wtsnjp.com/']
 let qmark c = ['https://calendar.google.com/calendar/r/']
 let qmark d = ['https://www.deepl.com/ja/translator']
+let qmark f = ['https://chat.stackexchange.com/rooms/41/tex-latex-and-friends']
 let qmark g = ['https://github.com/']
 let qmark i = ['https://www.instapaper.com/u']
 let qmark j = ['https://ja.stackoverflow.com/']
