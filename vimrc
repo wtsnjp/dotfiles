@@ -359,14 +359,19 @@ if s:use_dein && v:version >= 704
     endif
 
     " Omni completion
-    " if has('timers') && has('python3') && system('pip3 show neovim') !=# ''
-    "   call dein#add('Shougo/deoplete.nvim', {'on_i': 1})
-    "   if !has('nvim')
-    "     call dein#add('roxma/nvim-yarp')
-    "     call dein#add('roxma/vim-hug-neovim-rpc')
-    "   endif
-    " elseif has('lua')
-    if has('lua')
+    "
+    if has('timers') && has('python3') && system('pip3 show neovim') !=# ''
+      " Note: for Homebrew version of vim, use `pip3.8`
+      call dein#add('Shougo/deoplete.nvim', {
+        \ 'on_i': 1,
+        \ 'hook_source': 'call DeopleteSettings()'
+        \ })
+      if !has('nvim')
+        call dein#add('roxma/nvim-yarp')
+        call dein#add('roxma/vim-hug-neovim-rpc')
+      endif
+    elseif has('lua')
+    "if has('lua')
       call dein#add('Shougo/neocomplete.vim', {'on_i': 1})
     endif
 
@@ -557,24 +562,20 @@ endif
 " neocomplete / deoplete {{{
 
 if dein#tap('deoplete.nvim')
-  " Enbale default
-  let g:deoplete#enable_at_startup = 1
+  function! DeopleteSettings()
+    " Enbale default
+    let g:deoplete#enable_at_startup = 1
 
-  " Use smartcase
-  let g:deoplete#enable_smart_case = 1
+    " Custom options
+    call deoplete#custom#option({
+      \ 'smart_case': v:true,
+      \ 'min_pattern_length': 3,
+      \ 'keyword_patterns': {
+      \   '_': '[A-Za-z_]\w*',
+      \   'expl3': '[A-Za-z_]\w*\(:\a*\|\)'
+      \ }})
+  endfunction
 
-  " Use underbar completion
-  let g:deoplete#enable_underbar_completion = 1
-
-  " Set minimum syntax keyword length
-  let g:deoplete#min_keyword_length = 3
-
-  " Do not collect Japanese
-  if !exists('g:deoplete#keyword_patterns')
-    let g:deoplete#keyword_patterns = {}
-  endif
-  let g:deoplete#keyword_patterns['default'] = '\h\w*'
-  let g:deoplete#keyword_patterns['expl3'] = '\h\w*\(:\a*\|\)'
 elseif dein#tap('neocomplete.vim')
   " Enbale default
   let g:neocomplete#enable_at_startup = 1
