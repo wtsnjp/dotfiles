@@ -31,9 +31,13 @@ function blog-new() {
 # preview the blog
 function blog-preview() {
   cd $BLOG_PATH
+  function __blog_preview_browse() {
+    __relax && open "/Applications/Google Chrome.app" http://localhost:1313 \
+      2> /dev/null
+  }
   setopt local_options no_notify no_monitor
-  sleep 3 && open "/Applications/Google Chrome.app" http://localhost:1313 \
-    2> /dev/null &
+  __blog_preview_browse &
+  unfunction __blog_preview_browse
   __exec_cmd hugo server -D -w --disableFastRender
 }
 
