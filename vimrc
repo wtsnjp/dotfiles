@@ -359,9 +359,8 @@ if s:use_dein && v:version >= 704
     endif
 
     " Omni completion
-    "
-    if has('timers') && has('python3') && system('pip3 show neovim') !=# ''
-      " Note: for Homebrew version of vim, use `pip3.8`
+    " Note: for Homebrew version of vim, use `pip3.8`
+    if has('timers') && has('python3') && system('pip3.8 show neovim') !=# ''
       call dein#add('Shougo/deoplete.nvim', {
         \ 'on_i': 1,
         \ 'hook_source': 'call DeopleteSettings()'
