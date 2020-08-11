@@ -623,6 +623,11 @@ let g:previm_open_cmd = 'open -a Safari'
 let g:quickrun_no_default_key_mappings = 1
 
 " Options
+let s:quickrun_llmk_config = {
+  \   'command': 'llmk',
+  \   'cmdopt': '-sv',
+  \   'exec': ['%c %o %s:t'],
+  \ }
 let g:quickrun_config = {
   \   '_': {
   \     'outputter/buffer/split': ':botright 8sp',
@@ -633,19 +638,13 @@ let g:quickrun_config = {
   \   },
   \   'python': {
   \     'command': 'python',
-  \     'cmdopt': '-B'
+  \     'cmdopt': '-B',
   \   },
-  \   'tex': {
-  \     'command': 'llmk',
-  \     'exec': ['%c %o %s']
-  \   },
-  \   'expl3': {
-  \     'command': 'llmk',
-  \     'exec': ['%c %o %s']
-  \   },
+  \   'tex': s:quickrun_llmk_config,
+  \   'expl3': s:quickrun_llmk_config,
   \   'plaintex': {
   \     'command': 'pdftex',
-  \     'exec': ['%c %o %s']
+  \     'exec': ['%c %o %s'],
   \   },
   \ }
 
