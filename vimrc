@@ -167,6 +167,9 @@ set display& display+=lastline,uhex
 " Enable to open new buffer Always
 set hidden
 
+" Do not automatically resize windows
+set noequalalways
+
 " Reload when the file get changed
 set autoread
 
@@ -521,20 +524,11 @@ call lexima#add_rule({'char': "'", 'at': 'r\%#', 'input_after': "'", 'filetype':
 
 " lightline {{{
 
-function! LL_QuickrunStatus()
-  if quickrun#is_running()
-    return 'Running...'
-  else
-    return ''
-  endif
-endfunction
-
 let g:lightline = {
   \   'active': {
   \     'left': [
   \       ['mode', 'paste'],
   \       ['readonly', 'filename', 'modified'],
-  \       ['quickrun_status']
   \     ],
   \     'right': [
   \       ['lineinfo'],
@@ -544,9 +538,6 @@ let g:lightline = {
   \   },
   \   'component': {
   \     'filelines': '%LL',
-  \   },
-  \   'component_function': {
-  \     'quickrun_status': 'LL_QuickrunStatus',
   \   },
   \ }
 
@@ -650,10 +641,11 @@ let g:quickrun_config = {
   \     'runner': 'job',
   \     'runner/job/updatetime': 40,
   \     'hook/time/enable': 1,
-  \     'outputter': 'error',
-  \     'outputter/error/success': 'buffer',
-  \     'outputter/error/error': 'quickfix',
-  \     'outputter/buffer/split':':botright 8sp',
+  \     'outputter': 'multi:buffer:quickfix',
+  \     'hook/close_quickfix/enable_hook_loaded' : 1,
+  \     'hook/close_quickfix/enable_success' : 1,
+  \     'hook/close_buffer/enable_failure' : 1,
+  \     'outputter/buffer/split':':botright 12sp',
   \     'outputter/buffer/close_on_empty': 1,
   \   },
   \   'python': {
