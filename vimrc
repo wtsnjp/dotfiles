@@ -521,16 +521,33 @@ call lexima#add_rule({'char': "'", 'at': 'r\%#', 'input_after': "'", 'filetype':
 
 " lightline {{{
 
+function! LL_QuickrunStatus()
+  if quickrun#is_running()
+    return 'Running...'
+  else
+    return ''
+  endif
+endfunction
+
 let g:lightline = {
   \   'active': {
-  \     'left': [ [ 'mode', 'paste' ], [ 'readonly', 'filename', 'modified' ] ],
-  \     'right': [ [ 'lineinfo' ],
-  \              [ 'percent' ],
-  \              [ 'fileformat', 'fileencoding', 'filetype', 'filelines' ] ]
+  \     'left': [
+  \       ['mode', 'paste'],
+  \       ['readonly', 'filename', 'modified'],
+  \       ['quickrun_status']
+  \     ],
+  \     'right': [
+  \       ['lineinfo'],
+  \       ['percent'],
+  \       ['fileformat', 'fileencoding', 'filetype', 'filelines'],
+  \     ],
   \   },
   \   'component': {
-  \     'filelines': '%LL'
-  \   }
+  \     'filelines': '%LL',
+  \   },
+  \   'component_function': {
+  \     'quickrun_status': 'LL_QuickrunStatus',
+  \   },
   \ }
 
 " }}}
@@ -625,16 +642,19 @@ let g:quickrun_no_default_key_mappings = 1
 " Options
 let s:quickrun_llmk_config = {
   \   'command': 'llmk',
-  \   'cmdopt': '-sv',
+  \   'cmdopt': '-v',
   \   'exec': ['%c %o %s:t'],
   \ }
 let g:quickrun_config = {
   \   '_': {
-  \     'outputter/buffer/split': ':botright 8sp',
-  \     'outputter/buffer/close_on_empty': 1,
-  \     'hook/time/enable': 1,
   \     'runner': 'job',
   \     'runner/job/updatetime': 40,
+  \     'hook/time/enable': 1,
+  \     'outputter': 'error',
+  \     'outputter/error/success': 'buffer',
+  \     'outputter/error/error': 'quickfix',
+  \     'outputter/buffer/split':':botright 8sp',
+  \     'outputter/buffer/close_on_empty': 1,
   \   },
   \   'python': {
   \     'command': 'python',
@@ -893,9 +913,10 @@ function! SourceCommentToggle(mode)
 endfunction
 
 " QuickRun with some args
-map <silent> ,r <Plug>(quickrun)
+map ,r <Plug>(quickrun)
 nnoremap ,qr :<C-u>QuickRun<Space>
 nnoremap ,qa :<C-u>QuickRun<Space>-args<Space>''<Left>
+nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
 
 " Open URL
 map ,o <Plug>(openbrowser-smart-search)
