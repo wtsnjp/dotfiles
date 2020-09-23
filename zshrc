@@ -29,6 +29,16 @@ function __is_cmd() { which $1 >/dev/null 2>&1 }
 # add <path> if the dir exists
 function __add_path() { [ -d $1 ] && path=($1 $path) }
 
+## __uniq_path
+# finalize the path
+function __uniq_path() {
+  # the $HOME/bin has the highest priority
+  __add_path "$HOME/bin"
+
+  # delete overlapped paths
+  typeset -U path
+}
+
 ## __shortcut <alias> <command>
 # make a shortcut <alias> if the <command> exist
 function __shortcut() { __is_cmd $2 && alias $1="$2" }
@@ -177,20 +187,12 @@ __add_path "$HOME/.cargo/bin"
 # save readline histories to $HOME/.rlwrap
 __is_cmd rlwrap && export RLWRAP_HOME="$HOME/.rlwrap"
 
-#---------------------------
-# Prefered PATH
-#---------------------------
-
-# TeX Live binaries
+# additional paths
 case $OSTYPE in
   darwin*)
-    __add_path "$HOME/.tlbin"
     __add_path "/usr/local/opt/gettext/bin"
     ;;
 esac
-
-# the $HOME/bin
-__add_path "$HOME/bin"
 
 #---------------------------
 # Aliases
@@ -242,8 +244,11 @@ esac
   done
 }
 
+# tidy up the path
+__uniq_path
+
 # delete overlapped paths
-typeset -U path cdpath fpath manpath
+typeset -U cdpath fpath manpath
 
 # prevent lines inserted unintentionally
 :<< COMMENTOUT

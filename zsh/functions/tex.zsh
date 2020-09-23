@@ -32,7 +32,7 @@ function __texsw_init() {
   else
     export TEXSW_CURRENT_TEXLIVE=$(echo ${(@O)texsw_texlives} | cut -d' ' -f 1)
   fi
-  __add_path "$TEXSW_CURRENT_TEXLIVE/bin/x86_64-darwin"
+  __add_path "$TEXSW_CURRENT_TEXLIVE/bin/x86_64-darwin" && __uniq_path
 
   # add dev TL
   if [ -d $dev_tl_dir ]; then
@@ -76,7 +76,7 @@ function __texsw_functions() {
     # remove previous TL and add new TL to the path
     export PATH=$(echo -n $PATH | tr ':' '\n' \
       | sed "\@$prev_tl/bin/x86_64-darwin@d" | tr '\n' ':')
-    __add_path "$TEXSW_CURRENT_TEXLIVE/bin/x86_64-darwin"
+    __add_path "$TEXSW_CURRENT_TEXLIVE/bin/x86_64-darwin" && __uniq_path
 
     # report
     echo "texsw: switch to: $TEXSW_CURRENT_TEXLIVE"
