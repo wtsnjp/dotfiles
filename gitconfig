@@ -21,6 +21,9 @@ ui = auto
 [push]
 default = simple
 
+[pull]
+rebase = false
+
 [credential]
 helper = osxkeychain
 
