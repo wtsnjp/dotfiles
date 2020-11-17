@@ -8,7 +8,6 @@
 " Website: https://wtsnjp.com
 " Source: https://github.com/wtsnjp/dotfiles
 
-
 "---------------------------
 " Pre
 "---------------------------
@@ -362,8 +361,8 @@ if s:use_dein && v:version >= 704
     endif
 
     " Omni completion
-    " Note: for Homebrew version of vim, use `pip3.8`
-    if has('timers') && has('python3') && system('pip3.8 show neovim') !=# ''
+    " Note: for Homebrew version of vim, use `pip3.9`
+    if has('timers') && has('python3') && system('pip3.9 show neovim') !=# ''
       call dein#add('Shougo/deoplete.nvim', {
         \ 'on_i': 1,
         \ 'hook_source': 'call DeopleteSettings()'
@@ -579,7 +578,6 @@ if dein#tap('deoplete.nvim')
       \ 'min_pattern_length': 3,
       \ 'keyword_patterns': {
       \   '_': '[A-Za-z_]\w*',
-      \   'expl3': '[A-Za-z_]\w*\(:\a*\|\)'
       \ }})
   endfunction
 
