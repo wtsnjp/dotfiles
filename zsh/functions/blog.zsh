@@ -38,7 +38,7 @@ function blog-preview() {
   setopt local_options no_notify no_monitor
   __blog_preview_browse &
   unfunction __blog_preview_browse
-  __exec_cmd hugo server -D -w --disableFastRender
+  __exec_cmd hugo server -D -w
 }
 
 # publish an article
