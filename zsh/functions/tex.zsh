@@ -23,7 +23,7 @@ function __texsw_init() {
   # get global texlive
   if [ -h "$HOME/.tlbin" ]; then
     export TEXSW_GLOBAL_TEXLIVE=$(readlink $HOME/.tlbin \
-      | gsed -r 's@(.*)/bin/x86_64-darwin@\1@')
+      | gsed -r 's@(.*)/bin/(x86_64|universal)-darwin@\1@')
   fi
 
   # default: global texlive or the latest texlive
@@ -32,7 +32,21 @@ function __texsw_init() {
   else
     export TEXSW_CURRENT_TEXLIVE=$(echo ${(@O)texsw_texlives} | cut -d' ' -f 1)
   fi
-  __add_path "$TEXSW_CURRENT_TEXLIVE/bin/x86_64-darwin" && __uniq_path
+
+  function __texsw_set_current_bin() {
+    # check the bin directory of the suitable architecture name
+    if [ -d "$TEXSW_CURRENT_TEXLIVE/bin/x86_64-darwin" ]; then
+      export TEXSW_CURRENT_TEXLIVE_BIN="$TEXSW_CURRENT_TEXLIVE/bin/x86_64-darwin"
+    elif [ -d "$TEXSW_CURRENT_TEXLIVE/bin/universal-darwin" ]; then
+      export TEXSW_CURRENT_TEXLIVE_BIN="$TEXSW_CURRENT_TEXLIVE/bin/universal-darwin"
+    else
+      echo "texsw: bin dir not found for TeX Live $1."
+      return 1
+    fi
+  }
+  __texsw_set_current_bin
+
+  __add_path "$TEXSW_CURRENT_TEXLIVE_BIN" && __uniq_path
 
   # add dev TL
   if [ -d $dev_tl_dir ]; then
@@ -68,15 +82,16 @@ function __texsw_functions() {
     if [[ -n "${texsw_texlives[(i)$1]}" ]]; then
       prev_tl="$TEXSW_CURRENT_TEXLIVE"
       export TEXSW_CURRENT_TEXLIVE=$texsw_texlives[$1]
+      __texsw_set_current_bin
     else
       echo "texsw: TeX Live $1 does not exist."
       return 1
     fi
 
     # remove previous TL and add new TL to the path
-    export PATH=$(echo -n $PATH | tr ':' '\n' \
-      | sed "\@$prev_tl/bin/x86_64-darwin@d" | tr '\n' ':')
-    __add_path "$TEXSW_CURRENT_TEXLIVE/bin/x86_64-darwin" && __uniq_path
+    export PATH=$(echo -n $PATH | tr ':' '\n' | \
+      gsed -re "\@$prev_tl/bin/(x86_64-darwin|universal-darwin)@d" | tr '\n' ':')
+    __add_path "$TEXSW_CURRENT_TEXLIVE_BIN" && __uniq_path
 
     # report
     echo "texsw: switch to: $TEXSW_CURRENT_TEXLIVE"
@@ -86,7 +101,7 @@ function __texsw_functions() {
   function __texsw_global_switch() {
     if __texsw_switch $1; then
       unlink "$HOME/.tlbin"
-      ln -s "$TEXSW_CURRENT_TEXLIVE/bin/x86_64-darwin" "$HOME/.tlbin"
+      ln -s "$TEXSW_CURRENT_TEXLIVE_BIN" "$HOME/.tlbin"
       export TEXSW_GLOBAL_TEXLIVE="$TEXSW_CURRENT_TEXLIVE"
     fi
   }
@@ -119,7 +134,7 @@ function tstex() {
   # I prefer to put temporaly files in $HOME/tmp
   local tmp_dir="$HOME/tmp"
   if [ ! -d $tmp_dir ]; then
-    echo 'No temporaly directry under your $HOME'
+    echo 'No temporaly directory under your $HOME'
     return 1
   fi
 
