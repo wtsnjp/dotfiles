@@ -18,6 +18,9 @@ pager = less
 [color]
 ui = auto
 
+[init]
+defaultBranch = main
+
 [push]
 default = simple
 
