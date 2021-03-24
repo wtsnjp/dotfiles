@@ -524,10 +524,11 @@ call lexima#add_rule({'char': "'", 'at': 'r\%#', 'input_after': "'", 'filetype':
 " lightline {{{
 
 let g:lightline = {
+  \   'colorscheme': 'powerline',
   \   'active': {
   \     'left': [
   \       ['mode', 'paste'],
-  \       ['readonly', 'filename', 'modified'],
+  \       ['gitbranch', 'readonly', 'filename', 'modified'],
   \     ],
   \     'right': [
   \       ['lineinfo'],
@@ -538,7 +539,21 @@ let g:lightline = {
   \   'component': {
   \     'filelines': '%LL',
   \   },
+  \   'component_function': {
+  \     'gitbranch': 'LL_branch_name',
+  \   },
+  \   'separator': { 'left': "\ue0b0", 'right': "" },
+  \   'subseparator': { 'left': "\ue0b1", 'right': "|" },
   \ }
+
+function! LL_branch_name()
+  let cur_branch = gina#component#repo#branch()
+  if cur_branch ==# ''
+    return ''
+  else
+    return "\ue0a0" . cur_branch
+  endif
+endfunction
 
 " }}}
 
