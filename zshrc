@@ -116,16 +116,75 @@ fi
 # Prompt settings
 #---------------------------
 
-() {
-  if [ -z "$MACHINE" ]; then
-    export MACHINE="$(hostname)"
+if [ -z "$MACHINE" ]; then
+  export MACHINE="$(hostname)"
+fi
+
+function __left_prompt {
+  # colors
+  local name_t='179m%}'    # user name text clolr
+  local name_b='000m%}'    # user name background color
+  local path_t='255m%}'    # path text clolr
+  local path_b='031m%}'    # path background color
+  local arrow='087m%}'     # arrow color
+  local text_color='%{\e[38;5;'    # set text color
+  local back_color='%{\e[30;48;5;' # set background color
+  local reset='%{\e[0m%}'  # reset
+  local sharp='\uE0B0'     # triangle
+
+  # build
+  local user_color="${back_color}${name_b}${text_color}${name_t}"
+  local dir_color="${back_color}${path_b}${text_color}${path_t}"
+
+  local first="${user_color}wtsnjp@${MACHINE}${back_color}${path_b}${text_color}${name_b}${sharp}"
+  local second="${dir_color}%~${reset}${text_color}${path_b}${sharp}${reset}"
+  local third="${text_color}${arrow}\$ ${reset}"
+  echo "\n${first} ${second}\n${third}"
+}
+
+function __right_prompt {
+  local branch='\ue0a0'
+  local color='%{\e[38;5;'
+  local green='114m%}'
+  local red='001m%}'
+  local yellow='227m%}'
+  local blue='033m%}'
+  local reset='%{\e[0m%}'
+
+  # do nothing unless in a git repository
+  if [[ ! -d  "$PWD/.git" ]]; then
+    return
   fi
 
-  local pcdir=$'\n'%F{yello}%~%f$'\n'
-  local pname="wtsnjp@$MACHINE"
-  export PROMPT="$pcdir$pname$ "
-  export PROMPT2="[$pname]> "
+  local branch_name=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
+  local git_status=$(git status 2> /dev/null)
+
+  local branch_status
+  if [[ -n `echo "$git_status" | grep "^nothing to"` ]]; then
+    # green if clean (everything is commited)
+    branch_status="${color}${green}${branch}"
+  elif [[ -n `echo "$git_status" | grep "^Untracked files"` ]]; then
+    # red if untracked files exist
+    branch_status="${color}${red}${branch}?"
+  elif [[ -n `echo "$git_status" | grep "^Changes not staged for commit"` ]]; then
+    # red if unstaged files exist
+    branch_status="${color}${red}${branch}+"
+  elif [[ -n `echo "$git_status" | grep "^Changes to be committed"` ]]; then
+    # yellow if uncommited files exit
+    branch_status="${color}${yellow}${branch}!"
+  elif [[ -n `echo "$git_status" | grep "^rebase in progress"` ]]; then
+    # red if conflict exist
+    echo "${color}${red}${branch}!(no branch)${reset}"
+  else
+    branch_status="${color}${blue}${branch}"
+  fi
+  echo "${branch_status}${branch_name}${reset}"
 }
+
+# always update prompt
+setopt prompt_subst
+export PROMPT=$(__left_prompt)
+export RPROMPT='$(__right_prompt)'
 
 #---------------------------
 # History settings
@@ -163,7 +222,7 @@ setopt auto_pushd
 setopt correct
 
 # show alternate list compact
-setopt list_packed 
+setopt list_packed
 
 # exec R-lang with r
 disable r
