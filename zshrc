@@ -17,6 +17,9 @@ path=(/usr/local/bin /usr/local/sbin $path)
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
+export WT_NAME="wtsnjp"
+export CLICOLOR=1
+
 #---------------------------
 # Utility
 #---------------------------
@@ -136,10 +139,11 @@ function __left_prompt {
   local user_color="${back_color}${name_b}${text_color}${name_t}"
   local dir_color="${back_color}${path_b}${text_color}${path_t}"
 
-  local first="${user_color}wtsnjp@${MACHINE}${back_color}${path_b}${text_color}${name_b}${sharp}"
-  local second="${dir_color}%~${reset}${text_color}${path_b}${sharp}${reset}"
-  local third="${text_color}${arrow}\$ ${reset}"
-  echo "\n${first} ${second}\n${third}"
+  local first="${user_color}$WT_NAME@$MACHINE${back_color}"
+  local second="${path_b}${text_color}${name_b}${sharp}"
+  local third="${dir_color}%~${reset}${text_color}${path_b}${sharp}${reset}"
+  local fourth="${text_color}${arrow}\$ ${reset}"
+  echo "\n${first}${second} ${third}\n${fourth}"
 }
 
 function __right_prompt {
@@ -181,10 +185,20 @@ function __right_prompt {
   echo "${branch_status}${branch_name}${reset}"
 }
 
-# always update prompt
-setopt prompt_subst
-export PROMPT=$(__left_prompt)
-export RPROMPT='$(__right_prompt)'
+if [[ "$WT_RICH_PROMPT" = 1 ]]; then
+  # use the rich prompt for selected environments
+  setopt prompt_subst
+  export PROMPT=$(__left_prompt)
+  export RPROMPT='$(__right_prompt)'
+else
+  # otherwise, use the simple one
+  () {
+    local pcdir=$'\n'%F{yello}%~%f$'\n'
+    local pname="$WT_NAME@$MACHINE"
+    export PROMPT="$pcdir$pname$ "
+    export PROMPT2="[$pname]> "
+  }
+fi
 
 #---------------------------
 # History settings
