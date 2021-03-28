@@ -123,51 +123,57 @@ if [ -z "$MACHINE" ]; then
   export MACHINE="$(hostname)"
 fi
 
+# the pre-command hook
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd __pre_command
+
 if [[ "$WT_RICH_PROMPT" = 1 ]]; then
   # use the rich prompt for selected environments
   setopt prompt_subst
   export PROMPT='$(__left_prompt)'
   export RPROMPT='$(__right_prompt)'
 
-  # please do not change PROMPT
-  export VIRTUAL_ENV_DISABLE_PROMPT=1
-
-  function __left_prompt {
+  function __pre_command {
     # colors
-    local name_t='179m%}'    # user name text clolr
-    local name_b='000m%}'    # user name background color
-    local path_t='255m%}'    # path text clolr
-    local path_b='031m%}'    # path background color
-    local arrow='087m%}'     # arrow color
-    local text_color='%{\e[38;5;'    # set text color
-    local back_color='%{\e[30;48;5;' # set background color
-    local reset='%{\e[0m%}'  # reset
-    local sharp='\uE0B0'     # triangle
-
-    # venv
-    if [[ ! -z "$VIRTUAL_ENV" ]]; then
-      local venv="($(basename $VIRTUAL_ENV)) "
-    fi
+    local user_t='179m'    # user name text clolr
+    local user_b='000m'    # user name background color
+    local path_t='255m'    # path text clolr
+    local path_b='031m'    # path background color
+    local arrow='087m'     # arrow color
+    local text_color='\033[38;5;'    # set text color
+    local back_color='\033[30;48;5;' # set background color
+    local reset='\033[0m'  # reset
+    local sharp='\uE0B0'   # triangle
 
     # build
-    local user_color="${back_color}${name_b}${text_color}${name_t}"
+    local user_color="${back_color}${user_b}${text_color}${user_t}"
     local dir_color="${back_color}${path_b}${text_color}${path_t}"
 
-    local first="${user_color}$WT_NAME@$MACHINE${back_color}"
-    local second="${path_b}${text_color}${name_b}${sharp}"
-    local third="${dir_color}%~${reset}${text_color}${path_b}${sharp}${reset}"
-    local fourth="${text_color}${arrow}${venv}\$ ${reset}"
-    echo "\n${first}${second} ${third}\n${fourth}"
+    local pr_user="${user_color}%s${back_color}"
+    local sep1="${path_b}${text_color}${user_b}${sharp}"
+    local pr_dir="${dir_color}%s${reset}"
+    local sep2="${text_color}${path_b}${sharp}${reset}"
+    #local fourth="${text_color}${arrow}\$ ${reset}"
+    printf "\n${pr_user}${sep1} ${pr_dir}${sep2}\n" \
+      "$WT_NAME@$MACHINE" "${PWD/~/~}"
+  }
+
+  function __left_prompt {
+    local color='%{\033[38;5;'
+    local arrow='087m%}'
+    local reset='%{\033[0m%}'
+
+    echo "${color}${arrow}\$ ${reset}"
   }
 
   function __right_prompt {
     local branch='\ue0a0'
-    local color='%{\e[38;5;'
+    local color='%{\033[38;5;'
     local green='114m%}'
     local red='001m%}'
     local yellow='227m%}'
     local blue='033m%}'
-    local reset='%{\e[0m%}'
+    local reset='%{\033[0m%}'
 
     # do nothing unless in a git repository
     if [[ ! -d  "$PWD/.git" ]]; then
@@ -198,17 +204,15 @@ if [[ "$WT_RICH_PROMPT" = 1 ]]; then
     fi
     echo "${branch_status}${branch_name}${reset}"
   }
+
 else
   # otherwise, use the simple one
+  export PROMPT='$ '
+
   function __pre_command() {
     local ESC=$(printf '\033')
     printf "\n$WT_NAME@$MACHINE: ${ESC}[33m%s${ESC}[m\n" "${PWD/~/~}"
   }
-
-  autoload -Uz add-zsh-hook
-  add-zsh-hook precmd __pre_command
-
-  export PROMPT="$ "
 fi
 
 #---------------------------
