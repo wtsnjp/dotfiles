@@ -127,6 +127,12 @@ fi
 autoload -Uz add-zsh-hook
 add-zsh-hook precmd __pre_command
 
+# execute the pre-command also with ^L
+function clear-screen() {
+  echoti clear; __pre_command; zle redisplay
+}
+zle -N clear-screen
+
 if [[ "$WT_RICH_PROMPT" = 1 ]]; then
   # use the rich prompt for selected environments
   setopt prompt_subst
