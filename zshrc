@@ -135,6 +135,11 @@ function __left_prompt {
   local reset='%{\e[0m%}'  # reset
   local sharp='\uE0B0'     # triangle
 
+  # venv
+  if [[ ! -z "$VIRTUAL_ENV" ]]; then
+    local venv="($(basename $VIRTUAL_ENV)) "
+  fi
+
   # build
   local user_color="${back_color}${name_b}${text_color}${name_t}"
   local dir_color="${back_color}${path_b}${text_color}${path_t}"
@@ -142,7 +147,7 @@ function __left_prompt {
   local first="${user_color}$WT_NAME@$MACHINE${back_color}"
   local second="${path_b}${text_color}${name_b}${sharp}"
   local third="${dir_color}%~${reset}${text_color}${path_b}${sharp}${reset}"
-  local fourth="${text_color}${arrow}\$ ${reset}"
+  local fourth="${text_color}${arrow}${venv}\$ ${reset}"
   echo "\n${first}${second} ${third}\n${fourth}"
 }
 
@@ -188,8 +193,11 @@ function __right_prompt {
 if [[ "$WT_RICH_PROMPT" = 1 ]]; then
   # use the rich prompt for selected environments
   setopt prompt_subst
-  export PROMPT=$(__left_prompt)
+  export PROMPT='$(__left_prompt)'
   export RPROMPT='$(__right_prompt)'
+
+  # please do not change PROMPT
+  export VIRTUAL_ENV_DISABLE_PROMPT=1
 else
   # otherwise, use the simple one
   () {
