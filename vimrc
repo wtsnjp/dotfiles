@@ -276,6 +276,12 @@ if s:use_dein && v:version >= 704
   let s:dein_repo_name = 'Shougo/dein.vim'
   let s:dein_repo_dir = s:dein_github . '/' . s:dein_repo_name
 
+  " Get GitHub API token from env
+  if $DEIN_GITHUB_API_TOKEN !=# ''
+    let g:dein#install_github_api_token = $DEIN_GITHUB_API_TOKEN
+  endif
+  "
+
   " Check dein has been installed (if not, install it)
   if !isdirectory(s:dein_repo_dir)
     echo 'dein is not installed, install now '
@@ -671,6 +677,10 @@ let g:quickrun_config = {
   \     'command': 'pdftex',
   \     'exec': ['%c %o %s'],
   \   },
+  \   'typescript': {
+  \     'command': 'npx',
+  \     'exec': ['%c tsc %o'],
+  \   },
   \ }
 
 " }}}
@@ -917,8 +927,10 @@ function! SourceCommentToggle(mode)
   let b:caw_hatpos_sp = g:caw_hatpos_sp
 endfunction
 
+" Make sure to save the file before typesetting it by quickrun.vim
+map <silent> ,r :<C-u>update<CR><Plug>(quickrun)
+
 " QuickRun with some args
-map ,r <Plug>(quickrun)
 nnoremap ,qr :<C-u>QuickRun<Space>
 nnoremap ,qa :<C-u>QuickRun<Space>-args<Space>''<Left>
 nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
@@ -1279,9 +1291,6 @@ function! s:tex_settings()
   nnoremap <buffer> <silent> <Space>c :<C-u>call LatexCleanup()<CR>
   nnoremap <buffer> <silent> <Space>x :<C-u>call CanonicalizeClipboad()<CR>
   "nnoremap <buffer> <silent> gqip gqip:%s/\.  /. /g<CR>
-
-  " make sure to save the file before typesetting it by quickrun.vim
-  map <silent> ,r :<C-u>update<CR><Plug>(quickrun)
 endfunction
 
 autocmd vimrc FileType plaintex call s:plaintex_settings()
