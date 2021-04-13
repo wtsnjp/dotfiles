@@ -31,6 +31,10 @@ if v:version >= 800
   source $VIMRUNTIME/defaults.vim
 endif
 
+" Debugging this vimrc
+"set verbosefile=$HOME/.vim/verbose.log
+"set verbose=20
+
 " Augroup for this vimrc
 augroup vimrc
   autocmd!
@@ -179,12 +183,16 @@ set spelllang& spelllang+=cjk
 set helplang& helplang+=en,ja
 
 " Color settings
-if s:is_mac
-  let g:hybrid_use_iTerm_colors = 1
-endif
-set t_Co=256
-set background=dark
-colorscheme hybrid
+function! ColorschemeSettings()
+  set t_Co=256
+  "if s:is_mac
+  "  let g:hybrid_use_iTerm_colors = 1
+  "endif
+  set background=dark
+  set termguicolors
+  autocmd vimrc VimEnter * nested colorscheme hybrid
+endfunction
+
 syntax enable
 
 " Set backup directory
@@ -298,6 +306,17 @@ if s:use_dein && v:version >= 704
     " Package manager
     call dein#add('Shougo/dein.vim')
 
+    " Color scheme
+    call dein#add('w0ng/vim-hybrid', {
+      \ 'hook_add': 'call ColorschemeSettings()'
+      \ })
+    "call dein#add('cocopon/iceberg.vim', {
+    "  \ 'hook_add': 'call ColorschemeSettings()'
+    "  \ })
+    "call dein#add('ulwlu/elly.vim', {
+    "  \ 'hook_add': 'call ColorschemeSettings()'
+    "  \ })
+
     " Utility
     call dein#add('Shougo/vimproc', {'build': 'make'})
     call dein#add('Shougo/vimshell', {'lazy': 1})
@@ -353,10 +372,6 @@ if s:use_dein && v:version >= 704
     call dein#add('mattn/webapi-vim')
     call dein#add('tyru/open-browser.vim')
 
-    " Online chat
-    call dein#add('tsukkee/lingr-vim')
-    call dein#add('y0za/vim-reading-vimrc')
-
     " Completion
     call dein#add('Shougo/neosnippet.vim')
     call dein#add('Shougo/neosnippet-snippets')
@@ -373,6 +388,9 @@ if s:use_dein && v:version >= 704
         \ 'on_i': 1,
         \ 'hook_source': 'call DeopleteSettings()'
         \ })
+      "call dein#add('lighttiger2505/deoplete-vim-lsp')
+
+      " for Vim 8+
       if !has('nvim')
         call dein#add('roxma/nvim-yarp')
         call dein#add('roxma/vim-hug-neovim-rpc')
@@ -381,6 +399,10 @@ if s:use_dein && v:version >= 704
     "if has('lua')
       call dein#add('Shougo/neocomplete.vim', {'on_i': 1})
     endif
+
+    " Language Server
+    call dein#add('prabirshrestha/vim-lsp')
+    call dein#add('mattn/vim-lsp-settings')
 
     " Debug
     call dein#add('thinca/vim-quickrun')
@@ -560,6 +582,13 @@ function! LL_branch_name()
     return "\ue0a0" . cur_branch
   endif
 endfunction
+
+" }}}
+
+" vim-lsp {{{
+
+let g:lsp_diagnostics_enabled = 1
+let g:lsp_diagnostics_echo_cursor = 1
 
 " }}}
 
