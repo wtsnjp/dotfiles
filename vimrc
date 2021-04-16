@@ -376,33 +376,17 @@ if s:use_dein && v:version >= 704
     call dein#add('Shougo/neosnippet.vim')
     call dein#add('Shougo/neosnippet-snippets')
     call dein#add('cohama/lexima.vim')
-    "call dein#add('rhysd/github-complete.vim')
-    if has('lua')
-      call dein#add('ujihisa/neco-look', {'lazy': 1})
-    endif
-
-    " Omni completion
-    " Note: for Homebrew version of vim, use `pip3.9`
-    if has('timers') && has('python3') && system('pip3.9 show neovim') !=# ''
-      call dein#add('Shougo/deoplete.nvim', {
-        \ 'on_i': 1,
-        \ 'hook_source': 'call DeopleteSettings()'
-        \ })
-      "call dein#add('lighttiger2505/deoplete-vim-lsp')
-
-      " for Vim 8+
-      if !has('nvim')
-        call dein#add('roxma/nvim-yarp')
-        call dein#add('roxma/vim-hug-neovim-rpc')
-      endif
-    elseif has('lua')
-    "if has('lua')
-      call dein#add('Shougo/neocomplete.vim', {'on_i': 1})
-    endif
 
     " Language Server
     call dein#add('prabirshrestha/vim-lsp')
     call dein#add('mattn/vim-lsp-settings')
+
+    " Omni completion
+    call dein#add('prabirshrestha/asyncomplete.vim')
+    call dein#add('prabirshrestha/asyncomplete-lsp.vim')
+    call dein#add('prabirshrestha/asyncomplete-buffer.vim')
+    call dein#add('prabirshrestha/asyncomplete-file.vim')
+    call dein#add('htlsne/asyncomplete-look')
 
     " Debug
     call dein#add('thinca/vim-quickrun')
@@ -490,6 +474,29 @@ filetype plugin indent on
 " Plugin settings
 "---------------------------
 " Note: arrange in alphabetical order
+
+" asyncomplete.vim {{{
+
+let g:asyncomplete_min_chars = 3
+
+" sources
+autocmd vimrc User asyncomplete_setup call asyncomplete#register_source({
+  \ 'name': 'buffer',
+  \ 'allowlist': ['*'],
+  \ 'completor': function('asyncomplete#sources#buffer#completor'),
+  \ })
+autocmd vimrc User asyncomplete_setup call asyncomplete#register_source({
+  \ 'name': 'file',
+  \ 'allowlist': ['*'],
+  \ 'completor': function('asyncomplete#sources#file#completor'),
+  \ })
+autocmd vimrc User asyncomplete_setup call asyncomplete#register_source({
+  \ 'name': 'look',
+  \ 'allowlist': ['*'],
+  \ 'completor': function('asyncomplete#sources#look#completor'),
+  \ })
+
+" }}}
 
 " caw.vim {{{
 
@@ -606,53 +613,6 @@ let g:matchup_mappings_enabled = 0
 let g:matchup_matchparen_enabled = 1
 " TODO: This seems to have a bug; let's make an issue
 " let g:matchup_delim_noskips = 1
-
-" }}}
-
-" neco-look {{{
-
-if s:dein_enable && (s:is_mac || s:is_unix)
-  call dein#source('neco-look')
-endif
-
-" }}}
-
-" neocomplete / deoplete {{{
-
-if dein#tap('deoplete.nvim')
-  function! DeopleteSettings()
-    " Enbale default
-    let g:deoplete#enable_at_startup = 1
-
-    " Custom options
-    call deoplete#custom#option({
-      \ 'smart_case': v:true,
-      \ 'min_pattern_length': 3,
-      \ 'keyword_patterns': {
-      \   '_': '[A-Za-z_]\w*',
-      \ }})
-  endfunction
-
-elseif dein#tap('neocomplete.vim')
-  " Enbale default
-  let g:neocomplete#enable_at_startup = 1
-
-  " Use smartcase
-  let g:neocomplete#enable_smart_case = 1
-
-  " Use underbar completion
-  let g:neocomplete#enable_underbar_completion = 1
-
-  " Set minimum syntax keyword length
-  let g:neocomplete#min_keyword_length = 3
-
-  " Do not collect Japanese
-  if !exists('g:neocomplete#keyword_patterns')
-    let g:neocomplete#keyword_patterns = {}
-  endif
-  let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-  let g:neocomplete#keyword_patterns['expl3'] = '\h\w*\(:\a*\|\)'
-endif
 
 " }}}
 
@@ -958,6 +918,21 @@ function! SourceCommentToggle(mode)
   let b:caw_hatpos_sp = g:caw_hatpos_sp
 endfunction
 
+" Toggle diagnosis
+nnoremap <silent> ,d :<C-u>call ToggleLspDiagnositcs()<CR>
+function! ToggleLspDiagnositcs()
+  let l:total = 0
+  let l:diagnostics = lsp#get_buffer_diagnostics_counts()
+  for k in keys(l:diagnostics)
+    let l:total = l:total + l:diagnostics[k]
+  endfor
+  if l:total > 0
+    call lsp#disable_diagnostics_for_buffer()
+  else
+    call lsp#enable_diagnostics_for_buffer()
+  endif
+endfunction
+
 " Make sure to save the file before typesetting it by quickrun.vim
 map <silent> ,r :<C-u>update<CR><Plug>(quickrun)
 
@@ -996,23 +971,9 @@ cmap <C-r> <Plug>(yankround-insert-register)
 cmap <C-y> <Plug>(yankround-pop)
 
 " Mappings for neocomplete
-if dein#tap('deoplete.nvim')
-  inoremap <expr> <C-u> deoplete#undo_completion()
-  inoremap <expr> <Tab>
-    \ deoplete#complete_common_string() != '' ?
-    \   deoplete#complete_common_string() :
-    \ pumvisible() ? "\<C-n>" : "\<Tab>"
-  inoremap <expr> <CR>
-    \ pumvisible() ? deoplete#close_popup() : lexima#expand('<LT>CR>', 'i')
-elseif dein#tap('neocomplete.vim')
-  inoremap <expr> <C-u> neocomplete#undo_completion()
-  inoremap <expr> <Tab>
-    \ neocomplete#complete_common_string() != '' ?
-    \   neocomplete#complete_common_string() :
-    \ pumvisible() ? "\<C-n>" : "\<Tab>"
-  inoremap <expr> <CR>
-    \ pumvisible() ? neocomplete#close_popup() : lexima#expand('<LT>CR>', 'i')
-endif
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 
 " Function keys
 nnoremap <F1> K
