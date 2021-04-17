@@ -870,9 +870,9 @@ vnoremap // :s/
 map <Space> <Nop>
 
 " Quickly edit .vimrc
-nnoremap <silent> <Space>. :<C-u>call EorSvimrc()<CR>
+nnoremap <silent> <Space>. :<C-u>call <SID>edit_or_save_vimrc()<CR>
 if has('vim_starting')
-  function! EorSvimrc()
+  function! s:edit_or_save_vimrc()
     if expand("%:p") ==# $MYVIMRC
       source $MYVIMRC
     else
@@ -898,8 +898,8 @@ noremap <silent> <Space>l :<C-u>setlocal list!<CR>
 noremap <silent> <Space>i :<C-u>IndentLinesToggle<CR>
 
 " Highlight wdith > 80 parts
-noremap <silent> <Space>8 :<C-u>call ToggleShow80()<CR>
-function! ToggleShow80()
+noremap <silent> <Space>8 :<C-u>call <SID>toggle_show_80()<CR>
+function! s:toggle_show_80()
   if strlen(&colorcolumn) > 0
     setlocal colorcolumn=""
   else
@@ -929,9 +929,9 @@ map <silent> ,sr <Plug>(operator-surround-replace)
 
 " Toggle comment with caw
 map      <silent> ,C <Plug>(caw:hatpos:toggle)
-nnoremap <silent> ,c :<C-u>call SourceCommentToggle('n')<CR>
-vnoremap <silent> ,c :<C-u>call SourceCommentToggle('v')<CR>
-function! SourceCommentToggle(mode)
+nnoremap <silent> ,c :<C-u>call <SID>toggle_source_comment('n')<CR>
+vnoremap <silent> ,c :<C-u>call <SID>toggle_source_comment('v')<CR>
+function! s:toggle_source_comment(mode)
   let b:caw_hatpos_sp = ''
   let l:keymap = a:mode ==# 'v' ? 'gv,C' : ',C'
   execute 'normal ' . l:keymap
@@ -939,8 +939,8 @@ function! SourceCommentToggle(mode)
 endfunction
 
 " Toggle diagnosis
-nnoremap <silent> ,d :<C-u>call ToggleLspDiagnositcs()<CR>
-function! ToggleLspDiagnositcs()
+nnoremap <silent> ,d :<C-u>call <SID>toggle_lsp_diagnositcs()<CR>
+function! s:toggle_lsp_diagnositcs()
   let l:total = 0
   let l:diagnostics = lsp#get_buffer_diagnostics_counts()
   for k in keys(l:diagnostics)
@@ -1287,23 +1287,23 @@ function! s:tex_settings()
     return ['V', head_pos, tail_pos]
   endfunction
 
-  function! OpenLatexOutPdf()
+  function! s:open_output_pdf()
     silent execute '!open ' . expand('%:r') . '.pdf'
     redraw!
   endfunction
 
-  function! LatexCleanup()
+  function! s:llmk_cleanup()
     silent execute '!llmk --clean %'
     redraw!
   endfunction
 
-  function! CanonicalizeClipboad()
+  function! s:canonicalize_clipboad()
     let @* = substitute(@*, '- ', '', 'g')
   endfunction
 
-  nnoremap <buffer> <silent> <Space>o :<C-u>call OpenLatexOutPdf()<CR>
-  nnoremap <buffer> <silent> <Space>c :<C-u>call LatexCleanup()<CR>
-  nnoremap <buffer> <silent> <Space>x :<C-u>call CanonicalizeClipboad()<CR>
+  nnoremap <buffer> <silent> <Space>o :<C-u>call <SID>open_output_pdf()<CR>
+  nnoremap <buffer> <silent> <Space>c :<C-u>call <SID>llmk_cleanup()<CR>
+  nnoremap <buffer> <silent> <Space>x :<C-u>call <SID>canonicalize_clipboad()<CR>
   "nnoremap <buffer> <silent> gqip gqip:%s/\.  /. /g<CR>
 endfunction
 
