@@ -1048,7 +1048,7 @@ function! s:clean_deindir()
   for r in l:repolist
     call system('rm -rf ' . r)
   endfor
-  echo 'Deleted ' . len(l:repolist) . ' file(s).'
+  echo 'Deleted ' . len(l:repolist) . ' plugin(s).'
 endfunction
 
 " Delete undoriles in undodir corresponding to non-exist files
