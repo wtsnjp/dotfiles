@@ -215,6 +215,10 @@ let g:terminal_ansi_colors = [
   \ '#6d747c',
   \ ]
 
+" GUI font
+set guifont=HackGen35Nerd
+set printfont=HackGen35Nerd
+
 " Set backup directory
 let &backupdir = s:vimdata . '/backup'
 if !isdirectory(&backupdir)
@@ -354,12 +358,10 @@ if s:use_dein && v:version >= 704
     " Help
     call dein#add('vim-jp/vimdoc-ja')
 
-    " Unite
-    call dein#add('Shougo/unite.vim', {'on_cmd': ['Unite']})
-    call dein#add('Shougo/vimfiler')
-    call dein#add('Shougo/neomru.vim')
-    call dein#add('osyo-manga/unite-quickfix')
-    call dein#add('h1mesuke/unite-outline')
+    " Filer
+    call dein#add('lambdalisue/fern.vim')
+    call dein#add('lambdalisue/nerdfont.vim')
+    call dein#add('lambdalisue/fern-renderer-nerdfont.vim')
 
     " Formatting
     call dein#add('junegunn/vim-easy-align')
@@ -536,6 +538,18 @@ let g:clever_f_use_migemo = 1
 
 " Fix the moving direction with f or F
 let g:clever_f_fix_key_direction = 1
+
+" }}}
+
+" fern.vim {{{
+
+let g:fern#renderer = 'nerdfont'
+
+autocmd vimrc FileType fern call s:fern_settings()
+function! s:fern_settings() abort
+  nmap <buffer> s <Nop>
+  nmap <buffer> <C-s> <Plug>(fern-action-open:select)
+endfunction
 
 " }}}
 
@@ -717,35 +731,6 @@ let g:sonictemplate_vim_template_dir = [
 
 " Static code analysis (Ruby)
 let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': ['ruby'] }
-
-" }}}
-
-" unite.vim {{{
-
-" Start with insert mode
-"let g:unite_enable_start_insert = 1
-
-" Number of saving resent files
-let g:unite_source_file_mru_limit = 100
-
-" }}}
-
-" vimfiler {{{
-
-" Disable safemode
-let g:vimfiler_safe_mode_by_default = 0
-
-" Use vimfiler as default explorer
-let g:vimfiler_as_default_explorer = 0
-
-" Settings for vimfiler
-autocmd vimrc FileType vimfiler call s:vimfiler_settings()
-function! s:vimfiler_settings()
-  setlocal modifiable write
-  nmap <buffer> l <Plug>(vimfiler_expand_or_edit)
-  nmap <buffer> q <Plug>(vimfiler_exit)
-  nmap <buffer> Q <Plug>(vimfiler_hide)
-endfunction
 
 " }}}
 
@@ -964,18 +949,8 @@ nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() 
 " Open URL
 map ,o <Plug>(openbrowser-smart-search)
 
-" Open vimfiler
-nnoremap <silent> ,f :<C-u>VimFiler -split -simple -winwidth=25 -no-quit<CR>
-
-" Mappings for unite
-noremap [unite] <Nop>
-nmap ; [unite]
-nnoremap <silent> [unite]f :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
-nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
-nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
-nnoremap <silent> [unite]m :<C-u>Unite file_mru<CR>
-nnoremap <silent> [unite]d :<C-u>Unite bookmark<CR>
-nnoremap <silent> [unite]a :<C-u>UniteBookmarkAdd<CR>
+" Open filer
+nnoremap <silent> ,f :<C-u>Fern . -drawer -width=25<CR>
 
 " Emacs-style editing on the command-line
 cnoremap <C-a> <Home>
