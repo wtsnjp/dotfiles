@@ -195,6 +195,26 @@ endfunction
 
 syntax enable
 
+" Terminal colors
+let g:terminal_ansi_colors = [
+  \ '#373c42',
+  \ '#c0c86c',
+  \ '#eac170',
+  \ '#80a2be',
+  \ '#b192ba',
+  \ '#90c9c1',
+  \ '#c2c5c3',
+  \ '#26282c',
+  \ '#a04040',
+  \ '#c66262',
+  \ '#8b943f',
+  \ '#ec9c61',
+  \ '#5c7f9a',
+  \ '#82648b',
+  \ '#5e8c86',
+  \ '#6d747c',
+  \ ]
+
 " Set backup directory
 let &backupdir = s:vimdata . '/backup'
 if !isdirectory(&backupdir)
@@ -997,7 +1017,11 @@ nnoremap <silent> ]b :<C-u>bnext<CR>
 nnoremap <silent> [B :<C-u>bfirst<CR>
 nnoremap <silent> ]B :<C-u>blast<CR>
 
-" Split window
+" Jumping errors
+nmap <silent> [d <plug>(lsp-previous-diagnostic)
+nmap <silent> ]d <plug>(lsp-next-diagnostic)
+
+" Window operations
 nnoremap s <Nop>
 nnoremap sj <C-w>j
 nnoremap sk <C-w>k
@@ -1018,8 +1042,6 @@ nnoremap ss :<C-u>sp<CR>
 nnoremap sv :<C-u>vs<CR>
 nnoremap sq :<C-u>bd<CR>
 nnoremap sQ :<C-u>qa<CR>
-nnoremap sb :<C-u>Unite buffer_tab -buffer-name=file<CR>
-nnoremap sB :<C-u>Unite buffer -buffer-name=file<CR>
 if s:dein_enable
   call submode#enter_with('bufmove', 'n', '', 's>', '<C-w>>')
   call submode#enter_with('bufmove', 'n', '', 's<', '<C-w><')
