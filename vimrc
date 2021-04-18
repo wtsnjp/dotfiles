@@ -72,7 +72,7 @@ autocmd vimrc BufNewFile,BufRead *.rq setlocal ft=sparql
 
 " Restoration the position of cursor
 autocmd vimrc BufReadPost * call s:move_to_last_position()
-function! s:move_to_last_position()
+function! s:move_to_last_position() abort
   if line("'\"") > 1 && line("'\"") <= line("$")
     execute 'normal! g`"'
   endif
@@ -89,7 +89,7 @@ endif
 
 " Auto mkdir
 autocmd vimrc BufWritePre * call s:auto_mkdir(expand('<afile>:p:h'), v:cmdbang)
-function! s:auto_mkdir(dir, force)
+function! s:auto_mkdir(dir, force) abort
   if !isdirectory(a:dir) && (a:force ||
       \ input(printf('"%s" does not exist. Create? [y/N]', a:dir)) =~? '^y\%[es]$')
     call mkdir(iconv(a:dir, &encoding, &termencoding), 'p')
@@ -557,13 +557,13 @@ endfunction
 " vim-grammarous {{{
 
 let g:grammarous#hooks = {}
-function! g:grammarous#hooks.on_check(errs)
+function! g:grammarous#hooks.on_check(errs) abort
   nmap <buffer>,g <Plug>(grammarous-open-info-window)
   nmap <buffer><C-n> <Plug>(grammarous-move-to-next-error)
   nmap <buffer><C-p> <Plug>(grammarous-move-to-previous-error)
 endfunction
 
-function! g:grammarous#hooks.on_reset(errs)
+function! g:grammarous#hooks.on_reset(errs) abort
   nunmap <buffer>,g
   nunmap <buffer><C-n>
   nunmap <buffer><C-p>
@@ -616,7 +616,7 @@ let g:lightline = {
   \   'subseparator': { 'left': "\ue0b1", 'right': "|" },
   \ }
 
-function! LL_branch_name()
+function! LL_branch_name() abort
   let cur_branch = gina#component#repo#branch()
   if cur_branch ==# ''
     return ''
@@ -813,11 +813,11 @@ nmap g* <Plug>(asterisk-gz*)<Plug>(anzu-update-search-status-with-echo)
 nmap g# <Plug>(asterisk-gz#)<Plug>(anzu-update-search-status-with-echo)
 
 " Toggle / and :s
-cnoremap <expr> <C-@> ToggleSubstituteSearch(getcmdtype(), getcmdline())
+cnoremap <expr> <C-@> <SID>substitute_search_toggle(getcmdtype(), getcmdline())
 
-function! ToggleSubstituteSearch(type, line)
+function! s:substitute_search_toggle(type, line) abort
   if a:type ==# '/' || a:type ==# '?'
-    let range = GetOnetime('s:range', '%')
+    let range = s:get_once('s:range', '%')
     return "\<End>\<C-U>\<BS>" . substitute(a:line, '^\(.*\)', ':' . range . 's/\1', '')
   elseif a:type ==# ':'
     let g:line = a:line
@@ -829,14 +829,14 @@ function! ToggleSubstituteSearch(type, line)
   endif
 endfunction
 
-function! GetOnetime(varname, defaultValue)
-  if !exists(a:varname)
-    return a:defaultValue
+function! s:get_once(var_name, default_val) abort
+  if !exists(a:var_name)
+    return a:default_val
   endif
 
-  let varValue = eval(a:varname)
-  execute 'unlet ' . a:varname
-  return varValue
+  let var_value = eval(a:var_name)
+  execute 'unlet ' . a:var_name
+  return var_value
 endfunction
 
 " Repeat substitute with flags
@@ -891,7 +891,7 @@ noremap <silent> <Space>i :<C-u>IndentLinesToggle<CR>
 
 " Highlight wdith > 80 parts
 noremap <silent> <Space>8 :<C-u>call <SID>toggle_show_80()<CR>
-function! s:toggle_show_80()
+function! s:toggle_show_80() abort
   if strlen(&colorcolumn) > 0
     setlocal colorcolumn=""
   else
@@ -923,7 +923,7 @@ map <silent> ,sr <Plug>(operator-surround-replace)
 map      <silent> ,C <Plug>(caw:hatpos:toggle)
 nnoremap <silent> ,c :<C-u>call <SID>toggle_source_comment('n')<CR>
 vnoremap <silent> ,c :<C-u>call <SID>toggle_source_comment('v')<CR>
-function! s:toggle_source_comment(mode)
+function! s:toggle_source_comment(mode) abort
   let b:caw_hatpos_sp = ''
   let l:keymap = a:mode ==# 'v' ? 'gv,C' : ',C'
   execute 'normal ' . l:keymap
@@ -932,7 +932,7 @@ endfunction
 
 " Toggle diagnosis
 nnoremap <silent> ,d :<C-u>call <SID>toggle_lsp_diagnositcs()<CR>
-function! s:toggle_lsp_diagnositcs()
+function! s:toggle_lsp_diagnositcs() abort
   let l:total = 0
   let l:diagnostics = lsp#get_buffer_diagnostics_counts()
   for k in keys(l:diagnostics)
@@ -1055,7 +1055,7 @@ command! -nargs=? Euc  edit<bang> ++enc=euc-jp <args>
 
 " Delete un-used plugin repositories
 command! CleanDeindir call s:clean_deindir()
-function! s:clean_deindir()
+function! s:clean_deindir() abort
   let l:repolist = dein#check_clean()
   for r in l:repolist
     call system('rm -rf ' . r)
@@ -1065,7 +1065,7 @@ endfunction
 
 " Delete undoriles in undodir corresponding to non-exist files
 command! CleanUndodir call s:clean_undodir()
-function! s:clean_undodir()
+function! s:clean_undodir() abort
   let l:nof = 0
   let l:filelist = split(glob(&undodir . '/*'), "\n")
   for f in l:filelist
@@ -1080,7 +1080,7 @@ endfunction
 
 " Search file with kpathsea and open
 command! -nargs=1 Kpse call s:kpsewhich_edit('<args>')
-function! s:kpsewhich_edit(kw)
+function! s:kpsewhich_edit(kw) abort
   if stridx(a:kw, ".") < 0
     let l:fn = a:kw . '.sty'
   else
@@ -1106,20 +1106,20 @@ endif
 
 " Git
 autocmd vimrc FileType gitcommit,gina-commit call s:gitcommit_settings()
-function! s:gitcommit_settings()
+function! s:gitcommit_settings() abort
   call s:text_settings()
   setlocal spellcapcheck=
   normal! gg
 endfunction
 
 autocmd vimrc FileType gitrebase call s:gitrebase_settings()
-function! s:gitrebase_settings()
+function! s:gitrebase_settings() abort
   normal! gg
 endfunction
 
 " Help
 autocmd vimrc FileType help call s:help_settings()
-function! s:help_settings()
+function! s:help_settings() abort
   setlocal keywordprg=:help
   map <buffer> <Space> <C-d>
   map <buffer> b <C-u>
@@ -1128,7 +1128,7 @@ endfunction
 
 " Markdown
 autocmd vimrc FileType markdown call s:markdown_settings()
-function! s:markdown_settings()
+function! s:markdown_settings() abort
   setlocal nocindent
   setlocal indentkeys=''
   setlocal spell
@@ -1136,7 +1136,7 @@ endfunction
 
 " Python
 autocmd vimrc FileType python call s:python_settings()
-function! s:python_settings()
+function! s:python_settings() abort
   setlocal completeopt-=preview
   noremap <buffer> <Space>% :!python %<CR>
   nnoremap <buffer> <silent> <Space>y :0,$!yapf<CR><C-o>
@@ -1144,20 +1144,20 @@ endfunction
 
 " Ruby
 autocmd vimrc FileType ruby call s:ruby_settings()
-function! s:ruby_settings()
+function! s:ruby_settings() abort
   noremap <buffer> <Space>% :!ruby %<CR>
 endfunction
 
 " Rust
 autocmd vimrc FileType rust call s:rust_settings()
-function! s:rust_settings()
+function! s:rust_settings() abort
   noremap <buffer> <Space>t :QuickRun -exec "cargo test"<CR>
   noremap <buffer> <Space>; A;<Esc>
 endfunction
 
 " Text
 autocmd vimrc FileType text call s:text_settings()
-function! s:text_settings()
+function! s:text_settings() abort
   setlocal nocindent
   setlocal indentkeys=''
   setlocal spell
@@ -1166,7 +1166,7 @@ endfunction
 
 " TSV
 autocmd vimrc FileType tsv call s:tsv_settings()
-function! s:tsv_settings()
+function! s:tsv_settings() abort
   setlocal tabstop=8
   setlocal softtabstop=8
   setlocal shiftwidth=8
@@ -1175,7 +1175,7 @@ endfunction
 
 " TeX/LaTeX
 autocmd vimrc FileType tex call s:tex_settings()
-function! s:tex_settings()
+function! s:tex_settings() abort
   call s:text_settings()
   call textobj#user#plugin('paragraph', {
     \   'paragraph': {
@@ -1295,14 +1295,14 @@ function! s:tex_settings()
 endfunction
 
 autocmd vimrc FileType plaintex call s:plaintex_settings()
-function! s:plaintex_settings()
+function! s:plaintex_settings() abort
   setlocal indentkeys=''
 endfunction
 
 " Vim script
 let g:vim_indent_cont = 2
 autocmd vimrc FileType vim call s:vimscript_settings()
-function! s:vimscript_settings()
+function! s:vimscript_settings() abort
   setlocal foldmethod=marker
   setlocal foldmarker={{{,}}}
   setlocal foldlevel=0
