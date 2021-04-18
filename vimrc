@@ -975,7 +975,7 @@ cmap <C-y> <Plug>(yankround-pop)
 " For asyncomplete
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
+inoremap <expr> <CR>    pumvisible() ? asyncomplete#close_popup() : "\<CR>"
 
 " For neosnippet
 imap <C-k> <Plug>(neosnippet_expand_or_jump)
