@@ -183,15 +183,14 @@ set spelllang& spelllang+=cjk
 set helplang& helplang+=en,ja
 
 " Color settings
-function! ColorschemeSettings()
-  set t_Co=256
-  "if s:is_mac
-  "  let g:hybrid_use_iTerm_colors = 1
-  "endif
-  set background=dark
-  set termguicolors
-  autocmd vimrc VimEnter * nested colorscheme hybrid
-endfunction
+set t_Co=256
+set background=dark
+set termguicolors
+
+autocmd vimrc VimEnter * nested colorscheme hybrid
+if s:is_mac
+  let g:hybrid_use_iTerm_colors = 1
+endif
 
 syntax enable
 
@@ -331,15 +330,9 @@ if s:use_dein && v:version >= 704
     call dein#add('Shougo/dein.vim')
 
     " Color scheme
-    call dein#add('w0ng/vim-hybrid', {
-      \ 'hook_add': 'call ColorschemeSettings()'
-      \ })
-    "call dein#add('cocopon/iceberg.vim', {
-    "  \ 'hook_add': 'call ColorschemeSettings()'
-    "  \ })
-    "call dein#add('ulwlu/elly.vim', {
-    "  \ 'hook_add': 'call ColorschemeSettings()'
-    "  \ })
+    call dein#add('w0ng/vim-hybrid')
+    "call dein#add('cocopon/iceberg.vim')
+    "call dein#add('ulwlu/elly.vim')
 
     " Utility
     call dein#add('Shougo/vimproc', {'build': 'make'})
@@ -353,6 +346,8 @@ if s:use_dein && v:version >= 704
     call dein#add('mattn/calendar-vim')
     if has('python')
       call dein#add('gregsexton/VimCalc')
+    elseif has('python3')
+      call dein#add('fedorenchik/VimCalc3')
     endif
 
     " Help
@@ -394,11 +389,6 @@ if s:use_dein && v:version >= 704
     call dein#add('mattn/webapi-vim')
     call dein#add('tyru/open-browser.vim')
 
-    " Completion
-    call dein#add('Shougo/neosnippet.vim')
-    call dein#add('Shougo/neosnippet-snippets')
-    call dein#add('cohama/lexima.vim')
-
     " Language Server
     call dein#add('prabirshrestha/vim-lsp')
     call dein#add('mattn/vim-lsp-settings')
@@ -409,6 +399,12 @@ if s:use_dein && v:version >= 704
     call dein#add('prabirshrestha/asyncomplete-buffer.vim')
     call dein#add('prabirshrestha/asyncomplete-file.vim')
     call dein#add('htlsne/asyncomplete-look')
+
+    " Completion
+    call dein#add('Shougo/neosnippet.vim')
+    call dein#add('Shougo/neosnippet-snippets')
+    call dein#add('prabirshrestha/asyncomplete-neosnippet.vim')
+    call dein#add('cohama/lexima.vim')
 
     " Debug
     call dein#add('thinca/vim-quickrun')
@@ -499,9 +495,14 @@ filetype plugin indent on
 
 " asyncomplete.vim {{{
 
-let g:asyncomplete_min_chars = 3
+let g:asyncomplete_min_chars = 2
 
 " sources
+autocmd vimrc User asyncomplete_setup call asyncomplete#register_source({
+  \ 'name': 'neosnippet',
+  \ 'allowlist': ['*'],
+  \ 'completor': function('asyncomplete#sources#neosnippet#completor'),
+  \ })
 autocmd vimrc User asyncomplete_setup call asyncomplete#register_source({
   \ 'name': 'buffer',
   \ 'allowlist': ['*'],
@@ -654,6 +655,12 @@ let g:matchup_matchparen_enabled = 1
 
 let g:netrw_nogx = 1
 let g:netrw_home = s:vimdata
+
+" }}}
+
+" neosnippet.vim {{{
+
+let g:neosnippet#snippets_directory = s:vimdir . '/snippets/'
 
 " }}}
 
@@ -965,10 +972,15 @@ cnoremap <C-n> <Down>
 cmap <C-r> <Plug>(yankround-insert-register)
 cmap <C-y> <Plug>(yankround-pop)
 
-" Mappings for neocomplete
+" For asyncomplete
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
+
+" For neosnippet
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
+xmap <C-k> <Plug>(neosnippet_expand_target)
 
 " Function keys
 nnoremap <F1> K
