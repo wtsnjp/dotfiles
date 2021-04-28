@@ -1,0 +1,67 @@
+#compdef tlmgr
+#
+# This is file '_tlmgr' a zsh completion script for tlmgr.
+#
+# Copyright 2021 Takuto ASAKURA (wtsnjp)
+#   GitHub:   https://github.com/wtsnjp
+#   Twitter:  @wtsnjp
+#
+# This script is distributed under the MIT License.
+#
+
+function _tlmgr() {
+  local -a _tlmgr_actions
+  _tlmgr_actions=(
+    'help:display help information and exit'
+    'version:display version and exit'
+    'backup:save or prune backups'
+    'candidates:show the available candidate repositories'
+    'check:check consistency of installation'
+    'conf:show or modify configurations'
+    'dump-tlpdb:dump complete local or remote TLPDB'
+    'generate:generate hyphnation files'
+    'gui:start the graphical user interface'
+    'info:display information of packages'
+    'init-usertre:set up TEXMFHOME'
+    'install:install packages'
+    'key:list, add, or remove GPG keys'
+    'list:synoym for "info"'
+    'option:show or set global TeX Live settings'
+    'paper:show or set default paper size'
+    'path:add or remove symlinks in paths'
+    'pinning:manage pinning files'
+    'platform:manage platform'
+    'postaction:install or remove postactions'
+    'print-platform:display platform'
+    'print-platform-info:display platform information'
+    'remove:remove packages'
+    'repository:manage repositories'
+    'restore:restore a package from a backup'
+    'search:search packages'
+    'shell:start an interactive mode'
+    'show:synonym for "info"'
+    'uninstall:synonym for "remove"'
+    'update:update packages'
+  )
+
+  _arguments \
+    '(- *)'{-?,-h,--help}'[show help]' \
+    '(- *)--version[show version]' \
+    '*:: :->subcmds' && return 0
+
+  if (( CURRENT == 1 )); then
+    _describe -t commands "tlmgr action" _tlmgr_actions
+    return
+  fi
+
+  local tlpdb="$(kpsewhich -var-value TEXMFROOT)/tlpkg/texlive.tlpdb"
+  case "$words[1]" in
+    info|list|install|remove|uninstall|update)
+      _values 'package' $(awk '/^name[^.]*$/ {print $2}' $tlpdb)
+    ;;
+  esac
+}
+
+_tlmgr "$@"
+
+# vim: ft=zsh:
