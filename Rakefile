@@ -53,8 +53,6 @@ if system("which kpsewhich > #{File::NULL} 2> #{File::NULL}")
   dotfiles_map["zsh/functions/ltxpkg-install.zsh"] = HOME / ".zsh/functions/ltxpkg-install.zsh"
 
   dotfiles_map["zsh/completions/_kpse"] = HOME / ".zsh/completions/_kpse"
-  dotfiles_map["zsh/completions/_texdoc"] = HOME / ".zsh/completions/_texdoc"
-  dotfiles_map["zsh/completions/_tlmgr"] = HOME / ".zsh/completions/_tlmgr"
 
   # TEXMF trees
   TEXMFHOME = Pathname.new(`kpsewhich --var-value TEXMFHOME`.chomp)
@@ -70,6 +68,12 @@ end
 
 ## finalize
 dotfiles_map = dotfiles_map.sort.to_h
+
+# files that used to be managed in dotifles
+legacies = {
+  "zsh/completions/_texdoc" => HOME / ".zsh/completions/_texdoc",
+  "zsh/completions/_tlmgr" => HOME / ".zsh/completions/_tlmgr"
+}.sort.to_h
 
 # tasks
 desc "Show the list of the symlinks"
@@ -100,7 +104,7 @@ end
 
 desc "Remove all symlinks to this repository"
 task :unlink do
-  dotfiles_map.each do |s, t|
+  dotfiles_map.merge(legacies).each do |s, t|
     src = REPO_ROOT / s
     if t.symlink? and t.readlink == src
       rm_f t, verbose: false
