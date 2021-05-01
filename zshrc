@@ -266,9 +266,6 @@ disable r
 # Optional settings
 #---------------------------
 
-# enable hub
-__is_cmd hub && eval "$(hub alias -s)"
-
 # initialize rbenv & pyenv
 __add_path "$HOME/.rbenv/bin"
 __add_path "$HOME/.pyenv/bin"
