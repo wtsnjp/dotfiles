@@ -32,8 +32,7 @@ function blog-new() {
 function blog-preview() {
   cd $BLOG_PATH
   function __blog_preview_browse() {
-    __relax && open "/Applications/Google Chrome.app" http://localhost:1313 \
-      2> /dev/null
+    __relax && open http://localhost:1313 2> /dev/null
   }
   setopt local_options no_notify no_monitor
   __blog_preview_browse &
