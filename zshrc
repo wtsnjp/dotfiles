@@ -151,6 +151,12 @@ if [[ "$WT_RICH_PROMPT" = 1 ]]; then
     local reset='\033[0m'  # reset
     local sharp='\uE0B0'   # triangle
 
+    # decide name label
+    local MY_NAME=$(whoami)
+    if [[ "$MY_NAME" == "asakura" ]]; then
+      MY_NAME=wtsnjp
+    fi
+
     # build
     local user_color="${back_color}${user_b}${text_color}${user_t}"
     local dir_color="${back_color}${path_b}${text_color}${path_t}"
@@ -160,8 +166,9 @@ if [[ "$WT_RICH_PROMPT" = 1 ]]; then
     local pr_dir="${dir_color}%s${reset}"
     local sep2="${text_color}${path_b}${sharp}${reset}"
     #local fourth="${text_color}${arrow}\$ ${reset}"
+
     printf "\n${pr_user}${sep1} ${pr_dir}${sep2}\n" \
-      "$WT_NAME@$MACHINE" "${PWD/~/~}"
+      "$MY_NAME@$MACHINE" "${PWD/~/~}"
   }
 
   function __left_prompt {
