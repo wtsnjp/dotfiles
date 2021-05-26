@@ -30,7 +30,6 @@ dotfiles_map = {
   "gemrc" => HOME / ".gemrc",
   "gitconfig" => HOME / ".gitconfig",
   "gitignore.global" => HOME / ".gitignore.global",
-  "latexmkrc" => HOME / ".latexmkrc",
   "vimrc" => HOME / ".vimrc",
   "zshrc" => HOME / ".zshrc",
   "zsh/functions/utility.zsh" => HOME / ".zsh/functions/utility.zsh",
@@ -71,14 +70,15 @@ dotfiles_map = dotfiles_map.sort.to_h
 
 # files that used to be managed in dotifles
 legacies = {
+  "latexmkrc" => HOME / ".latexmkrc",
   "zsh/completions/_texdoc" => HOME / ".zsh/completions/_texdoc",
-  "zsh/completions/_tlmgr" => HOME / ".zsh/completions/_tlmgr"
+  "zsh/completions/_tlmgr" => HOME / ".zsh/completions/_tlmgr",
 }.sort.to_h
 
 # tasks
 desc "Show the list of the symlinks"
 task :list do
-  dotfiles_map.each do |s, t|
+  dotfiles_map.merge(legacies).each do |s, t|
     src = REPO_ROOT / s
     if t.symlink? and t.readlink == src
       puts "#{t} -> #{src}"
