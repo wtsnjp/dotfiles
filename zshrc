@@ -278,6 +278,7 @@ __add_path "$HOME/.rbenv/bin"
 __add_path "$HOME/.pyenv/bin"
 __is_cmd rbenv && eval "$(rbenv init -)"
 __is_cmd pyenv && eval "$(pyenv init -)"
+__is_cmd pyenv && eval "$(pyenv init --path)"
 
 # use binary from cargo
 __add_path "$HOME/.cargo/bin"
