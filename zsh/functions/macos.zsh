@@ -30,3 +30,27 @@ function upup() {
   __exec_cmd brew update && __relax
   __exec_cmd brew upgrade && __relax
 }
+
+## check-git-status
+# show uncommited repositories
+function check-git-status() {
+  local original_dir=$(pwd)
+
+  # TARGET is first argument or current dir
+  local TARGET="$1"
+  : ${TARGET:="$original_dir"}
+
+  # check each repo
+  for dir in $(find $(greadlink -f $TARGET) -maxdepth 1 -type d); do
+    if [[ -d "$dir/.git" ]]; then
+      cd "$dir"
+      local git_status=$(git status 2> /dev/null)
+      if [[ ! -n $(echo "$git_status" | grep "^nothing to") ]]; then
+        echo "$dir"
+      fi
+    fi
+  done
+
+  # back to PWD
+  cd "$original_dir"
+}
