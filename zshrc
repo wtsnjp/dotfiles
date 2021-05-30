@@ -189,12 +189,12 @@ if [[ "$WT_RICH_PROMPT" = 1 ]]; then
     local reset='%{\033[0m%}'
 
     # do nothing unless in a git repository
-    if [[ ! -d  "$PWD/.git" ]]; then
+    if ! git status >/dev/null 2>&1; then
       return
     fi
 
-    local branch_name=$(git rev-parse --abbrev-ref HEAD 2> /dev/null)
-    local git_status=$(git status 2> /dev/null)
+    local branch_name=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
+    local git_status=$(git status 2>/dev/null)
 
     local branch_status
     if [[ -n `echo "$git_status" | grep "^nothing to"` ]]; then
