@@ -17,7 +17,6 @@ path=(/usr/local/bin /usr/local/sbin $path)
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
-export WT_NAME="wtsnjp"
 export CLICOLOR=1
 
 #---------------------------
@@ -224,7 +223,14 @@ else
 
   function __pre_command() {
     local ESC=$(printf '\033')
-    printf "\n$WT_NAME@$MACHINE: ${ESC}[33m%s${ESC}[m\n" "${PWD/~/~}"
+
+    # decide name label
+    local MY_NAME=$(whoami)
+    if [[ "$MY_NAME" == "asakura" ]]; then
+      MY_NAME=wtsnjp
+    fi
+
+    printf "\n$MY_NAME@$MACHINE: ${ESC}[33m%s${ESC}[m\n" "${PWD/~/~}"
   }
 fi
 
