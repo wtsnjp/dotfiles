@@ -717,7 +717,7 @@ let g:quickrun_config = {
   \     'hook/close_quickfix/enable_hook_loaded' : 1,
   \     'hook/close_quickfix/enable_success' : 1,
   \     'hook/close_buffer/enable_failure' : 1,
-  \     'outputter/buffer/opener': ':botright 12sp',
+  \     'outputter/buffer/split': ':botright 10sp',
   \     'outputter/buffer/close_on_empty': 1,
   \   },
   \   'python': {
@@ -970,6 +970,7 @@ endfunction
 map <silent> ,r :<C-u>update<CR><Plug>(quickrun)
 
 " QuickRun with some args
+nnoremap ,qq :<C-u>bw! \[quickrun\ output\]<CR>
 nnoremap ,qr :<C-u>QuickRun<Space>
 nnoremap ,qa :<C-u>QuickRun<Space>-args<Space>''<Left>
 nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
