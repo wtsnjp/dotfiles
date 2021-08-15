@@ -717,6 +717,7 @@ let g:quickrun_config = {
   \     'hook/close_quickfix/enable_hook_loaded' : 1,
   \     'hook/close_quickfix/enable_success' : 1,
   \     'hook/close_buffer/enable_failure' : 1,
+  \     'outputter/buffer/opener': ':botright 10sp',
   \     'outputter/buffer/split': ':botright 10sp',
   \     'outputter/buffer/close_on_empty': 1,
   \   },
