@@ -28,7 +28,6 @@ end
 ## common
 dotfiles_map = {
   "gemrc" => HOME / ".gemrc",
-  "gitconfig" => HOME / ".gitconfig",
   "gitignore.global" => HOME / ".gitignore.global",
   "vimrc" => HOME / ".vimrc",
   "zshrc" => HOME / ".zshrc",
@@ -39,10 +38,13 @@ dotfiles_map = {
 if os == :macos
   # macOS specific features
   dotfiles_map["zsh/functions/macos.zsh"] = HOME / ".zsh/functions/macos.zsh"
+  dotfiles_map["gitconfig.macos"] = HOME / ".gitconfig"
 
   # blog management
   dotfiles_map["zsh/functions/blog.zsh"] = HOME / ".zsh/functions/blog.zsh"
   dotfiles_map["zsh/completions/_blog"] = HOME / ".zsh/completions/_blog"
+else
+  dotfiles_map["gitconfig"] = HOME / ".gitconfig"
 end
 
 ## TeX Live
