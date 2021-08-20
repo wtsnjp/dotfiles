@@ -798,10 +798,6 @@ noremap <expr> k v:count ? 'k' : 'gk'
 noremap gj j
 noremap gk k
 
-" Jump roughly
-noremap <C-j> }
-noremap <C-k> {
-
 " Move without shift key
 noremap <expr> ^ match(strpart(getline('.'), 0, col('.') - 1), '^\s\+$') >= 0 ? '0' : '^'
 noremap - $
