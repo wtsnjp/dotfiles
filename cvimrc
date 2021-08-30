@@ -27,8 +27,9 @@ let blacklists = [
   \   '*://*/*_pdf',
   \   'https://mail.google.com/*',
   \   'https://docs.google.com/*',
+  \   'https://calendar.google.com/calendar/*',
   \   'https://*.slack.com/*',
-  \   'https://calendar.google.com/calendar/*'
+  \   'https://gather.town/app/*'
   \ ]
 
 "---------------------------
