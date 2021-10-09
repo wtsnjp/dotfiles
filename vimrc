@@ -863,7 +863,6 @@ xnoremap & :&&<CR>
 
 " Jump
 map <C-o> <Plug>(poslist-prev-pos)
-map <C-i> <Plug>(poslist-next-pos)
 
 " Finish highlight with <C-l>
 nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
