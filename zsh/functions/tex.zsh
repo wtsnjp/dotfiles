@@ -62,7 +62,7 @@ function __texsw_functions() {
     local short
     local texsw_status
 
-    for tl_name in ${(k)texsw_texlives}; do
+    for tl_name in ${(ko)texsw_texlives}; do
       local tl_path=$texsw_texlives[$tl_name]
       if [ "$tl_path" = "$TEXSW_CURRENT_TEXLIVE" ]; then
         texsw_status="* "
