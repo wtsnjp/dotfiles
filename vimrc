@@ -906,13 +906,13 @@ noremap <silent> <Space>l :<C-u>setlocal list!<CR>
 " Show indent line
 noremap <silent> <Space>i :<C-u>IndentLinesToggle<CR>
 
-" Highlight wdith > 80 parts
-noremap <silent> <Space>8 :<C-u>call <SID>toggle_show_80()<CR>
-function! s:toggle_show_80() abort
+" Highlight wdith > 120 parts
+noremap <silent> <Space>m :<C-u>call <SID>toggle_show_120()<CR>
+function! s:toggle_show_120() abort
   if strlen(&colorcolumn) > 0
     setlocal colorcolumn=""
   else
-    execute "setlocal colorcolumn=" . join(range(81, 9999), ',')
+    execute "setlocal colorcolumn=" . join(range(120, 9999), ',')
   endif
 endfunction
 
@@ -1179,7 +1179,7 @@ function! s:text_settings() abort
   setlocal nocindent
   setlocal indentkeys=''
   setlocal spell
-  setlocal textwidth=79
+  setlocal textwidth=119
 endfunction
 
 " TSV
