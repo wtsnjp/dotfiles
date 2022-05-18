@@ -916,7 +916,6 @@ function! s:toggle_show_120() abort
   endif
 endfunction
 
-
 " Enable spell check
 noremap <silent> <Space>s :<C-u>setlocal spell!<CR>
 
@@ -927,6 +926,9 @@ nnoremap <Space><CR> V:!sh<CR>
 " Search for selection range
 vnoremap <Space>/ "ay<Esc>/<C-r>a
 vnoremap <Space>? "ay<Esc>?<C-r>a
+
+" Open terminal in the current window
+nnoremap <silent> <Space>t :<C-u>terminal! ++curwin<CR>
 
 " Align easily
 vmap ,a <Plug>(EasyAlign)
@@ -1169,7 +1171,7 @@ endfunction
 " Rust
 autocmd vimrc FileType rust call s:rust_settings()
 function! s:rust_settings() abort
-  noremap <buffer> <Space>t :QuickRun -exec "cargo test"<CR>
+  noremap <buffer> <Space>T :QuickRun -exec "cargo test"<CR>
   noremap <buffer> <Space>; A;<Esc>
 endfunction
 
