@@ -254,6 +254,9 @@ if executable('jvgrep')
   set grepprg=jvgrep
 endif
 
+" Terminal prefix
+set termwinkey=<C-g>
+
 "---------------------------
 " Serach settings
 "---------------------------
