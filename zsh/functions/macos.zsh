@@ -11,6 +11,7 @@ fi
 
 # environment variables
 export HOMEBREW_INSTALL_CLEANUP=1
+__is_cmd brew && export HELPDIR="$(brew --prefix)/share/zsh/help"
 
 ## wifi [on|off]
 # toggle wifi

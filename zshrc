@@ -317,6 +317,12 @@ fi
 alias cp="cp -i"
 alias mv="mv -i"
 
+# help for zsh buitlins
+unalias run-help
+autoload run-help
+export HELPDIR="/usr/share/zsh/${ZSH_VERSION}/help"
+alias help=run-help
+
 # IPython
 __shortcut ipy ipython
 __shortcut ipy3 ipython3
