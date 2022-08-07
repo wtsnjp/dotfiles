@@ -161,6 +161,9 @@ set laststatus=2
 set titleold=
 set title
 
+" Command-line height
+set cmdheight=0
+
 " Don't recognize octal number
 set nrformats-=octal
 
