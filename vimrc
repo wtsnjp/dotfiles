@@ -448,7 +448,7 @@ if s:use_dein && v:version >= 704
 
     " Search
     call dein#add('haya14busa/vim-asterisk')
-    call dein#add('osyo-manga/vim-anzu')
+    call dein#add('obcat/vim-hitspop')
     call dein#add('vim-scripts/ag.vim')
 
     " Status line
@@ -829,12 +829,12 @@ vnoremap <silent> cy  c<C-r>0<Esc>:let@/=@1<CR>:nohlsearch<CR>
 nnoremap <silent> ciy ciw<C-r>0<Esc>:let@/=@1<CR>:nohlsearch<CR>
 
 " Bring middle position after word search
-nmap n  nzzzv<Plug>(anzu-update-search-status-with-echo)
-nmap N  Nzzzv<Plug>(anzu-update-search-status-with-echo)
-nmap *  <Plug>(asterisk-z*)<Plug>(anzu-update-search-status-with-echo)
-nmap #  <Plug>(asterisk-z#)<Plug>(anzu-update-search-status-with-echo)
-nmap g* <Plug>(asterisk-gz*)<Plug>(anzu-update-search-status-with-echo)
-nmap g# <Plug>(asterisk-gz#)<Plug>(anzu-update-search-status-with-echo)
+nmap n  nzzzv
+nmap N  Nzzzv
+nmap *  <Plug>(asterisk-z*)
+nmap #  <Plug>(asterisk-z#)
+nmap g* <Plug>(asterisk-gz*)
+nmap g# <Plug>(asterisk-gz#)
 
 " Toggle / and :s
 cnoremap <expr> <C-@> <SID>substitute_search_toggle(getcmdtype(), getcmdline())
@@ -1172,6 +1172,7 @@ endfunction
 autocmd vimrc FileType ruby call s:ruby_settings()
 function! s:ruby_settings() abort
   noremap <buffer> <Space>% :!ruby %<CR>
+  call lsp#disable_diagnostics_for_buffer()
 endfunction
 
 " Rust
