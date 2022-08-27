@@ -831,10 +831,10 @@ nnoremap <silent> ciy ciw<C-r>0<Esc>:let@/=@1<CR>:nohlsearch<CR>
 " Bring middle position after word search
 nmap n  nzzzv
 nmap N  Nzzzv
-nmap *  <Plug>(asterisk-z*)
-nmap #  <Plug>(asterisk-z#)
-nmap g* <Plug>(asterisk-gz*)
-nmap g# <Plug>(asterisk-gz#)
+nmap *  <Plug>(asterisk-z*)zz
+nmap #  <Plug>(asterisk-z#)zz
+nmap g* <Plug>(asterisk-gz*)zz
+nmap g# <Plug>(asterisk-gz#)zz
 
 " Toggle / and :s
 cnoremap <expr> <C-@> <SID>substitute_search_toggle(getcmdtype(), getcmdline())
