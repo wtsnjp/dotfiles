@@ -162,7 +162,7 @@ set titleold=
 set title
 
 " Command-line height
-set cmdheight=0
+set cmdheight=1
 
 " Don't recognize octal number
 set nrformats-=octal
