@@ -240,8 +240,8 @@ fi
 
 # dir and its size
 export HISTFILE="$HOME/.zsh_history"
-export HISTSIZE=10000
-export SAVEHIST=10000
+export HISTSIZE=20000
+export SAVEHIST=20000
 
 # ignore duplication command history list
 setopt hist_ignore_dups
