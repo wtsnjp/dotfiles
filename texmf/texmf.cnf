@@ -4,7 +4,7 @@
 % Source: https://github.com/wtsnjp/dotfiles
 
 % Path
-OSFONTDIR = /Library/Fonts
+OSFONTDIR = /Library/Fonts;/System/Library/Fonts
 
 % TeX engine
 max_print_line = 199
