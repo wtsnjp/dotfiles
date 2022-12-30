@@ -38,6 +38,7 @@ dotfiles_map = {
 if os == :macos
   # macOS specific features
   dotfiles_map["zsh/functions/macos.zsh"] = HOME / ".zsh/functions/macos.zsh"
+  dotfiles_map["hammerspoon/init.lua"] = HOME / ".hammerspoon/init.lua"
   dotfiles_map["gitconfig.macos"] = HOME / ".gitconfig"
 
   # blog management
