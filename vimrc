@@ -1188,7 +1188,7 @@ function! s:text_settings() abort
   setlocal nocindent
   setlocal indentkeys=''
   setlocal spell
-  setlocal textwidth=119
+  setlocal textwidth=79
 endfunction
 
 " TSV
