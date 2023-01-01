@@ -9,6 +9,6 @@ spoon.ShiftIt:bindHotkeys({
   botright = {{'ctrl', 'alt', 'cmd'}, 'right'},
   upright = {{'ctrl', 'alt', 'cmd'}, 'up'},
   maximum = {{'alt', 'cmd'}, 'f'},
-  nextScreen = {{'alt', 'cmd' }, 'p'},
-  previousScreen = {{'alt', 'cmd'}, 'n'},
+  nextScreen = {{'alt', 'cmd' }, 'n'},
+  previousScreen = {{'alt', 'cmd'}, 'p'},
 })
