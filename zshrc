@@ -295,6 +295,9 @@ __is_cmd rlwrap && export RLWRAP_HOME="$HOME/.rlwrap"
 # additional paths
 case $OSTYPE in
   darwin*)
+    # Homebrew for Apple Silicon
+    [ -f /opt/homebrew/bin/brew ] && eval $(/opt/homebrew/bin/brew shellenv)
+    # others
     __add_path "/usr/local/opt/gettext/bin"
     ;;
 esac
