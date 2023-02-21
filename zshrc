@@ -16,6 +16,7 @@ path=(/usr/local/bin /usr/local/sbin $path)
 # environment variables
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
+export LANGUAGE_texdoc=ja
 
 export CLICOLOR=1
 
