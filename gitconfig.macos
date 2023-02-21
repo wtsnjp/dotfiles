@@ -7,7 +7,7 @@
 #       :e ++bad=keep gitconfig
 
 [user]
-name = Takuto ASAKURA
+name = Takuto Asakura
 email = wtsnjp@gmail.com
 
 [core]
