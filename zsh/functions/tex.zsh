@@ -6,7 +6,7 @@
 ## texsw (only for main macOS)
 function __texsw_init() {
   local tl_dir="/usr/local/texlive"
-  local dev_tl_dir="$HOME/repos/tug.org/Master"
+  local dev_tl_dir="$HOME/repos/tug.org/texlive/Master"
 
   # check the main tl dir
   if [ ! -d $tl_dir ]; then
