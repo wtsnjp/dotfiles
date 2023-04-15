@@ -329,6 +329,7 @@ if s:use_dein && v:version >= 704
   let &runtimepath .= ',' . s:dein_repo_dir
 
   " Begin plugin part
+  " Note: add `{'merged': 0}` for debugging so that to prevent cache
   if dein#load_state(s:dein_dir)
     call dein#begin(s:dein_dir)
 
@@ -336,7 +337,7 @@ if s:use_dein && v:version >= 704
     call dein#add('Shougo/dein.vim')
 
     " Color scheme
-    call dein#add('w0ng/vim-hybrid')
+    call dein#add('w0ng/vim-hybrid', {'merged': 0})
     "call dein#add('cocopon/iceberg.vim')
     "call dein#add('ulwlu/elly.vim')
 
@@ -1189,7 +1190,6 @@ function! s:text_settings() abort
   setlocal nocindent
   setlocal indentkeys=''
   setlocal spell
-  setlocal textwidth=79
 endfunction
 
 " TSV
