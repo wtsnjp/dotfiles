@@ -616,6 +616,7 @@ let g:indentLine_enabled = 0
 
 call lexima#init()
 call lexima#add_rule({'char': "'", 'at': 'r\%#', 'input_after': "'", 'filetype': 'python'})
+call lexima#add_rule({'char': "'", 'at': 'f\%#', 'input_after': "'", 'filetype': 'python'})
 
 " }}}
 
