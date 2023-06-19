@@ -218,8 +218,8 @@ let g:terminal_ansi_colors = [
   \ ]
 
 " GUI font
-set guifont=HackGen35Nerd
-set printfont=HackGen35Nerd
+set guifont=HackGen35
+set printfont=HackGen35
 
 " Set backup directory
 let &backupdir = s:vimdata . '/backup'
@@ -346,7 +346,7 @@ if s:use_dein && v:version >= 704
     call dein#add('Shougo/vimshell', {'lazy': 1})
     call dein#add('vim-scripts/sudo.vim')
     call dein#add('vim-jp/vital.vim')
-    call dein#add('tyru/vim-altercmd')
+    "call dein#add('tyru/vim-altercmd')
     call dein#add('thinca/vim-localrc')
 
     " Convenient
@@ -798,6 +798,10 @@ let g:yankround_max_history = 50
 "---------------------------
 " Key mappings
 "---------------------------
+
+" No yen mark, please
+inoremap ¥ \
+cnoremap ¥ \
 
 " Move natural in wrap line
 noremap <Down> gj
