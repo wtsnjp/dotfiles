@@ -1,4 +1,4 @@
-# Watson's dotfiles
+# Personal dotfiles
 
 ## Activate configuration
 
@@ -20,4 +20,4 @@ All files in this repository are licensed under [the MIT license](./LICENSE).
 
 ---
 
-Takuto ASAKURA ([wtsnjp](https://twitter.com/wtsnjp))
+Takuto Asakura ([wtsnjp](https://twitter.com/wtsnjp))
