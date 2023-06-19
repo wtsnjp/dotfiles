@@ -116,126 +116,6 @@ if __is_cmd fzf; then
 fi
 
 #---------------------------
-# Prompt settings
-#---------------------------
-
-if [ -z "$MACHINE" ]; then
-  export MACHINE="$(hostname)"
-fi
-
-# the pre-command hook
-autoload -Uz add-zsh-hook
-add-zsh-hook precmd __pre_command
-
-# execute the pre-command also with ^L
-function clear-screen() {
-  echoti clear; __pre_command; zle redisplay
-}
-zle -N clear-screen
-
-if [[ "$WT_RICH_PROMPT" = 1 ]]; then
-  # use the rich prompt for selected environments
-  setopt prompt_subst
-  export PROMPT='$(__left_prompt)'
-  export RPROMPT='$(__right_prompt)'
-
-  function __pre_command {
-    # colors
-    local user_t='179m'    # user name text clolr
-    local user_b='000m'    # user name background color
-    local path_t='255m'    # path text clolr
-    local path_b='031m'    # path background color
-    local arrow='087m'     # arrow color
-    local text_color='\033[38;5;'    # set text color
-    local back_color='\033[30;48;5;' # set background color
-    local reset='\033[0m'  # reset
-    local sharp='\uE0B0'   # triangle
-
-    # decide name label
-    local MY_NAME=$(whoami)
-    if [[ "$MY_NAME" == "asakura" ]]; then
-      MY_NAME=wtsnjp
-    fi
-
-    # build
-    local user_color="${back_color}${user_b}${text_color}${user_t}"
-    local dir_color="${back_color}${path_b}${text_color}${path_t}"
-
-    local pr_user="${user_color}%s${back_color}"
-    local sep1="${path_b}${text_color}${user_b}${sharp}"
-    local pr_dir="${dir_color}%s${reset}"
-    local sep2="${text_color}${path_b}${sharp}${reset}"
-    #local fourth="${text_color}${arrow}\$ ${reset}"
-
-    printf "\n${pr_user}${sep1} ${pr_dir}${sep2}\n" \
-      "$MY_NAME@$MACHINE" "${PWD/~/~}"
-  }
-
-  function __left_prompt {
-    local color='%{\033[38;5;'
-    local arrow='087m%}'
-    local reset='%{\033[0m%}'
-
-    echo "${color}${arrow}\$ ${reset}"
-  }
-
-  function __right_prompt {
-    local branch='\ue0a0'
-    local color='%{\033[38;5;'
-    local green='114m%}'
-    local red='001m%}'
-    local yellow='227m%}'
-    local blue='033m%}'
-    local reset='%{\033[0m%}'
-
-    # do nothing unless in a git repository
-    if ! git status >/dev/null 2>&1; then
-      return
-    fi
-
-    local branch_name=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
-    local git_status=$(git status 2>/dev/null)
-
-    local branch_status
-    if [[ -n `echo "$git_status" | grep "^nothing to"` ]]; then
-      # green if clean (everything is commited)
-      branch_status="${color}${green}${branch}"
-    elif [[ -n `echo "$git_status" | grep "^Untracked files"` ]]; then
-      # red if untracked files exist
-      branch_status="${color}${red}${branch}?"
-    elif [[ -n `echo "$git_status" | grep "^Changes not staged for commit"` ]]; then
-      # red if unstaged files exist
-      branch_status="${color}${red}${branch}+"
-    elif [[ -n `echo "$git_status" | grep "^Changes to be committed"` ]]; then
-      # yellow if uncommited files exit
-      branch_status="${color}${yellow}${branch}!"
-    elif [[ -n `echo "$git_status" | grep "^rebase in progress"` ]]; then
-      # red if conflict exist
-      echo "${color}${red}${branch}!(no branch)${reset}"
-    else
-      branch_status="${color}${blue}${branch}"
-    fi
-    echo "${branch_status}${branch_name}${reset}"
-  }
-
-else
-  # otherwise, use the simple one
-  export PROMPT='$ '
-
-  function __pre_command() {
-    local ESC=$(printf '\033')
-
-    # decide name label
-    local MY_NAME=$(whoami)
-    if [[ "$MY_NAME" == "asakura" ]]; then
-      MY_NAME=wtsnjp
-    fi
-
-    printf "\n$MY_NAME@$MACHINE: ${ESC}[33m%s${ESC}[m\n" "${PWD/~/~}"
-  }
-fi
-
-#---------------------------
 # History settings
 #---------------------------
 
@@ -313,6 +193,8 @@ alias please='sudo $(fc -ln -1)'
 # safer rm
 if __is_cmd rmtrash; then
   alias rm="rmtrash"
+elif __is_cmd "trash"; then
+  alias rm="trash"
 else
   alias rm="rm -i"
 fi
