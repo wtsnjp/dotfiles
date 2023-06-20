@@ -337,7 +337,7 @@ if s:use_dein && v:version >= 704
     call dein#add('Shougo/dein.vim')
 
     " Color scheme
-    call dein#add('w0ng/vim-hybrid', {'merged': 0})
+    call dein#add('wtsnjp/vim-hybrid', {'rev': 'wtsnjp', 'merged': 0})
     "call dein#add('cocopon/iceberg.vim')
     "call dein#add('ulwlu/elly.vim')
 
@@ -469,6 +469,9 @@ if s:use_dein && v:version >= 704
     call dein#add('psf/black', {'rev': 'stable'})
     call dein#add('bps/vim-textobj-python')
 
+    " TeX
+    call dein#add('wtsnjp/vim-expl3', {'merged': 0})
+
     " Ruby
     "call dein#add('osyo-manga/vim-monster')
 
@@ -482,7 +485,7 @@ if s:use_dein && v:version >= 704
     call dein#add('thinca/vim-scouter')
 
     " Enable local plugins
-    call dein#local('~/repos/github.com/wtsnjp', {}, ['vim-*'])
+    "call dein#local('~/repos/github.com/wtsnjp', {}, ['vim-*'])
 
     call dein#end()
     call dein#save_state()
