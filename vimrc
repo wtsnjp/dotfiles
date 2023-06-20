@@ -466,6 +466,7 @@ if s:use_dein && v:version >= 704
     "call dein#add('davidhalter/jedi-vim')
     "call dein#add('andviro/flake8-vim')
     "call dein#add('hynek/vim-python-pep8-indent')
+    call dein#add('psf/black', {'rev': 'stable'})
     call dein#add('bps/vim-textobj-python')
 
     " Ruby
@@ -546,6 +547,14 @@ autocmd vimrc User asyncomplete_setup call asyncomplete#register_source({
 "endfunction
 "
 "let g:asyncomplete_preprocessor = [function('s:sort_by_priority_preprocessor')]
+
+" }}}
+
+" black {{{
+
+" Disable default keymaps
+let g:black_linelength = 119
+let g:black_skip_string_normalization = 1
 
 " }}}
 
@@ -663,6 +672,30 @@ let g:lsp_diagnostics_float_cursor = 1
 let g:lsp_diagnostics_virtual_text_enabled = 0
 
 let g:lsp_document_code_action_signs_enabled = 0
+
+let g:lsp_settings = {
+\  'pylsp-all': {
+\    'workspace_config': {
+\      'pylsp': {
+\        'configurationSources': ['flake8'],
+\        'plugins': {
+\          'flake8': {
+\            'enabled': 1
+\          },
+\          'mccabe': {
+\            'enabled': 0
+\          },
+\          'pycodestyle': {
+\            'enabled': 0
+\          },
+\          'pyflakes': {
+\            'enabled': 0
+\          },
+\        }
+\      }
+\    }
+\  }
+\}
 
 " }}}
 
@@ -1172,7 +1205,7 @@ autocmd vimrc FileType python call s:python_settings()
 function! s:python_settings() abort
   setlocal completeopt-=preview
   noremap <buffer> <Space>% :!python %<CR>
-  nnoremap <buffer> <silent> <Space>y :0,$!yapf<CR><C-o>
+  nnoremap <buffer> <silent> <Space>b :Black<CR>
 endfunction
 
 " Ruby
