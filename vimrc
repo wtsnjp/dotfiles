@@ -880,7 +880,7 @@ nmap g* <Plug>(asterisk-gz*)zz
 nmap g# <Plug>(asterisk-gz#)zz
 
 " Toggle / and :s
-cnoremap <expr> <C-@> <SID>substitute_search_toggle(getcmdtype(), getcmdline())
+cnoremap <expr> <C-s> <SID>substitute_search_toggle(getcmdtype(), getcmdline())
 
 function! s:substitute_search_toggle(type, line) abort
   if a:type ==# '/' || a:type ==# '?'
