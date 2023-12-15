@@ -25,7 +25,7 @@ function blog() {
 # create a new article
 function blog-new() {
   cd $BLOG_PATH
-  hugo new post/$1.md --editor="macdown"
+  hugo new post/$1.md --editor="open"
 }
 
 # preview the blog

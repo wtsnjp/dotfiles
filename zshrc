@@ -160,6 +160,16 @@ disable r
 # Optional settings
 #---------------------------
 
+# additional paths
+case $OSTYPE in
+  darwin*)
+    # Homebrew for Apple Silicon
+    [ -f /opt/homebrew/bin/brew ] && eval $(/opt/homebrew/bin/brew shellenv)
+    # others
+    __add_path "/usr/local/opt/gettext/bin"
+    ;;
+esac
+
 # initialize rbenv & pyenv
 __add_path "$HOME/.rbenv/bin"
 __add_path "$HOME/.pyenv/bin"
@@ -172,16 +182,6 @@ __add_path "$HOME/.cargo/bin"
 
 # save readline histories to $HOME/.rlwrap
 __is_cmd rlwrap && export RLWRAP_HOME="$HOME/.rlwrap"
-
-# additional paths
-case $OSTYPE in
-  darwin*)
-    # Homebrew for Apple Silicon
-    [ -f /opt/homebrew/bin/brew ] && eval $(/opt/homebrew/bin/brew shellenv)
-    # others
-    __add_path "/usr/local/opt/gettext/bin"
-    ;;
-esac
 
 #---------------------------
 # Aliases
