@@ -65,6 +65,7 @@ function blog-undraft() {
 function blog-update() {
   cd $BLOG_PATH
   local msg="$(git show --oneline | head -n 1)"
+  __exec_cmd rm public/*
   __exec_cmd hugo
 
   cd $BLOG_PATH/public
