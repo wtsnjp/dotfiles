@@ -11,8 +11,6 @@ viewer_md = open
 # alias
 alias cheat = platexsheet-jsclasses
 alias kpse = kpathsea
-alias l3 = interface3
-alias(9) l3 = source3
 alias sym = symbols-a4
 alias tl = texlive-ja
 alias title = titlepages
