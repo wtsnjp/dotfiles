@@ -190,32 +190,7 @@ set t_Co=256
 set background=dark
 set termguicolors
 
-autocmd vimrc VimEnter * nested colorscheme hybrid
-if s:is_mac
-  let g:hybrid_use_iTerm_colors = 1
-endif
-
 syntax enable
-
-" Terminal colors
-let g:terminal_ansi_colors = [
-  \ '#373c42',
-  \ '#c0c86c',
-  \ '#eac170',
-  \ '#80a2be',
-  \ '#b192ba',
-  \ '#90c9c1',
-  \ '#c2c5c3',
-  \ '#26282c',
-  \ '#a04040',
-  \ '#c66262',
-  \ '#8b943f',
-  \ '#ec9c61',
-  \ '#5c7f9a',
-  \ '#82648b',
-  \ '#5e8c86',
-  \ '#6d747c',
-  \ ]
 
 " GUI font
 set guifont=HackGen35
@@ -337,9 +312,7 @@ if s:use_dein && v:version >= 704
     call dein#add('Shougo/dein.vim')
 
     " Color scheme
-    call dein#add('wtsnjp/vim-hybrid', {'rev': 'wtsnjp', 'merged': 0})
-    "call dein#add('cocopon/iceberg.vim')
-    "call dein#add('ulwlu/elly.vim')
+    call dein#add('joshdick/onedark.vim')
 
     " Utility
     call dein#add('Shougo/vimproc', {'build': 'make'})
@@ -635,7 +608,7 @@ call lexima#add_rule({'char': "'", 'at': 'f\%#', 'input_after': "'", 'filetype':
 " lightline {{{
 
 let g:lightline = {
-  \   'colorscheme': 'powerline',
+  \   'colorscheme': 'onedark',
   \   'active': {
   \     'left': [
   \       ['mode', 'paste'],
