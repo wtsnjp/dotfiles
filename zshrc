@@ -167,6 +167,7 @@ case $OSTYPE in
     [ -f /opt/homebrew/bin/brew ] && eval $(/opt/homebrew/bin/brew shellenv)
     # others
     __add_path "/usr/local/opt/gettext/bin"
+    __add_path "/opt/homebrew/bin/openssl/bin"
     ;;
 esac
 
