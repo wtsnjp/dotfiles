@@ -1328,6 +1328,7 @@ function! s:tex_settings() abort
 
   function! s:canonicalize_clipboad()
     let @* = substitute(@*, '- ', '', 'g')
+    let @* = substitute(@*, '\n', ' ', 'g')
   endfunction
 
   nnoremap <buffer> <silent> <Space>o :<C-u>call <SID>open_output_pdf()<CR>
