@@ -168,6 +168,7 @@ case $OSTYPE in
     # others
     __add_path "/usr/local/opt/gettext/bin"
     __add_path "/opt/homebrew/bin/openssl/bin"
+    __add_path "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"
     ;;
 esac
 
