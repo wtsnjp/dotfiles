@@ -44,7 +44,7 @@ function blog-preview() {
 function blog-publish() {
   cd $BLOG_PATH
   __exec_cmd blog undraft content/post/$1.md
-  __exec_cmd rm public/*
+  __exec_cmd command rm -rf public/*
   __exec_cmd hugo
 
   cd $BLOG_PATH/public
@@ -66,7 +66,7 @@ function blog-undraft() {
 function blog-update() {
   cd $BLOG_PATH
   local msg="$(git show --oneline | head -n 1)"
-  __exec_cmd rm public/*
+  __exec_cmd command rm -rf public/*
   __exec_cmd hugo
 
   cd $BLOG_PATH/public
