@@ -119,5 +119,5 @@ end
 desc "Update cvimrc on gist"
 task :update_cvimrc do
   gist_url = "https://gist.github.com/wtsnjp/dd9459a3b0a105cc66440daaeba85126"
-  sh "gist -u #{gist_url} cvimrc"
+  sh "gh gist edit #{gist_url} cvimrc"
 end
