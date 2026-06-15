@@ -29,7 +29,7 @@ function um() {
 # the daily routine
 function upup() {
   __exec_cmd brew update && __relax
-  __exec_cmd brew upgrade && __relax
+  __exec_cmd brew upgrade --yes && __relax
 }
 
 ## check-git-status
