@@ -49,7 +49,7 @@ function blog-publish() {
 
   cd $BLOG_PATH/public
   __exec_cmd git add -A
-  __exec_cmd git commit -m "\"publish $1\""
+  __exec_cmd git commit -m "\"Publish $1\""
   __exec_cmd git push origin gh-pages
 
   cd $BLOG_PATH
